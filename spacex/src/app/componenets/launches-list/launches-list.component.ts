@@ -3,6 +3,8 @@ import { PageEvent} from "@angular/material/paginator";
 
 import { LaunchesService } from "../../services/launches/launches.service";
 import { ILaunches } from "../../interfaces/launches";
+import {map, Observable, shareReplay} from "rxjs";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-launches-list',
@@ -22,8 +24,24 @@ export class LaunchesListComponent implements OnInit {
   public launches: ILaunches[] = [];
   public paginationLaunches: ILaunches[] = [];
 
+  public cols$: Observable<number> = this.breakpointObserver
+    .observe([Breakpoints.Small, Breakpoints.XSmall])
+    .pipe(
+      map((result) => {
+        if (result.breakpoints[Breakpoints.XSmall]) {
+          return 1;
+        } else if (result.breakpoints[Breakpoints.Small]) {
+          return 2;
+        } else {
+          return 3;
+        }
+      }),
+      shareReplay()
+    );
+
   constructor(
-    private launchesService: LaunchesService
+    private launchesService: LaunchesService,
+    private breakpointObserver: BreakpointObserver
   ) { }
 
   ngOnInit(): void {
