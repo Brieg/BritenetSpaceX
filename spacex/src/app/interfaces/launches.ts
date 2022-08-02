@@ -21,7 +21,7 @@ export interface ILaunches {
     site_name_long: string,
   },
   launch_success: boolean,
-  links?: ILinks,
+  links: ILinks,
   details: string,
   upcoming: boolean,
   static_fire_date_utc: Date,
@@ -106,8 +106,8 @@ interface IOrbit_params {
 };
 
 interface ILinks {
-  mission_patch?: string,
-  mission_patch_small?: string,
+  mission_patch: string,
+  mission_patch_small: string,
   reddit_campaign?: string,
   reddit_launch?: string,
   reddit_recovery?: string,
