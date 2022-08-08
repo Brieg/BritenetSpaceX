@@ -1,18 +1,28 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { Observable, BehaviorSubject } from "rxjs";
-import { ILaunches } from "../../interfaces/launches";
+import { HttpInterceptor, HttpResponse } from '@angular/common/http';
+import { HttpRequest } from '@angular/common/http';
+import { HttpHandler } from '@angular/common/http';
+import { HttpEvent } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
+import {SpinnerService} from "../spinner/spinner.service";
 
-@Injectable({
-  providedIn: 'root'
-})
-export class LaunchesService {
+@Injectable()
+export class CustomHttpInterceptor implements HttpInterceptor {
 
-  launches: BehaviorSubject<ILaunches[]> = new BehaviorSubject<ILaunches[]>([]);
+  constructor(private spinnerService: SpinnerService) { }
 
-  constructor(private httpClient: HttpClient) { }
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-  getLaunches(): Observable<any> {
-    return this.httpClient.get('https://api.spacexdata.com/v3/launches');
+    this.spinnerService.show();
+
+    return next.handle(req)
+      .pipe(tap((event: HttpEvent<any>) => {
+        if (event instanceof HttpResponse) {
+          this.spinnerService.hide();
+        }
+      }, (error) => {
+        this.spinnerService.hide();
+      }));
   }
 }
