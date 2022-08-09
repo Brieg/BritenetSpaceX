@@ -1,0 +1,19 @@
+<div layout="row" layout-align="center">
+
+    <h1>{{ launch.mission_name }} | {{launch.flight_number }} </h1>
+    <p class="mat-body">{{launch.details}}</p>
+  
+    <mat-carousel
+    timings="200ms ease-in"
+    [autoplay]="true"
+    interval="6000"
+    color="white"
+  >
+    <mat-carousel-slide
+      *ngFor="let images of launch.links.flickr_images; let i = index"
+      [image]="images"
+      overlayColor="#ffffff"
+    ></mat-carousel-slide>
+
+  </mat-carousel>
+</div>
