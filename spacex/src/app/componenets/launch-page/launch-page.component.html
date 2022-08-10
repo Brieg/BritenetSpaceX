@@ -5,12 +5,12 @@
     <mat-icon aria-label="Back" alt="Back">arrow_back_ios</mat-icon>
   </button>
 
-  <div layout="row" layout-align="start center" flex>
 
     <div class="hero wrapper">
       <h1>{{ launch.mission_name }} | {{launch.flight_number }}</h1>
       <h3>{{launch.launch_year}}</h3>
-      <p class="mat-body">{{launch.details}}</p>
+      <p class="details">{{launch.details}}</p>
+      {{launch.links.flickr_images}}
       <div class="background" [ngStyle]="{
         'background-image': 'url(' + launch.links.mission_patch + ')'
       }"></div>
@@ -19,7 +19,10 @@
     <div class="video">
       <iframe allow="autoplay" frameborder="0" allowfullscreen [src]="renderYTvide(launch.links.youtube_id)" frameborder="0"  seamless="seamless"></iframe>
     </div>
-  </div>
+
+  <ng-image-slider [images]="images" #imageslider ></ng-image-slider>
+
+
 </ng-template>
 
 

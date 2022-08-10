@@ -12,7 +12,7 @@ const routes: Routes = [
     title: 'Britenet & SpaceX',
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'launch/:flight_number', component: LaunchPageComponent },
+  { path: 'launch/:flight_number', component: LaunchPageComponent, title: "Launch page" },
 ];
 
 @NgModule({

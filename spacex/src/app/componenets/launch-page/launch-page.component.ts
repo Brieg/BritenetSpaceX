@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Location } from '@angular/common'
 import { HttpClient } from "@angular/common/http";
+
+import { NgImageSliderComponent } from 'ng-image-slider';
 
 import { ILaunches } from 'src/app/interfaces/launches';
 import {SpinnerService} from '../../services/spinner/spinner.service';
@@ -25,6 +27,9 @@ export class LaunchPageComponent implements OnInit {
 
   public launch: ILaunches;
 
+  @ViewChild('imageslider') slider: NgImageSliderComponent;
+  public images: [{}] = [{}];
+
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     const launchNumberFromRoute = Number(routeParams.get("flight_number"));
@@ -32,10 +37,16 @@ export class LaunchPageComponent implements OnInit {
     this.httpClient.get<any>('https://api.spacexdata.com/v3/launches/'+launchNumberFromRoute)
       .subscribe(launch => {
           this.launch = launch;
+          this.imagesToArray(launch.links.flickr_images);
+          console.log(this.images)
           console.log(launch)
       }, error => {
         console.error('Something went wrong.');
       });
+  }
+
+  goBack(): void {
+    this.location.back()
   }
 
   renderYTvide(URL: any): SafeResourceUrl {
@@ -43,9 +54,12 @@ export class LaunchPageComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/'+URL+'?autoplay=1&mute=1&origin=http://localhost:4200/ | safe');
   }
 
-  goBack(): void {
-    console.log("YEY")
-    this.location.back()
+  imagesToArray(images: []): void {
+    images.forEach(image => {
+     this.images.push({"image": image, "thumbImage": image});
+    })
   }
+
+
 
 }
