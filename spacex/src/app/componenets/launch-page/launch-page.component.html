@@ -1,7 +1,17 @@
+<button mat-icon-button id="back" (click)="goBack()">
+  <mat-icon aria-label="Back" alt="Back">arrow_back_ios</mat-icon>
+</button>
+
 <div layout="row" layout-align="start center" flex>
   <div class="header">
     <h1>{{ launch.mission_name }} | {{launch.flight_number }}</h1>
     <p class="mat-body">{{launch.details}}</p>
   </div>
-<iframe allow="autoplay" frameborder="0" allowfullscreen [src]="renderYTvide(launch.links.youtube_id)" style="width: 100vw;height: 99vh;"></iframe>
+  
+
+  <div class="video">
+    <iframe allow="autoplay" frameborder="0" allowfullscreen [src]="renderYTvide(launch.links.youtube_id)" frameborder="0"  seamless="seamless"></iframe>
+  </div>
 </div>
+
+

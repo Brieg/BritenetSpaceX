@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Location } from '@angular/common'
 
 import { ILaunches } from 'src/app/interfaces/launches';
 import { SpinnerService } from '../../services/spinner/spinner.service';
@@ -17,7 +18,8 @@ export class LaunchPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private httpClient: HttpClient,
-    private sanitizer : DomSanitizer
+    private sanitizer : DomSanitizer,
+    private location: Location
   ) { }
 
   public launch: ILaunches;
@@ -38,6 +40,11 @@ export class LaunchPageComponent implements OnInit {
   renderYTvide(URL: any): SafeResourceUrl {
     this.sanitizer.bypassSecurityTrustResourceUrl
     return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/'+URL+'?autoplay=1&mute=1&origin=http://localhost:4200/ | safe');
+  }
+
+  goBack(): void {
+    console.log("YEY")
+    this.location.back()
   }
 
 }
