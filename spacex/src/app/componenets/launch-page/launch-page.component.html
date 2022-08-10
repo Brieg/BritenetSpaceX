@@ -1,17 +1,26 @@
-<button mat-icon-button id="back" (click)="goBack()">
-  <mat-icon aria-label="Back" alt="Back">arrow_back_ios</mat-icon>
-</button>
+<mat-spinner [diameter]="50" *ngIf="spinnerService.visibility | async;else container"></mat-spinner>
 
-<div layout="row" layout-align="start center" flex>
-  <div class="header">
-    <h1>{{ launch.mission_name }} | {{launch.flight_number }}</h1>
-    <p class="mat-body">{{launch.details}}</p>
-  </div>
-  
+<ng-template #container>
+  <button mat-icon-button id="back" (click)="goBack()">
+    <mat-icon aria-label="Back" alt="Back">arrow_back_ios</mat-icon>
+  </button>
 
-  <div class="video">
-    <iframe allow="autoplay" frameborder="0" allowfullscreen [src]="renderYTvide(launch.links.youtube_id)" frameborder="0"  seamless="seamless"></iframe>
+  <div layout="row" layout-align="start center" flex>
+
+    <div class="hero wrapper">
+      <h1>{{ launch.mission_name }} | {{launch.flight_number }}</h1>
+      <h3>{{launch.launch_year}}</h3>
+      <p class="mat-body">{{launch.details}}</p>
+      <div class="background" [ngStyle]="{
+        'background-image': 'url(' + launch.links.mission_patch + ')'
+      }"></div>
+    </div>
+    
+    <div class="video">
+      <iframe allow="autoplay" frameborder="0" allowfullscreen [src]="renderYTvide(launch.links.youtube_id)" frameborder="0"  seamless="seamless"></iframe>
+    </div>
   </div>
-</div>
+</ng-template>
+
 
 

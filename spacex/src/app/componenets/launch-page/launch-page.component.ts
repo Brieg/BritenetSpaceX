@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Location } from '@angular/common'
+import { HttpClient } from "@angular/common/http";
 
 import { ILaunches } from 'src/app/interfaces/launches';
-import { SpinnerService } from '../../services/spinner/spinner.service';
-import { HttpClient } from "@angular/common/http";
+import {SpinnerService} from '../../services/spinner/spinner.service';
 
 
 @Component({
@@ -19,7 +19,8 @@ export class LaunchPageComponent implements OnInit {
     private route: ActivatedRoute,
     private httpClient: HttpClient,
     private sanitizer : DomSanitizer,
-    private location: Location
+    private location: Location,
+    public spinnerService: SpinnerService
   ) { }
 
   public launch: ILaunches;
