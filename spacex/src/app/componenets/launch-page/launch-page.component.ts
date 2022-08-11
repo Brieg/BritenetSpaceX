@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Location } from '@angular/common';
@@ -22,9 +22,14 @@ export class LaunchPageComponent implements OnInit {
   ) {}
 
   public launch: ILaunches;
-
-
   public images: Array<any> = [];
+  public widthPX: number = 0;
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.widthPX = window.innerWidth;
+    console.log(this.widthPX)
+  }
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
@@ -42,6 +47,9 @@ export class LaunchPageComponent implements OnInit {
         console.error('Something went wrong.');
       }
     );
+
+    this.widthPX = window.innerWidth;
+    console.log(this.widthPX)
   }
 
   goBack(): void {

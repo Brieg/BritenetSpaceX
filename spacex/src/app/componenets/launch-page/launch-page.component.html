@@ -21,27 +21,26 @@
     ></iframe>
   </div>
 
-  <div id="container">
-    <div
-      ng2-carouselamos
+  <div id="image-slider">
+    <div ng2-carouselamos
       class="slides-wrapper"
       [items]="images"
       [$prev]="prev"
       [$next]="next"
       [$item]="item"
+      [width]="widthPX"
     >
     </div>
-
     <ng-template #prev>
-      <img src="assets/images/prev.png" id="left" />
+      <mat-icon>chevron_left</mat-icon>
     </ng-template>
     <ng-template #next>
-      <img src="assets/images/next.png" id="right" />
+      <mat-icon>chevron_right</mat-icon>
     </ng-template>
     <ng-template #item let-item let-i="index">
-
       <div class="slide-items">
-        <img src="{{ item.name }}">
+
+        <img class="cos" src="{{ item.name }}">
       </div>
     </ng-template>
   </div>
