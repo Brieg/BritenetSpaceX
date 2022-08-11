@@ -28,7 +28,6 @@ export class LaunchPageComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.widthPX = window.innerWidth;
-    console.log(this.widthPX)
   }
 
   ngOnInit(): void {
@@ -49,7 +48,6 @@ export class LaunchPageComponent implements OnInit {
     );
 
     this.widthPX = window.innerWidth;
-    console.log(this.widthPX)
   }
 
   goBack(): void {
@@ -58,7 +56,7 @@ export class LaunchPageComponent implements OnInit {
 
   renderYT(URL: any): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(
-      'https://www.youtube.com/embed/' + URL + '?autoplay=1&mute=1&rel=0&enablejsapi=1&wmode=transparent'
+      'https://www.youtube-nocookie.com/embed/' + URL + '?autoplay=1&mute=1&rel=0&enablejsapi=1&wmode=transparent'
     );
   }
 
