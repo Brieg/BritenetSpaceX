@@ -4,8 +4,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
-import { NgImageSliderComponent } from 'ng-image-slider';
-
 import { ILaunches } from 'src/app/interfaces/launches';
 import { SpinnerService } from '../../services/spinner/spinner.service';
 
@@ -25,8 +23,8 @@ export class LaunchPageComponent implements OnInit {
 
   public launch: ILaunches;
 
-  @ViewChild('imageslider') slider: NgImageSliderComponent;
-  public images: [{}] = [{}];
+
+  public images: Array<any> = [];
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
@@ -35,7 +33,10 @@ export class LaunchPageComponent implements OnInit {
     this.httpClient.get<any>('https://api.spacexdata.com/v3/launches/' + launchNumberFromRoute).subscribe(
       (launch) => {
         this.launch = launch;
-        this.imagesToArray(launch.links.flickr_images);
+        console.log(launch);
+        if(launch.links.flickr_images.length) {
+          this.imagesToArray(launch.links.flickr_images);
+        }
       },
       (error) => {
         console.error('Something went wrong.');
@@ -47,16 +48,15 @@ export class LaunchPageComponent implements OnInit {
     this.location.back();
   }
 
-  renderYTvide(URL: any): SafeResourceUrl {
-    this.sanitizer.bypassSecurityTrustResourceUrl;
+  renderYT(URL: any): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(
-      'https://www.youtube.com/embed/' + URL + '?autoplay=1&mute=1&origin=http://localhost:4200/ | safe'
+      'https://www.youtube.com/embed/' + URL + '?autoplay=1&mute=1&rel=0&enablejsapi=1&wmode=transparent'
     );
   }
 
   imagesToArray(images: []): void {
     images.forEach((image) => {
-      this.images.push({ image: image, thumbImage: image });
+      this.images.push({ name: image });
     });
   }
 }

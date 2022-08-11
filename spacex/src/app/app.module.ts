@@ -11,7 +11,8 @@ import { LaunchesListComponent } from './componenets/launches-list/launches-list
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CustomHttpInterceptor } from './services/launches/launches.service';
 import { LaunchPageComponent } from './componenets/launch-page/launch-page.component';
-import { NgImageSliderModule } from 'ng-image-slider';
+
+import { Ng2CarouselamosModule } from 'ng2-carouselamos';
 
 @NgModule({
   declarations: [AppComponent, MainMenuComponent, LaunchesListComponent, LaunchPageComponent],
@@ -22,7 +23,7 @@ import { NgImageSliderModule } from 'ng-image-slider';
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
-    NgImageSliderModule,
+    Ng2CarouselamosModule
   ],
   providers: [
     {

@@ -1,15 +1,10 @@
 <mat-spinner [diameter]="50" *ngIf="spinnerService.visibility | async; else container"></mat-spinner>
 
 <ng-template #container>
-  <button mat-icon-button id="back" (click)="goBack()">
-    <mat-icon aria-label="Back" alt="Back">arrow_back_ios</mat-icon>
-  </button>
-
   <div class="hero wrapper">
     <h1>{{ launch.mission_name }} | {{ launch.flight_number }}</h1>
     <h3>{{ launch.launch_year }}</h3>
     <p class="details">{{ launch.details }}</p>
-    {{ launch.links.flickr_images }}
     <div
       class="background"
       [ngStyle]="{
@@ -21,13 +16,38 @@
   <div class="video">
     <iframe
       allow="autoplay"
-      frameborder="0"
       allowfullscreen
-      [src]="renderYTvide(launch.links.youtube_id)"
-      frameborder="0"
-      seamless="seamless"
+      [src]="renderYT(launch.links.youtube_id)"
     ></iframe>
   </div>
 
-  <ng-image-slider *ngIf="launch.links.flickr_images" [images]="images" #imageslider></ng-image-slider>
+  <div id="container">
+    <div
+      ng2-carouselamos
+      class="slides-wrapper"
+      [items]="images"
+      [$prev]="prev"
+      [$next]="next"
+      [$item]="item"
+    >
+    </div>
+
+    <ng-template #prev>
+      <img src="assets/images/prev.png" id="left" />
+    </ng-template>
+    <ng-template #next>
+      <img src="assets/images/next.png" id="right" />
+    </ng-template>
+    <ng-template #item let-item let-i="index">
+
+      <div class="slide-items">
+        <img src="{{ item.name }}">
+      </div>
+    </ng-template>
+  </div>
+
+  <button mat-icon-button id="back" (click)="goBack()">
+    <mat-icon aria-label="Back" alt="Back">arrow_back_ios</mat-icon>
+  </button>
+
 </ng-template>
