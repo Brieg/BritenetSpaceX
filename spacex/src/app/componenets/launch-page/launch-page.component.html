@@ -1,39 +1,38 @@
 <mat-spinner [diameter]="50" *ngIf="spinnerService.visibility | async; else container"></mat-spinner>
 
 <ng-template #container>
-
   <div class="timeline">
     <h3>Timeline</h3>
 
     <div class="progress-bar">
-      <mat-progress-bar class="earth" mode="determinate" [value]="progressbarValue"></mat-progress-bar>
-      <mat-progress-bar class="air" mode="determinate" [value]="progressbarValueTwo" color="accent"></mat-progress-bar>
+      <mat-progress-bar class="earth" mode="determinate" [value]="groundProgressbarValue"></mat-progress-bar>
+      <mat-progress-bar class="air" mode="determinate" [value]="airProgressbarValue" color="accent"></mat-progress-bar>
     </div>
 
     <mat-stepper labelPosition="bottom" #stepper>
       <div *ngFor="let event of groundTimeline">
-      <mat-step [stepControl]="firstFormGroup" *ngIf="event.isVisible">
-        <form [formGroup]="firstFormGroup" >
-          <ng-template matStepLabel >{{event.header}}
-            <div class="mat-step-optional ng-star-inserted">{{event.seconds}} till launch</div>
-          </ng-template>
-
-        </form>
-      </mat-step>
+        <mat-step [stepControl]="firstFormGroup" *ngIf="event.isVisible">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel
+              >{{ event.header }}
+              <div class="mat-step-optional ng-star-inserted">{{ event.more }}</div>
+            </ng-template>
+          </form>
+        </mat-step>
       </div>
     </mat-stepper>
 
-    {{progressbarValue}}
-    {{curSec}}
+    {{ groundProgressbarValue }}
+    {{ secTillLiftoff }}
 
-    {{progressbarValueTwo}}
-    {{curSecTwo}}
+    {{ airProgressbarValue }}
+    {{ secInAir }}
   </div>
 
   <div class="hero wrapper">
     <h1>{{ launch.mission_name }} | {{ launch.flight_number }}</h1>
     <h3>{{ launch.launch_year }}</h3>
-    <h4>Rocket: {{ launch.rocket.rocket_name }} {{launch.rocket.rocket_type}}</h4>
+    <h4>Rocket: {{ launch.rocket.rocket_name }} {{ launch.rocket.rocket_type }}</h4>
     <p class="details">{{ launch.details }}</p>
     <div
       class="background"
@@ -44,23 +43,19 @@
   </div>
 
   <div class="video">
-    <iframe
-      allow="autoplay"
-      allowfullscreen
-      [src]="renderYT(launch.links.youtube_id)"
-    ></iframe>
+    <iframe allow="autoplay" allowfullscreen [src]="renderYT(launch.links.youtube_id)"></iframe>
   </div>
 
   <div id="image-slider">
-    <div ng2-carouselamos
+    <div
+      ng2-carouselamos
       class="slides-wrapper"
       [items]="images"
       [$prev]="prev"
       [$next]="next"
       [$item]="item"
       [width]="widthPX"
-    >
-    </div>
+    ></div>
     <ng-template #prev>
       <mat-icon>chevron_left</mat-icon>
     </ng-template>
@@ -69,8 +64,7 @@
     </ng-template>
     <ng-template #item let-item let-i="index">
       <div class="slide-items">
-
-        <img class="cos" src="{{ item.name }}">
+        <img class="cos" src="{{ item.name }}" />
       </div>
     </ng-template>
   </div>
@@ -78,7 +72,4 @@
   <button mat-icon-button id="back" (click)="goBack()">
     <mat-icon aria-label="Back" alt="Back">arrow_back_ios</mat-icon>
   </button>
-
-
-
 </ng-template>

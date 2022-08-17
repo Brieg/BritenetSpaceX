@@ -62,12 +62,10 @@
   .progress-bar {
     display: flex;
 
-    .earth, .air {
+    .earth,
+    .air {
       transform: rotate(180deg);
       width: 50%;
     }
   }
 }
-
-
-

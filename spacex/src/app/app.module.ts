@@ -23,7 +23,7 @@ import { Ng2CarouselamosModule } from 'ng2-carouselamos';
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
-    Ng2CarouselamosModule
+    Ng2CarouselamosModule,
   ],
   providers: [
     {
