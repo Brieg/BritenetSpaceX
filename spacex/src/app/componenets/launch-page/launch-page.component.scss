@@ -50,3 +50,21 @@
     }
   }
 }
+
+.timeline {
+  display: block;
+  width: 100vw;
+
+  .progress-bar {
+    display: flex;
+
+    .earth, .air {
+      width: 50%;
+    }
+  }
+}
+
+.earth, .air {
+  transform: rotate(180deg);
+}
+

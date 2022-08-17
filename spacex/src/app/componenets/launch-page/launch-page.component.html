@@ -4,43 +4,35 @@
 
   <div class="timeline">
     <h3>Timeline</h3>
-<!--    <mat-progress-bar mode="determinate" [value]="89"></mat-progress-bar>-->
-<!--    <mat-stepper labelPosition="bottom" #stepper>-->
-<!--      <mat-step [stepControl]="firstFormGroup">-->
-<!--        <form [formGroup]="firstFormGroup">-->
-<!--          <ng-template matStepLabel>Fill out your name</ng-template>-->
-<!--          <mat-form-field appearance="fill">-->
-<!--            <mat-label>Name</mat-label>-->
-<!--            <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>-->
-<!--          </mat-form-field>-->
-<!--          <div>-->
-<!--            <button mat-button matStepperNext>Next</button>-->
-<!--          </div>-->
-<!--        </form>-->
-<!--      </mat-step>-->
-<!--      <mat-step [stepControl]="secondFormGroup" optional>-->
-<!--        <form [formGroup]="secondFormGroup">-->
-<!--          <ng-template matStepLabel>Fill out your address</ng-template>-->
-<!--          <mat-form-field appearance="fill">-->
-<!--            <mat-label>Address</mat-label>-->
-<!--            <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"-->
-<!--                   required>-->
+
+<!--    <button mat-raised-button (click)="addItem()">-->
+<!--      add item-->
+<!--    </button>-->
+<!--    <form [formGroup]="formGroup">-->
+<!--      <mat-horizontal-stepper  formArrayName="form">-->
+<!--        <mat-step [formGroupName]="i" *ngFor="let customerGroup of formGroup.controls.form; let i = index">-->
+<!--          <ng-template matStepLabel>Step {{i + 1}}</ng-template>-->
+<!--          <mat-form-field>-->
+<!--            <input matInput placeholder="Address" formControlName="cont" required>-->
 <!--          </mat-form-field>-->
 <!--          <div>-->
 <!--            <button mat-button matStepperPrevious>Back</button>-->
 <!--            <button mat-button matStepperNext>Next</button>-->
 <!--          </div>-->
-<!--        </form>-->
-<!--      </mat-step>-->
-<!--      <mat-step>-->
-<!--        <ng-template matStepLabel>Done</ng-template>-->
-<!--        <p>You are now done.</p>-->
-<!--        <div>-->
-<!--          <button mat-button matStepperPrevious>Back</button>-->
-<!--          <button mat-button (click)="stepper.reset()">Reset</button>-->
-<!--        </div>-->
-<!--      </mat-step>-->
-<!--    </mat-stepper>-->
+<!--        </mat-step>-->
+<!--      </mat-horizontal-stepper>-->
+<!--    </form>-->
+
+    <div class="progress-bar">
+    <mat-progress-bar class="earth" mode="determinate" [value]="progressbarValue"></mat-progress-bar>
+    <mat-progress-bar class="air" mode="determinate" [value]="progressbarValueTwo" color="accent"></mat-progress-bar>
+    </div>
+    {{progressbarValue}}
+    {{curSec}}
+
+    {{progressbarValueTwo}}
+    {{curSecTwo}}
+    
   </div>
 
   <div class="hero wrapper">
