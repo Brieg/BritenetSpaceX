@@ -84,10 +84,27 @@ export class LaunchPageComponent implements OnInit {
   }
 
   public startGroundTimer(begin: number, end: number) {
-    const timer$ = interval(1000);
+    const timer$ = interval(50);
     const sub = timer$.subscribe((sec) => {
       this.groundProgressbarValue = 100 - (sec * 100) / begin;
       this.secTillLiftoff = sec;
+
+
+      console.log(begin - this.secTillLiftoff)
+
+      //this.groundTimeline[0].isVisible = true;
+      //this.groundTimeline[1].isVisible = true;
+
+      this.groundTimeline.forEach((element, index) => {
+        if((begin - this.secTillLiftoff) == element.seconds) {
+          console.log((begin - this.secTillLiftoff))
+          console.log(element)
+          element.isVisible = true;
+          this.groundTimeline[element.order + 1].isVisible = true;
+          this.groundTimeline[element.order - 1].isVisible = true;
+        }
+      })
+
       if (this.secTillLiftoff === begin) {
         this.startAirTimer(end);
         sub.unsubscribe();
@@ -106,9 +123,9 @@ export class LaunchPageComponent implements OnInit {
       const header = element.event;
       (element.time as number) < 0
         ? this.groundTimeline.push(<ITimeline>{
-            seconds: element.time,
+            seconds: (element.time as number) * -1,
             header,
-            isVisible: true,
+            isVisible: false,
             more: '~ ' + (element.time as number) * -1 + ' s. till liftoff',
             order: index,
           })
@@ -121,7 +138,7 @@ export class LaunchPageComponent implements OnInit {
     });
 
     console.log(this.groundTimeline);
-    console.log(this.airTimeline);
+
   }
 
   ngOnInit(): void {
@@ -139,7 +156,8 @@ export class LaunchPageComponent implements OnInit {
         launch.links.flickr_images.length ? this.imagesToArray(launch.links.flickr_images) : null;
 
         this.buildTimeline(launch.timeline);
-        const min = Math.min.apply(
+
+        const min = Math.max.apply(
           Math,
           this.groundTimeline.map((a) => a.seconds)
         );
@@ -147,7 +165,8 @@ export class LaunchPageComponent implements OnInit {
           Math,
           this.airTimeline.map((a) => a.seconds)
         );
-        this.startGroundTimer(min * -1, max);
+        console.log(min)
+        this.startGroundTimer(min, max);
       },
       (error) => {
         console.error('Something went wrong.');
