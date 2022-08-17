@@ -55,16 +55,19 @@
   display: block;
   width: 100vw;
 
+  .mat-horizontal-stepper-header-container {
+    display: none !important;
+  }
+
   .progress-bar {
     display: flex;
 
     .earth, .air {
+      transform: rotate(180deg);
       width: 50%;
     }
   }
 }
 
-.earth, .air {
-  transform: rotate(180deg);
-}
+
 

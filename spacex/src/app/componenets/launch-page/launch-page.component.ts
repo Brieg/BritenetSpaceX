@@ -19,7 +19,7 @@ export interface progressBar {
   selector: 'app-launch-page',
   templateUrl: './launch-page.component.html',
   styleUrls: ['./launch-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 
 })
 export class LaunchPageComponent implements OnInit {
@@ -44,16 +44,12 @@ export class LaunchPageComponent implements OnInit {
   public groundTimeline: ITimeline[] = new Array();
   public airTimeline: ITimeline[] = new Array();
 
-  form: FormArray;
-  formGroup: FormGroup;
-  registerFormGroup2 = new FormGroup({
-    blogHeading: new FormControl('', [Validators.required]),
-    details: new FormControl('', [Validators.required]),
+  firstFormGroup = this._formBuilder.group({
+    firstCtrl: ['', Validators.required],
   });
-
-  get f2() {
-    return this.registerFormGroup2.controls;
-  }
+  secondFormGroup = this._formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
 
   currentStep:number = 0;
 
@@ -83,57 +79,34 @@ export class LaunchPageComponent implements OnInit {
     const subone = timerInterval.subscribe((sec) => {
       this.progressbarValueTwo = 100 - sec * 100 / seconds;
       this.curSecTwo = sec;
-      console.log(this.curSecTwo)
-
       if (this.curSecTwo === seconds) {
         subone.unsubscribe();
       }
     });
   }
 
-  public startTimer(seconds: number) {
+  public startTimer(begin: number, end: number) {
     const timer$ = interval(1000);
-
     const sub = timer$.subscribe((sec) => {
-      this.progressbarValue = 100 - sec * 100 / seconds;
+      this.progressbarValue = 100 - sec * 100 / begin;
       this.curSec = sec;
-
-      if (this.curSec === seconds) {
-        console.log("Start!")
-        this.startTimerTwo(1000);
+      if (this.curSec === begin) {
+        this.startTimerTwo(end);
         sub.unsubscribe();
       }
     });
   }
 
   public buildTimeline(timeline: {}) {
-    const keys = Object.keys(timeline) as (keyof typeof timeline)[];
+    const occasion = Object.keys(timeline) as (keyof typeof timeline)[];
     console.log(timeline);
-    keys.forEach((key) => {
+    occasion.forEach((key) => {
       const header = key;
-      timeline[key] < 0 ? this.groundTimeline.push({seconds: timeline[key], header }) : this.airTimeline.push({seconds: timeline[key], header });
+      timeline[key] < 0 ? this.groundTimeline.push({seconds: timeline[key], header, isVisible: true }) : this.airTimeline.push({seconds: timeline[key], header, isVisible: false });
 
     });
     console.log(this.groundTimeline)
     console.log(this.airTimeline)
-  }
-
-  public buildFrame() {
-    this.formGroup = this._formBuilder.group({
-      form : this._formBuilder.array([this.init()])
-    })
-    this.addItem();
-  }
-
-  public init(){
-    return this._formBuilder.group({
-      cont :new FormControl('', [Validators.required]),
-    })
-  }
-
-  public addItem(){
-    this.form = this.formGroup.get('form') as FormArray;
-    this.form.push(this.init());
   }
 
   ngOnInit(): void {
@@ -148,12 +121,12 @@ export class LaunchPageComponent implements OnInit {
         if(launch.links.flickr_images.length) {
           this.imagesToArray(launch.links.flickr_images);
         }
-
         launch.links.flickr_images.length ? this.imagesToArray(launch.links.flickr_images) : null;
 
-        this.buildFrame();
         this.buildTimeline(launch.timeline);
-        //this.startTimer(5);
+        const min = Math.min.apply(Math, this.groundTimeline.map(a => a.seconds));
+        const max = Math.max.apply(Math, this.airTimeline.map(a => a.seconds));
+        this.startTimer(min * (-1), max);
 
       },
       (error) => {

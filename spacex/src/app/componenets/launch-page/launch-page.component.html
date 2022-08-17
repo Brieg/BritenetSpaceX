@@ -5,34 +5,29 @@
   <div class="timeline">
     <h3>Timeline</h3>
 
-<!--    <button mat-raised-button (click)="addItem()">-->
-<!--      add item-->
-<!--    </button>-->
-<!--    <form [formGroup]="formGroup">-->
-<!--      <mat-horizontal-stepper  formArrayName="form">-->
-<!--        <mat-step [formGroupName]="i" *ngFor="let customerGroup of formGroup.controls.form; let i = index">-->
-<!--          <ng-template matStepLabel>Step {{i + 1}}</ng-template>-->
-<!--          <mat-form-field>-->
-<!--            <input matInput placeholder="Address" formControlName="cont" required>-->
-<!--          </mat-form-field>-->
-<!--          <div>-->
-<!--            <button mat-button matStepperPrevious>Back</button>-->
-<!--            <button mat-button matStepperNext>Next</button>-->
-<!--          </div>-->
-<!--        </mat-step>-->
-<!--      </mat-horizontal-stepper>-->
-<!--    </form>-->
-
     <div class="progress-bar">
-    <mat-progress-bar class="earth" mode="determinate" [value]="progressbarValue"></mat-progress-bar>
-    <mat-progress-bar class="air" mode="determinate" [value]="progressbarValueTwo" color="accent"></mat-progress-bar>
+      <mat-progress-bar class="earth" mode="determinate" [value]="progressbarValue"></mat-progress-bar>
+      <mat-progress-bar class="air" mode="determinate" [value]="progressbarValueTwo" color="accent"></mat-progress-bar>
     </div>
+
+    <mat-stepper labelPosition="bottom" #stepper>
+      <div *ngFor="let event of groundTimeline">
+      <mat-step [stepControl]="firstFormGroup" *ngIf="event.isVisible">
+        <form [formGroup]="firstFormGroup" >
+          <ng-template matStepLabel >{{event.header}}
+            <div class="mat-step-optional ng-star-inserted">{{event.seconds}} till launch</div>
+          </ng-template>
+
+        </form>
+      </mat-step>
+      </div>
+    </mat-stepper>
+
     {{progressbarValue}}
     {{curSec}}
 
     {{progressbarValueTwo}}
     {{curSecTwo}}
-
   </div>
 
   <div class="hero wrapper">

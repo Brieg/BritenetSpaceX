@@ -1,5 +1,6 @@
 export interface ITimeline {
   seconds: number;
   header: string;
-  more?: string
+  isVisible: boolean;
+  more?: string;
 }
