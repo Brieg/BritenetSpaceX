@@ -98,13 +98,28 @@ export class LaunchPageComponent implements OnInit {
   }
 
   public buildTimeline(timeline: {}) {
-    const occasion = Object.keys(timeline) as (keyof typeof timeline)[];
-    console.log(timeline);
-    occasion.forEach((key) => {
-      const header = key;
-      timeline[key] < 0 ? this.groundTimeline.push({seconds: timeline[key], header, isVisible: true }) : this.airTimeline.push({seconds: timeline[key], header, isVisible: false });
+    let timelineArray = Object.entries(timeline).map(([event, time]) => ({event, time}));
+    timelineArray.sort(function(a, b) { // @ts-ignore
+      return a.time - b.time; })
 
+    timelineArray.forEach((element, index) => {
+      const header = element.event;
+      element.time as number <= 0 ? this.groundTimeline.push(
+        <ITimeline>{
+        seconds: element.time,
+        header,
+        isVisible: true,
+        order: index
+      }) : this.airTimeline.push(
+        <ITimeline>{
+          seconds: element.time,
+          header,
+          isVisible: false,
+          order: index
+        });
     });
+
+
     console.log(this.groundTimeline)
     console.log(this.airTimeline)
   }

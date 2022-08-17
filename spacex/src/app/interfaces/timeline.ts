@@ -3,4 +3,5 @@ export interface ITimeline {
   header: string;
   isVisible: boolean;
   more?: string;
+  order: number;
 }
