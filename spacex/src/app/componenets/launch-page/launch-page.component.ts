@@ -41,7 +41,8 @@ export class LaunchPageComponent implements OnInit {
   public images: Array<any> = [];
   public widthPX: number = 0;
 
-  public timeline: ITimeline[];
+  public groundTimeline: ITimeline[] = new Array();
+  public airTimeline: ITimeline[] = new Array();
 
   form: FormArray;
   formGroup: FormGroup;
@@ -105,6 +106,18 @@ export class LaunchPageComponent implements OnInit {
     });
   }
 
+  public buildTimeline(timeline: {}) {
+    const keys = Object.keys(timeline) as (keyof typeof timeline)[];
+    console.log(timeline);
+    keys.forEach((key) => {
+      const header = key;
+      timeline[key] < 0 ? this.groundTimeline.push({seconds: timeline[key], header }) : this.airTimeline.push({seconds: timeline[key], header });
+
+    });
+    console.log(this.groundTimeline)
+    console.log(this.airTimeline)
+  }
+
   public buildFrame() {
     this.formGroup = this._formBuilder.group({
       form : this._formBuilder.array([this.init()])
@@ -112,13 +125,13 @@ export class LaunchPageComponent implements OnInit {
     this.addItem();
   }
 
-  init(){
+  public init(){
     return this._formBuilder.group({
       cont :new FormControl('', [Validators.required]),
     })
   }
 
-  addItem(){
+  public addItem(){
     this.form = this.formGroup.get('form') as FormArray;
     this.form.push(this.init());
   }
@@ -132,8 +145,6 @@ export class LaunchPageComponent implements OnInit {
     this.httpClient.get<any>('https://api.spacexdata.com/v3/launches/' + launchNumberFromRoute).subscribe(
       (launch) => {
         this.launch = launch;
-
-        console.log(launch)
         if(launch.links.flickr_images.length) {
           this.imagesToArray(launch.links.flickr_images);
         }
@@ -141,7 +152,7 @@ export class LaunchPageComponent implements OnInit {
         launch.links.flickr_images.length ? this.imagesToArray(launch.links.flickr_images) : null;
 
         this.buildFrame();
-        console.log(this.formGroup)
+        this.buildTimeline(launch.timeline);
         //this.startTimer(5);
 
       },
