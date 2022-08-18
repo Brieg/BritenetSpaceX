@@ -9,12 +9,27 @@
       <mat-progress-bar class="air" mode="determinate" [value]="airProgressbarValue" color="accent"></mat-progress-bar>
     </div>
 
-    <mat-stepper labelPosition="bottom" #stepperGround>
+    <mat-stepper labelPosition="bottom" #stepperGround [linear]="true">
       <div *ngFor="let event of groundTimeline">
-        <mat-step [stepControl]="firstFormGroup" *ngIf="event.isVisible">
+        <mat-step *ngIf="event.isVisible">
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel
               >{{ event.header }}
+              <div class="mat-step-optional ng-star-inserted">{{ event.more }}</div>
+            </ng-template>
+          </form>
+        </mat-step>
+      </div>
+    </mat-stepper>
+
+    {{2280 - secTillLiftoff}}
+
+    <mat-stepper labelPosition="bottom" #stepperGround [linear]="true">
+      <div *ngFor="let event of groundTimeline">
+        <mat-step >
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel
+            >{{ event.header }}
               <div class="mat-step-optional ng-star-inserted">{{ event.more }}</div>
             </ng-template>
           </form>
@@ -27,7 +42,7 @@
         <mat-step [stepControl]="firstFormGroup" *ngIf="event.isVisible">
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel
-            >{{ event.header }}
+              >{{ event.header }}
               <div class="mat-step-optional ng-star-inserted">{{ event.more }}</div>
             </ng-template>
           </form>
@@ -35,11 +50,6 @@
       </div>
     </mat-stepper>
 
-    {{ groundProgressbarValue }}
-    {{ secTillLiftoff }}
-
-    {{ airProgressbarValue }}
-    {{ secInAir }}
   </div>
 
   <div class="hero wrapper">

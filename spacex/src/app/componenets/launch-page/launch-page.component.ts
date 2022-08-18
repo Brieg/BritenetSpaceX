@@ -1,25 +1,36 @@
-import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ILaunches } from 'src/app/interfaces/launches';
 import { SpinnerService } from '../../services/spinner/spinner.service';
-import { interval, Observable } from 'rxjs';
+import {BehaviorSubject, interval, Observable} from 'rxjs';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ITimeline } from '../../interfaces/timeline';
-
-export interface progressBar {
-  min: number;
-  max: number;
-  val: number;
-}
+import { MatStepper } from '@angular/material/stepper';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-launch-page',
   templateUrl: './launch-page.component.html',
   styleUrls: ['./launch-page.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false },
+    },
+  ],
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LaunchPageComponent implements OnInit {
   constructor(
@@ -36,6 +47,9 @@ export class LaunchPageComponent implements OnInit {
   @Input() public secTillLiftoff: number = 0;
   @Input() public secInAir: number = 0;
 
+  @ViewChild('stepperGround') private stepperGround: MatStepper;
+  //@ViewChild('stepper') private myStepper: MatStepper;
+
   public launch: ILaunches;
   public images: Array<any> = [];
   public widthPX: number = 0;
@@ -51,6 +65,8 @@ export class LaunchPageComponent implements OnInit {
     secondCtrl: ['', Validators.required],
   });
 
+  private offset: number = 1;
+
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.widthPX = window.innerWidth;
@@ -62,7 +78,8 @@ export class LaunchPageComponent implements OnInit {
 
   public renderYT(URL: any): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(
-      'https://www.youtube-nocookie.com/embed/' + URL + '?autoplay=1&mute=1&rel=0&enablejsapi=1&wmode=transparent'
+      ''
+      // 'https://www.youtube.com/embed' + URL + '?autoplay=1&mute=1'
     );
   }
 
@@ -85,25 +102,44 @@ export class LaunchPageComponent implements OnInit {
 
   public startGroundTimer(begin: number, end: number) {
     const timer$ = interval(50);
+    let wasCausedDoubleEvent = false;
     const sub = timer$.subscribe((sec) => {
       this.groundProgressbarValue = 100 - (sec * 100) / begin;
       this.secTillLiftoff = sec;
 
-
-      console.log(begin - this.secTillLiftoff)
-
-      //this.groundTimeline[0].isVisible = true;
-      //this.groundTimeline[1].isVisible = true;
-
       this.groundTimeline.forEach((element, index) => {
-        if((begin - this.secTillLiftoff) == element.seconds) {
-          console.log((begin - this.secTillLiftoff))
-          console.log(element)
+        if (begin - this.secTillLiftoff == element.seconds) {
           element.isVisible = true;
-          this.groundTimeline[element.order + 1].isVisible = true;
-          this.groundTimeline[element.order - 1].isVisible = true;
+
+          if (index === 0) {
+            this.groundTimeline[index + this.offset].isVisible = true;
+          }
+
+          if (index === this.groundTimeline.length) {
+            this.groundTimeline[index - this.offset].isVisible = false;
+          }
+
+          if (element.seconds === this.groundTimeline[index + 1].seconds) {
+            this.groundTimeline[index + 1].isVisible = true;
+            console.log(this.groundTimeline[index + 1])
+            let doubleEventInterval = setInterval(() => {
+              this.groundTimeline[index - this.offset].isVisible = false;
+              this.stepperGround.selectedIndex = index - 1;
+              clearInterval(doubleEventInterval);
+            }, 20);
+            this.groundTimeline[index + 2].isVisible = true;
+            wasCausedDoubleEvent = true;
+
+          }
+
+          setTimeout(() => {
+            console.log("SHOW :"+index);
+            console.log(element);
+            this.stepperGround.selectedIndex = this.offset;
+          }, );
+
         }
-      })
+      });
 
       if (this.secTillLiftoff === begin) {
         this.startAirTimer(end);
@@ -113,14 +149,18 @@ export class LaunchPageComponent implements OnInit {
   }
 
   public buildTimeline(timeline: {}) {
+    console.log(timeline)
     let timelineArray = Object.entries(timeline).map(([event, time]) => ({ event, time }));
     timelineArray.sort(function (a, b) {
       // @ts-ignore
       return a.time - b.time;
     });
 
+    //swtich to map
     timelineArray.forEach((element, index) => {
-      const header = element.event;
+      let header = element.event.replace(/_/g, ' ');
+      header = header[0].toUpperCase() + header.slice(1).toLowerCase();
+
       (element.time as number) < 0
         ? this.groundTimeline.push(<ITimeline>{
             seconds: (element.time as number) * -1,
@@ -136,9 +176,6 @@ export class LaunchPageComponent implements OnInit {
             order: index,
           });
     });
-
-    console.log(this.groundTimeline);
-
   }
 
   ngOnInit(): void {
@@ -165,7 +202,6 @@ export class LaunchPageComponent implements OnInit {
           Math,
           this.airTimeline.map((a) => a.seconds)
         );
-        console.log(min)
         this.startGroundTimer(min, max);
       },
       (error) => {
@@ -173,4 +209,11 @@ export class LaunchPageComponent implements OnInit {
       }
     );
   }
+
+  // public onInit() {
+  //   this._service.getCounter().subscribe(value=> {
+  //     this.count = value; // will not update the view.
+  //     this._change.markForCheck(); // tell Angular it's dirty
+  //   });
+  // }
 }
