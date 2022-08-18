@@ -48,7 +48,7 @@ export class LaunchPageComponent implements OnInit {
   @Input() public secInAir: number = 0;
 
   @ViewChild('stepperGround') private stepperGround: MatStepper;
-  //@ViewChild('stepper') private myStepper: MatStepper;
+  @ViewChild('stepperAir') private stepperAir: MatStepper;
 
   public launch: ILaunches;
   public images: Array<any> = [];
@@ -89,78 +89,79 @@ export class LaunchPageComponent implements OnInit {
     });
   }
 
-  public startAirTimer(seconds: number) {
-    const timerInterval = interval(1000);
+  public timelineStepperSetter(timeline: ITimeline[], startFrom: number, currentSeconds: number, stepper: MatStepper): void {
+    timeline.forEach((element, index) => {
+      if (startFrom - currentSeconds == element.seconds) {
+        element.isVisible = true;
+        if (index === 0) {
+          timeline[index + this.offset].isVisible = true;
+        } else {
+          timeline[index + 1].isVisible = true;
+          setTimeout(() => {
+            timeline[index - this.offset].isVisible = false;
+            stepper.selectedIndex = 1;
+          },100);
+          timeline[index + 2].isVisible = true;
+        }
+      }
+    });
+  }
+
+  public startAirTimer(seconds: number): void {
+    const timerInterval = interval(50);
     const subone = timerInterval.subscribe((sec) => {
       this.airProgressbarValue = 100 - (sec * 100) / seconds;
       this.secInAir = sec;
+
+      this.timelineStepperSetter(this.airTimeline, seconds, this.secInAir, this.stepperAir)
+
       if (this.secInAir === seconds) {
         subone.unsubscribe();
       }
     });
   }
 
-  public startGroundTimer(begin: number, end: number) {
+  public startGroundTimer(begin: number, end: number): void {
     const timer$ = interval(50);
     let wasCausedDoubleEvent = false;
     const sub = timer$.subscribe((sec) => {
       this.groundProgressbarValue = 100 - (sec * 100) / begin;
       this.secTillLiftoff = sec;
 
-      this.groundTimeline.forEach((element, index) => {
-        if (begin - this.secTillLiftoff == element.seconds) {
-          element.isVisible = true;
-          if (index === 0) {
-            this.groundTimeline[index + this.offset].isVisible = true;
-          } else {
-              this.groundTimeline[index + 1].isVisible = true;
-              setTimeout(() => {
-                this.groundTimeline[index - this.offset].isVisible = false;
-                this.stepperGround.selectedIndex = 1;
-              },100);
-              this.groundTimeline[index + 2].isVisible = true;
-          }
-        }
-      });
+      this.timelineStepperSetter(this.groundTimeline, begin, this.secTillLiftoff, this.stepperGround)
 
       if (this.secTillLiftoff === begin) {
-        Object.keys(this.groundTimeline).reduce((accumulator, key) => {
-          return {...accumulator, [key]: false};
-        }, {});
+        // Object.keys(this.groundTimeline).reduce((accumulator, key) => {
+        //   return {...accumulator, [key]: false};
+        // }, {});
         this.startAirTimer(end);
         sub.unsubscribe();
       }
     });
   }
 
-  public buildTimeline(timeline: {}) {
-    console.log(timeline)
+  public capitalizeHeader(event:string): string {
+    let header = event.replace(/_/g, ' ');
+    return header[0].toUpperCase() + header.slice(1).toLowerCase();
+  }
+
+  public buildTimeline(timeline: {}):void {
     let timelineArray = Object.entries(timeline).map(([event, time]) => ({ event, time }));
-    timelineArray.sort(function (a, b) {
-      // @ts-ignore
-      return a.time - b.time;
-    });
+    // @ts-ignore
+    timelineArray.sort((a,b) => a.time - b.time);
 
-    //swtich to map
-    timelineArray.forEach((element, index) => {
-      let header = element.event.replace(/_/g, ' ');
-      header = header[0].toUpperCase() + header.slice(1).toLowerCase();
+    this.groundTimeline = timelineArray.filter(element => element.time as number < 0).map(item => ({
+      seconds: item.time as number * (-1),
+      header: this.capitalizeHeader(item.event),
+      isVisible: false,
+      more: '~ ' + (item.time as number) * -1 + ' s. till liftoff',
+    }));
 
-      (element.time as number) < 0
-        ? this.groundTimeline.push(<ITimeline>{
-            seconds: (element.time as number) * -1,
-            header,
-            isVisible: false,
-            more: '~ ' + (element.time as number) * -1 + ' s. till liftoff',
-            order: index,
-          })
-        : this.airTimeline.push(<ITimeline>{
-            seconds: element.time,
-            header,
-            isVisible: false,
-            order: index,
-          });
-    });
+    this.airTimeline = timelineArray.filter(element => element.time as number > 0).map(item => ({
+      seconds: item.time as number,
+      header: this.capitalizeHeader(item.event),
+      isVisible: false,
+    }));
   }
 
   ngOnInit(): void {
@@ -194,11 +195,4 @@ export class LaunchPageComponent implements OnInit {
       }
     );
   }
-
-  // public onInit() {
-  //   this._service.getCounter().subscribe(value=> {
-  //     this.count = value; // will not update the view.
-  //     this._change.markForCheck(); // tell Angular it's dirty
-  //   });
-  // }
 }

@@ -30,22 +30,6 @@
       <ng-template matStepperIcon="number" let-index="index">
         <mat-icon>history_toggle_off</mat-icon>
       </ng-template>
-
-    </mat-stepper>
-
-    {{2280 - secTillLiftoff}}
-
-    <mat-stepper labelPosition="bottom" #stepperGround [linear]="true">
-      <div *ngFor="let event of groundTimeline">
-        <mat-step >
-          <form [formGroup]="firstFormGroup">
-            <ng-template matStepLabel
-            >{{ event.header }}
-              <div class="mat-step-optional ng-star-inserted">{{ event.more }}</div>
-            </ng-template>
-          </form>
-        </mat-step>
-      </div>
     </mat-stepper>
 
     <mat-stepper labelPosition="bottom" #stepperAir>
@@ -59,6 +43,16 @@
           </form>
         </mat-step>
       </div>
+
+      <ng-template matStepperIcon="edit" let-index="index">
+        <mat-icon>verified</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="done" let-index="index">
+        <mat-icon>system_update_alt</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="number" let-index="index">
+        <mat-icon>history_toggle_off</mat-icon>
+      </ng-template>
     </mat-stepper>
 
   </div>
