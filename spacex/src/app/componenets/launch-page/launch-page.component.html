@@ -40,7 +40,6 @@
           <mat-step *ngIf="event.isVisible">
             <ng-template matStepLabel
               >{{ event.header }}
-              <div class="mat-step-optional ng-star-inserted">{{ event.more }}</div>
             </ng-template>
           </mat-step>
         </div>
@@ -55,6 +54,7 @@
           <mat-icon>history_toggle_off</mat-icon>
         </ng-template>
       </mat-stepper>
+
     </div>
 
     <h1>{{ launch.mission_name }} | {{ launch.flight_number }}</h1>

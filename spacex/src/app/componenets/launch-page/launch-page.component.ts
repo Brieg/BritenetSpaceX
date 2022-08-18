@@ -74,10 +74,13 @@ export class LaunchPageComponent implements OnInit {
     timeline: ITimeline[],
     startFrom: number,
     currentSeconds: number,
-    stepper: MatStepper
+    stepper: MatStepper,
+    backwards?: boolean
   ): void {
+
+    let seconds = backwards ? currentSeconds : startFrom - currentSeconds;
     timeline.forEach((element, index) => {
-      if (startFrom - currentSeconds == element.seconds) {
+      if (seconds == element.seconds) {
         element.isVisible = true;
         if (index === 0) {
           timeline[index + this.offset].isVisible = true;
@@ -94,12 +97,13 @@ export class LaunchPageComponent implements OnInit {
   }
 
   private startAirTimer(end: number): void {
-    const timerInterval = interval(50);
+    const timerInterval = interval(100
+    );
     const subone = timerInterval.subscribe((sec) => {
       this.airProgressbarValue.next(100 - (sec * 100) / end);
       this.secInAir.next(sec)
 
-      this.timelineStepperSetter(this.airTimeline, end, this.secInAir.getValue(), this.stepperAir);
+      this.timelineStepperSetter(this.airTimeline, end, this.secInAir.getValue(), this.stepperAir, true);
 
       if (this.secInAir.getValue() === end) {
         subone.unsubscribe();
@@ -181,7 +185,8 @@ export class LaunchPageComponent implements OnInit {
           Math,
           this.airTimeline.map((a) => a.seconds)
         );
-        this.startGroundTimer(min, max);
+       this.startGroundTimer(min, max);
+
       },
       (error) => {
         console.error('Something went wrong.');
