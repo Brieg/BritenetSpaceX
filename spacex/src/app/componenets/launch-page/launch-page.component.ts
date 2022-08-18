@@ -37,8 +37,8 @@ export class LaunchPageComponent implements OnInit {
   public groundProgressbarValue: BehaviorSubject<number> = new BehaviorSubject(100);
   public airProgressbarValue: BehaviorSubject<number> = new BehaviorSubject(100);
 
-  public secTillLiftoff: number = 0;
-  public secInAir: number = 0;
+  public secTillLiftoff: BehaviorSubject<number> = new BehaviorSubject(0);
+  public secInAir: BehaviorSubject<number> = new BehaviorSubject(0);
 
   public launch: ILaunches;
   public images: Array<any> = [];
@@ -97,11 +97,11 @@ export class LaunchPageComponent implements OnInit {
     const timerInterval = interval(50);
     const subone = timerInterval.subscribe((sec) => {
       this.airProgressbarValue.next(100 - (sec * 100) / end);
-      this.secInAir = sec;
+      this.secInAir.next(sec)
 
-      this.timelineStepperSetter(this.airTimeline, end, this.secInAir, this.stepperAir);
+      this.timelineStepperSetter(this.airTimeline, end, this.secInAir.getValue(), this.stepperAir);
 
-      if (this.secInAir === end) {
+      if (this.secInAir.getValue() === end) {
         subone.unsubscribe();
       }
     });
@@ -111,14 +111,15 @@ export class LaunchPageComponent implements OnInit {
     const timer$ = interval(50);
     const sub = timer$.subscribe((sec) => {
       this.groundProgressbarValue.next(100 - (sec * 100) / begin);
-      this.secTillLiftoff = sec;
+      this.secTillLiftoff.next(sec)
 
-      this.timelineStepperSetter(this.groundTimeline, begin, this.secTillLiftoff, this.stepperGround);
+      this.timelineStepperSetter(this.groundTimeline, begin, this.secTillLiftoff.getValue(), this.stepperGround);
 
-      if (this.secTillLiftoff === begin) {
-        // Object.keys(this.groundTimeline).reduce((accumulator, key) => {
-        //   return {...accumulator, [key]: false};
-        // }, {});
+      if (this.secTillLiftoff.getValue() === begin) {
+        this.groundTimeline = this.groundTimeline.map((event) => ({
+          ...event,
+          isVisible: true,
+        }));
         this.startAirTimer(end);
         sub.unsubscribe();
       }
