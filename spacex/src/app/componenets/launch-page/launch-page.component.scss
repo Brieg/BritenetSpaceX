@@ -25,7 +25,7 @@
   }
 
   .details {
-    margin: 0 7px;
+    margin: 10px;
   }
 }
 
@@ -53,7 +53,8 @@
 
 .timeline {
   display: block;
-  width: 100vw;
+  width: 100%;
+  text-align: center;
 
   .mat-step-header {
     pointer-events: none !important;
