@@ -110,32 +110,23 @@ export class LaunchPageComponent implements OnInit {
       this.groundTimeline.forEach((element, index) => {
         if (begin - this.secTillLiftoff == element.seconds) {
           element.isVisible = true;
-
           if (index === 0) {
             this.groundTimeline[index + this.offset].isVisible = true;
           } else {
-            setTimeout(() => {
-            this.stepperGround.selectedIndex = 0;
-            });
+              this.groundTimeline[index + 1].isVisible = true;
+              setTimeout(() => {
+                this.groundTimeline[index - this.offset].isVisible = false;
+                this.stepperGround.selectedIndex = 1;
+              },100);
+              this.groundTimeline[index + 2].isVisible = true;
           }
-
-          if (index === this.groundTimeline.length) {
-            this.groundTimeline[index - this.offset].isVisible = false;
-          }
-
-          if (element.seconds === this.groundTimeline[index + 1].seconds) {
-            this.groundTimeline[index + 1].isVisible = true;
-            setTimeout(() => {
-              this.groundTimeline[index - this.offset].isVisible = false;
-              this.stepperGround.selectedIndex = 1;
-            },1);
-            this.groundTimeline[index + 2].isVisible = true;
-          }
-
         }
       });
 
       if (this.secTillLiftoff === begin) {
+        Object.keys(this.groundTimeline).reduce((accumulator, key) => {
+          return {...accumulator, [key]: false};
+        }, {});
         this.startAirTimer(end);
         sub.unsubscribe();
       }
