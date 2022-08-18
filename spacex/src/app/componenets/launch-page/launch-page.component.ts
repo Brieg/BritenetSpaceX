@@ -113,6 +113,10 @@ export class LaunchPageComponent implements OnInit {
 
           if (index === 0) {
             this.groundTimeline[index + this.offset].isVisible = true;
+          } else {
+            setTimeout(() => {
+            this.stepperGround.selectedIndex = 0;
+            });
           }
 
           if (index === this.groundTimeline.length) {
@@ -121,22 +125,12 @@ export class LaunchPageComponent implements OnInit {
 
           if (element.seconds === this.groundTimeline[index + 1].seconds) {
             this.groundTimeline[index + 1].isVisible = true;
-            console.log(this.groundTimeline[index + 1])
-            let doubleEventInterval = setInterval(() => {
+            setTimeout(() => {
               this.groundTimeline[index - this.offset].isVisible = false;
-              this.stepperGround.selectedIndex = index - 1;
-              clearInterval(doubleEventInterval);
-            }, 20);
+              this.stepperGround.selectedIndex = 1;
+            },1);
             this.groundTimeline[index + 2].isVisible = true;
-            wasCausedDoubleEvent = true;
-
           }
-
-          setTimeout(() => {
-            console.log("SHOW :"+index);
-            console.log(element);
-            this.stepperGround.selectedIndex = this.offset;
-          }, );
 
         }
       });
