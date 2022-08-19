@@ -60,14 +60,14 @@ export class LaunchPageComponent implements OnInit {
     this.location.back();
   }
 
-  public renderYT(URL: any): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + URL + '?autoplay=1&mute=1');
+  public renderYT(YTid: any): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + YTid + '?autoplay=1&mute=1');
   }
 
   public imagesToArray(images: []): void {
-    images.forEach((image) => {
-      this.images.push({ name: image });
-    });
+    this.images = images.map((image) => ({
+     name: image,
+    }));
   }
 
   public timelineStepperSetter(
