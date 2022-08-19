@@ -122,7 +122,7 @@ export class LaunchPageComponent implements OnInit {
       if (this.secTillLiftoff.getValue() === begin) {
         this.groundTimeline = this.groundTimeline.map((event) => ({
           ...event,
-          isVisible: true,
+          isVisible: false,
         }));
         this.startAirTimer(end);
         sub.unsubscribe();
