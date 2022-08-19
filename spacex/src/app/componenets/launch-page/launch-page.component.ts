@@ -82,26 +82,42 @@ export class LaunchPageComponent implements OnInit {
 
     let seconds = backwards ? currentSeconds : startFrom - currentSeconds;
 
-    timeline.forEach((element, index) => {
-      if (seconds == element.seconds) {
-        timeline[0].isVisible = true;
-        if (index === 0) {
+    if (backwards) {
+      timeline.forEach((element, index) => {
+        if (seconds == element.seconds) {
+          element.isVisible = true;
           timeline[index + this.offset].isVisible = true;
-        } else {
-          timeline[index + this.offset].isVisible = true;
+          timeline[index + 2].isVisible = true;
+          index >= 1 ? timeline[index - this.offset].isVisible = false : null;
           setTimeout(() => {
-            timeline[index - this.offset].isVisible = false;
             stepper.selectedIndex = this.offset;
-          }, 100);
-          timeline[index + this.offset + this.offset].isVisible = true;
+          }, 50);
         }
-      }
-    });
+      });
+    } else {
+      timeline.forEach((element, index) => {
+        if (seconds == element.seconds) {
+          timeline[0].isVisible = true;
+          if (index === 0) {
+            timeline[index + this.offset].isVisible = true;
+          } else {
+            timeline[index + this.offset].isVisible = true;
+            setTimeout(() => {
+              timeline[index - this.offset].isVisible = false;
+              stepper.selectedIndex = this.offset;
+            }, 100);
+            timeline[index + this.offset + this.offset].isVisible = true;
+          }
+        }
+      });
+    }
   }
 
   private startAirTimer(end: number): void {
-    const timerInterval = interval(200
+    const timerInterval = interval(300
     );
+    this.airTimeline[0].isVisible = true;
+    this.airTimeline[1].isVisible = true;
     const subone = timerInterval.subscribe((sec) => {
       this.airProgressbarValue.next(100 - (sec * 100) / end);
       this.secInAir.next(sec)
@@ -184,16 +200,16 @@ export class LaunchPageComponent implements OnInit {
           this.buildTimeline(launch.timeline);
         }
 
-        const min = Math.max.apply(
+        const groundSeconds = Math.max.apply(
           Math,
           this.groundTimeline.map((a) => a.seconds)
         );
-        const max = Math.max.apply(
+        const airSeconds = Math.max.apply(
           Math,
           this.airTimeline.map((a) => a.seconds)
         );
 
-       this.startGroundTimer(min, max);
+       this.startGroundTimer(groundSeconds, airSeconds);
 
       },
       (error) => {

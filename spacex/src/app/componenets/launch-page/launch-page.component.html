@@ -4,6 +4,8 @@
   <div class="hero wrapper">
     <div class="timeline" *ngIf="containTimeLine">
       <h3>Timeline</h3>
+      <h4 *ngIf='secTillLiftoff | async'>{{secTillLiftoff | async}} s. till liftoff</h4>
+      <h4 *ngIf='secInAir | async'>{{secInAir | async}} s. in air</h4>
       <div class="progress-bar">
         <mat-progress-bar class="earth" mode="determinate" [value]="groundProgressbarValue | async"></mat-progress-bar>
         <mat-progress-bar
@@ -40,6 +42,7 @@
           <mat-step *ngIf="event.isVisible">
             <ng-template matStepLabel
               >{{ event.header }}
+              <div class="mat-step-optional ng-star-inserted">{{ event.seconds }}</div>
             </ng-template>
           </mat-step>
         </div>
