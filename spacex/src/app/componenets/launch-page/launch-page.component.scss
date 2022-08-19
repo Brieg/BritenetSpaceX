@@ -17,7 +17,7 @@
   }
 
   .background {
-    height: 100vh;
+    height: 100%;
     width: 100%;
     background-size: contain;
     background-repeat: no-repeat;
@@ -26,16 +26,6 @@
 
   .details {
     margin: 10px;
-  }
-}
-
-.video {
-  iframe {
-    display: block;
-    border: none;
-    height: 100vh;
-    width: 100%;
-    border: none;
   }
 }
 

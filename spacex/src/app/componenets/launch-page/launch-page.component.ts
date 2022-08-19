@@ -3,12 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ILaunches } from 'src/app/interfaces/launches';
-import { SpinnerService } from '../../services/spinner/spinner.service';
 import { BehaviorSubject, interval } from 'rxjs';
-import { ITimeline } from '../../interfaces/timeline';
 import { MatStepper } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { SpinnerService } from '../../services/spinner/spinner.service';
+import { ITimeline } from '../../interfaces/timeline';
+import { ILaunches } from 'src/app/interfaces/launches';
 
 @Component({
   selector: 'app-launch-page',
@@ -41,6 +41,8 @@ export class LaunchPageComponent implements OnInit {
   public secInAir: BehaviorSubject<number> = new BehaviorSubject(0);
 
   public launch: ILaunches;
+
+  public containImages: boolean = false;
   public images: Array<any> = [];
   public widthPX: number = 0;
 
@@ -79,9 +81,10 @@ export class LaunchPageComponent implements OnInit {
   ): void {
 
     let seconds = backwards ? currentSeconds : startFrom - currentSeconds;
+
     timeline.forEach((element, index) => {
       if (seconds == element.seconds) {
-        element.isVisible = true;
+        timeline[0].isVisible = true;
         if (index === 0) {
           timeline[index + this.offset].isVisible = true;
         } else {
@@ -97,7 +100,7 @@ export class LaunchPageComponent implements OnInit {
   }
 
   private startAirTimer(end: number): void {
-    const timerInterval = interval(100
+    const timerInterval = interval(200
     );
     const subone = timerInterval.subscribe((sec) => {
       this.airProgressbarValue.next(100 - (sec * 100) / end);
@@ -167,10 +170,14 @@ export class LaunchPageComponent implements OnInit {
     this.httpClient.get<any>('https://api.spacexdata.com/v3/launches/' + launchNumberFromRoute).subscribe(
       (launch) => {
         this.launch = launch;
-        if (launch.links.flickr_images.length) {
-          this.imagesToArray(launch.links.flickr_images);
+
+        if(launch.links.flickr_images.length) {
+          this.containImages = true;
+          if (launch.links.flickr_images.length) {
+            this.imagesToArray(launch.links.flickr_images);
+          }
+          launch.links.flickr_images.length ? this.imagesToArray(launch.links.flickr_images) : null;
         }
-        launch.links.flickr_images.length ? this.imagesToArray(launch.links.flickr_images) : null;
 
         if (Object.keys(launch.timeline).length > 2) {
           this.containTimeLine = true;
@@ -185,6 +192,7 @@ export class LaunchPageComponent implements OnInit {
           Math,
           this.airTimeline.map((a) => a.seconds)
         );
+
        this.startGroundTimer(min, max);
 
       },

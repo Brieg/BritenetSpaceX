@@ -69,11 +69,9 @@
     ></div>
   </div>
 
-  <div class="video">
-    <iframe allow="autoplay" allowfullscreen [src]="renderYT(launch.links.youtube_id)"></iframe>
-  </div>
+  <youtube videoId="{{launch.links.youtube_id}}"></youtube>
 
-  <div id="image-slider">
+  <div id="image-slider" *ngIf='containImages'>
     <div
       ng2-carouselamos
       class="slides-wrapper"
