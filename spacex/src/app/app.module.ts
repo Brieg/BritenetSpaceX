@@ -26,7 +26,7 @@ import { VideoModule } from './modules/video/video.module';
     ReactiveFormsModule,
     Ng2CarouselamosModule,
     YouTubePlayerModule,
-    VideoModule
+    VideoModule,
   ],
   providers: [
     {

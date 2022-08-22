@@ -63,12 +63,14 @@ export class LaunchPageComponent implements OnInit {
   }
 
   public renderYT(YTid: any): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + YTid + '?autoplay=1&mute=1');
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      'https://www.youtube.com/embed/' + YTid + '?autoplay=1&mute=1'
+    );
   }
 
   public imagesToArray(images: []): void {
     this.images = images.map((image) => ({
-     name: image,
+      name: image,
     }));
   }
 
@@ -79,7 +81,6 @@ export class LaunchPageComponent implements OnInit {
     stepper: MatStepper,
     backwards?: boolean
   ): void {
-
     let seconds = backwards ? currentSeconds : startFrom - currentSeconds;
 
     if (backwards) {
@@ -88,7 +89,7 @@ export class LaunchPageComponent implements OnInit {
           element.isVisible = true;
           timeline[index + this.offset].isVisible = true;
           timeline[index + 2].isVisible = true;
-          index >= 1 ? timeline[index - this.offset].isVisible = false : null;
+          index >= 1 ? (timeline[index - this.offset].isVisible = false) : null;
           setTimeout(() => {
             stepper.selectedIndex = this.offset;
           }, 50);
@@ -114,13 +115,12 @@ export class LaunchPageComponent implements OnInit {
   }
 
   private startAirTimer(end: number): void {
-    const timerInterval = interval(300
-    );
+    const timerInterval = interval(1000);
     this.airTimeline[0].isVisible = true;
     this.airTimeline[1].isVisible = true;
     const subone = timerInterval.subscribe((sec) => {
       this.airProgressbarValue.next(100 - (sec * 100) / end);
-      this.secInAir.next(sec)
+      this.secInAir.next(sec);
 
       this.timelineStepperSetter(this.airTimeline, end, this.secInAir.getValue(), this.stepperAir, true);
 
@@ -131,10 +131,10 @@ export class LaunchPageComponent implements OnInit {
   }
 
   private startGroundTimer(begin: number, end: number): void {
-    const timer$ = interval(50);
+    const timer$ = interval(1000);
     const sub = timer$.subscribe((sec) => {
       this.groundProgressbarValue.next(100 - (sec * 100) / begin);
-      this.secTillLiftoff.next(sec)
+      this.secTillLiftoff.next(sec);
 
       this.timelineStepperSetter(this.groundTimeline, begin, this.secTillLiftoff.getValue(), this.stepperGround);
 
@@ -187,7 +187,7 @@ export class LaunchPageComponent implements OnInit {
       (launch) => {
         this.launch = launch;
 
-        if(launch.links.flickr_images.length) {
+        if (launch.links.flickr_images.length) {
           this.containImages = true;
           if (launch.links.flickr_images.length) {
             this.imagesToArray(launch.links.flickr_images);
@@ -209,8 +209,7 @@ export class LaunchPageComponent implements OnInit {
           this.airTimeline.map((a) => a.seconds)
         );
 
-       this.startGroundTimer(groundSeconds, airSeconds);
-
+        this.startGroundTimer(groundSeconds, airSeconds);
       },
       (error) => {
         console.error('Something went wrong.');

@@ -4,8 +4,6 @@
   <div class="hero wrapper">
     <div class="timeline" *ngIf="containTimeLine">
       <h3>Timeline</h3>
-      <h4 *ngIf='secTillLiftoff | async'>{{secTillLiftoff | async}} s. till liftoff</h4>
-      <h4 *ngIf='secInAir | async'>{{secInAir | async}} s. in air</h4>
       <div class="progress-bar">
         <mat-progress-bar class="earth" mode="determinate" [value]="groundProgressbarValue | async"></mat-progress-bar>
         <mat-progress-bar
@@ -57,7 +55,6 @@
           <mat-icon>history_toggle_off</mat-icon>
         </ng-template>
       </mat-stepper>
-
     </div>
 
     <h1>{{ launch.mission_name }} | {{ launch.flight_number }}</h1>
@@ -72,9 +69,9 @@
     ></div>
   </div>
 
-  <youtube videoId="{{launch.links.youtube_id}}"></youtube>
+  <youtube videoId="{{ launch.links.youtube_id }}"></youtube>
 
-  <div id="image-slider" *ngIf='containImages'>
+  <div id="image-slider" *ngIf="containImages">
     <div
       ng2-carouselamos
       class="slides-wrapper"
