@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, interval } from 'rxjs';
+import { BehaviorSubject, interval, Subscription } from 'rxjs';
 import { MatStepper } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { SpinnerService } from '../../services/spinner/spinner.service';
@@ -23,13 +23,6 @@ import { ILaunches } from 'src/app/interfaces/launches';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaunchPageComponent implements OnInit {
-  constructor(
-    public spinnerService: SpinnerService,
-    private route: ActivatedRoute,
-    private httpClient: HttpClient,
-    private sanitizer: DomSanitizer,
-    private location: Location
-  ) {}
 
   @ViewChild('stepperGround') private stepperGround: MatStepper;
   @ViewChild('stepperAir') private stepperAir: MatStepper;
@@ -52,6 +45,16 @@ export class LaunchPageComponent implements OnInit {
 
   // Offset as number 1
   private offset: number = 1;
+  private timeInterval: number = 300;
+
+  constructor(
+    public spinnerService: SpinnerService,
+    private route: ActivatedRoute,
+    private httpClient: HttpClient,
+    private sanitizer: DomSanitizer,
+    private location: Location,
+    private cdref: ChangeDetectorRef,
+  ) {}
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -82,69 +85,52 @@ export class LaunchPageComponent implements OnInit {
     backwards?: boolean
   ): void {
     let seconds = backwards ? currentSeconds : startFrom - currentSeconds;
-
-    if (backwards) {
-      timeline.forEach((element, index) => {
-        if (seconds == element.seconds) {
-          element.isVisible = true;
-          timeline[index + this.offset].isVisible = true;
-          timeline[index + 2].isVisible = true;
-          index >= 1 ? (timeline[index - this.offset].isVisible = false) : null;
+    timeline.forEach((element, index) => {
+      if (seconds == element.seconds) {
+        element.isVisible = true;
+        index + this.offset > timeline.length ? timeline[index + this.offset].isVisible = true : null;
           setTimeout(() => {
+            index - this.offset >= 0 ? timeline[index - this.offset].isVisible = false : null;
             stepper.selectedIndex = this.offset;
-          }, 50);
-        }
-      });
-    } else {
-      timeline.forEach((element, index) => {
-        if (seconds == element.seconds) {
-          timeline[0].isVisible = true;
-          if (index === 0) {
-            timeline[index + this.offset].isVisible = true;
-          } else {
-            timeline[index + this.offset].isVisible = true;
-            setTimeout(() => {
-              timeline[index - this.offset].isVisible = false;
-              stepper.selectedIndex = this.offset;
-            }, 100);
-            timeline[index + this.offset + this.offset].isVisible = true;
-          }
-        }
-      });
-    }
+          }, 90);
+          timeline[index + this.offset + this.offset] !== undefined ? timeline[index + this.offset + this.offset].isVisible = true : null;
+      }
+    });
+  }
+
+  private setVisible(element:ITimeline[], index:number): void {
+    element[index].isVisible = true;
   }
 
   private startAirTimer(end: number): void {
-    const timerInterval = interval(1000);
     this.airTimeline[0].isVisible = true;
     this.airTimeline[1].isVisible = true;
-    const subone = timerInterval.subscribe((sec) => {
+    const sub$ = interval(this.timeInterval).subscribe((sec) => {
       this.airProgressbarValue.next(100 - (sec * 100) / end);
       this.secInAir.next(sec);
 
       this.timelineStepperSetter(this.airTimeline, end, this.secInAir.getValue(), this.stepperAir, true);
 
       if (this.secInAir.getValue() === end) {
-        subone.unsubscribe();
+        sub$.unsubscribe();
       }
     });
   }
 
   private startGroundTimer(begin: number, end: number): void {
-    const timer$ = interval(1000);
-    const sub = timer$.subscribe((sec) => {
+    const sub$ = interval(this.timeInterval).subscribe((sec) => {
       this.groundProgressbarValue.next(100 - (sec * 100) / begin);
       this.secTillLiftoff.next(sec);
 
       this.timelineStepperSetter(this.groundTimeline, begin, this.secTillLiftoff.getValue(), this.stepperGround);
 
       if (this.secTillLiftoff.getValue() === begin) {
+        sub$.unsubscribe();
         this.groundTimeline = this.groundTimeline.map((event) => ({
           ...event,
           isVisible: false,
         }));
         this.startAirTimer(end);
-        sub.unsubscribe();
       }
     });
   }
@@ -216,4 +202,9 @@ export class LaunchPageComponent implements OnInit {
       }
     );
   }
+
+  ngAfterViewInit(): void {
+    this.cdref.detectChanges();
+  }
+
 }
