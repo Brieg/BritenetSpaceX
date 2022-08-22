@@ -45,7 +45,7 @@ export class LaunchPageComponent implements OnInit {
 
   // Offset as number 1
   private offset: number = 1;
-  private timeInterval: number = 300;
+  private timeInterval: number = 100;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -92,6 +92,7 @@ export class LaunchPageComponent implements OnInit {
           setTimeout(() => {
             index - this.offset >= 0 ? timeline[index - this.offset].isVisible = false : null;
             stepper.selectedIndex = this.offset;
+            this.cdref.detectChanges();
           }, 90);
           timeline[index + this.offset + this.offset] !== undefined ? timeline[index + this.offset + this.offset].isVisible = true : null;
       }
@@ -201,10 +202,6 @@ export class LaunchPageComponent implements OnInit {
         console.error('Something went wrong.');
       }
     );
-  }
-
-  ngAfterViewInit(): void {
-    this.cdref.detectChanges();
   }
 
 }
