@@ -14,7 +14,7 @@ export class ShipsListComponent implements OnInit {
 
   // Pagination
   public pageLength: number = 0;
-  public pageSize: number = 5;
+  public pageSize: number = 8;
   public pageSizeOptions: number[] = [this.pageSize, this.pageSize + 5];
   public pageEvent: PageEvent | undefined;
 
@@ -42,12 +42,12 @@ export class ShipsListComponent implements OnInit {
     );
   }
 
-  OnPaginate(event: PageEvent): void {
+  public OnPaginate(event: PageEvent): void {
     const offset = (event.pageIndex + 1 - 1) * event.pageSize;
     this.paginationShips = this.ships.slice(offset).slice(0, event.pageSize);
   }
 
-  displayShips(ships: IShip[]): void {
+  public displayShips(ships: IShip[]): void {
     this.pageLength = ships.length;
     this.paginationShips = ships.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
   }
@@ -56,11 +56,15 @@ export class ShipsListComponent implements OnInit {
   //   this.activateShips = [...new Set(ships.map((launches) => ships.active))];
   // }
 
-  selectionChange(e: MatSelectionListChange): void {
+  public selectionChange(e: MatSelectionListChange): void {
     this.filteredShips = this.ships.filter((x) => {
       return x.active === e.options[0].value;
     });
     this.displayShips(this.filteredShips);
+  }
+
+  public openMarinetraffic(url:string): void {
+    window.open(url)
   }
 
   ngOnInit(): void {

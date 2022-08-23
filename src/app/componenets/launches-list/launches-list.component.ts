@@ -14,10 +14,11 @@ import { ILaunches } from '../../interfaces/launches';
   styleUrls: ['./launches-list.component.scss'],
 })
 export class LaunchesListComponent implements OnInit {
+
   // Pagination
   public pageLength: number = 0;
   public pageSize: number = 3;
-  public pageSizeOptions: number[] = [this.pageSize, this.pageSize + 3];
+  public pageSizeOptions: number[] = [this.pageSize, this.pageSize + 4];
   public pageEvent: PageEvent | undefined;
 
   // Launches
