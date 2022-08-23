@@ -15,9 +15,17 @@ import { LaunchPageComponent } from './componenets/launch-page/launch-page.compo
 import { Ng2CarouselamosModule } from 'ng2-carouselamos';
 import { VideoModule } from './modules/video/video.module';
 import { ShipsListComponent } from './componenets/ships-list/ships-list.component';
+import { ShipPageComponent } from './componenets/ship-page/ship-page.component';
 
 @NgModule({
-  declarations: [AppComponent, MainMenuComponent, LaunchesListComponent, LaunchPageComponent, ShipsListComponent],
+  declarations: [
+    AppComponent,
+    MainMenuComponent,
+    LaunchesListComponent,
+    LaunchPageComponent,
+    ShipsListComponent,
+    ShipPageComponent
+  ],
   imports: [
     HttpClientModule,
     BrowserModule,

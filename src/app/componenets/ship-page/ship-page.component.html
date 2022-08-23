@@ -1,0 +1,14 @@
+<mat-spinner [diameter]="50" *ngIf="spinnerService.visibility | async; else container"></mat-spinner>
+
+<ng-template #container>
+  <div class="hero wrapper">
+    <h1>{{ship.ship_name}}</h1>
+    <h2>{{ship.home_port}} | {{ship.ship_type}}</h2>
+    <div
+      class="background"
+      [ngStyle]="{
+        'background-image': 'url(' + ship.image + ')'
+      }"
+    ></div>
+  </div>
+</ng-template>
