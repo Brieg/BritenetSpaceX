@@ -24,7 +24,7 @@ import { ShipPageComponent } from './componenets/ship-page/ship-page.component';
     LaunchesListComponent,
     LaunchPageComponent,
     ShipsListComponent,
-    ShipPageComponent
+    ShipPageComponent,
   ],
   imports: [
     HttpClientModule,

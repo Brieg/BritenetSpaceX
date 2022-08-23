@@ -4,20 +4,20 @@
     <img [src]="spacex.url" [alt]="spacex.alt" />
   </div>
 
-  <div class='buttons'>
-  <button
-    mat-flat-button
-    class="example-icon favorite-icon"
-    aria-label="Example icon-button with heart icon"
-    [routerLink]="['/home']"
-  >
-    <mat-icon>rocket_launch</mat-icon>
-    Launches
-  </button>
+  <div class="buttons">
+    <button
+      mat-flat-button
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+      [routerLink]="['/home']"
+    >
+      <mat-icon>rocket_launch</mat-icon>
+      Launches
+    </button>
 
-  <button  mat-flat-button [routerLink]="['/ships']">
-    <mat-icon>directions_boat</mat-icon>
-    Ships</button>
+    <button mat-flat-button [routerLink]="['/ships']">
+      <mat-icon>directions_boat</mat-icon>
+      Ships
+    </button>
   </div>
-
 </mat-toolbar>

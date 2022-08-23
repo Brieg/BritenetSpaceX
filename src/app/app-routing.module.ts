@@ -6,18 +6,18 @@ import { LaunchPageComponent } from './componenets/launch-page/launch-page.compo
 import { ShipsListComponent } from './componenets/ships-list/ships-list.component';
 import { ShipPageComponent } from './componenets/ship-page/ship-page.component';
 
-const slogan: string = "Britenet & SpaceX";
+const slogan: string = 'Britenet & SpaceX';
 
 const routes: Routes = [
   {
     path: 'home',
     component: LaunchesListComponent,
-    title: slogan +' | Launches',
+    title: slogan + ' | Launches',
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'launch/:flight_number', component: LaunchPageComponent,title: slogan +' | Launch page' },
-  { path: 'ships', component: ShipsListComponent, title: slogan +' | Ships' },
-  { path: 'ship/:ship_id', component: ShipPageComponent,title: slogan +' | Ship page' },
+  { path: 'launch/:flight_number', component: LaunchPageComponent, title: slogan + ' | Launch page' },
+  { path: 'ships', component: ShipsListComponent, title: slogan + ' | Ships' },
+  { path: 'ship/:ship_id', component: ShipPageComponent, title: slogan + ' | Ship page' },
 ];
 
 @NgModule({

@@ -2,8 +2,15 @@
 
 <ng-template #container>
   <div class="hero wrapper">
-    <h1>{{ship.ship_name}}</h1>
-    <h2>{{ship.home_port}} | {{ship.ship_type}}</h2>
+    <h1>{{ ship.ship_name }}</h1>
+    <div *ngIf="ship.active; else noActive">
+      <mat-icon aria-hidden="false" aria-label="Ship is active" color="primary" fontIcon="directions_boat"></mat-icon>
+    </div>
+    <ng-template #noActive>
+      <mat-icon aria-hidden="false" aria-label="Ship is not active" fontIcon="mode_fan_off"></mat-icon>
+    </ng-template>
+    <h2>{{ ship.home_port }} | {{ ship.ship_type }}</h2>
+    <h3>Year build: {{ ship.year_built }}</h3>
     <div
       class="background"
       [ngStyle]="{
@@ -11,4 +18,5 @@
       }"
     ></div>
   </div>
+  <div class="ships">elo</div>
 </ng-template>

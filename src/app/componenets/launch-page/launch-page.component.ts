@@ -23,7 +23,6 @@ import { ILaunches } from 'src/app/interfaces/launches';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaunchPageComponent implements OnInit {
-
   @ViewChild('stepperGround') private stepperGround: MatStepper;
   @ViewChild('stepperAir') private stepperAir: MatStepper;
 
@@ -53,7 +52,7 @@ export class LaunchPageComponent implements OnInit {
     private httpClient: HttpClient,
     private sanitizer: DomSanitizer,
     private location: Location,
-    private cdref: ChangeDetectorRef,
+    private cdref: ChangeDetectorRef
   ) {}
 
   @HostListener('window:resize', ['$event'])
@@ -88,18 +87,20 @@ export class LaunchPageComponent implements OnInit {
     timeline.forEach((element, index) => {
       if (seconds == element.seconds) {
         element.isVisible = true;
-        index + this.offset > timeline.length ? timeline[index + this.offset].isVisible = true : null;
-          setTimeout(() => {
-            index - this.offset >= 0 ? timeline[index - this.offset].isVisible = false : null;
-            stepper.selectedIndex = this.offset;
-            this.cdref.detectChanges();
-          }, 90);
-          timeline[index + this.offset + this.offset] !== undefined ? timeline[index + this.offset + this.offset].isVisible = true : null;
+        index + this.offset > timeline.length ? (timeline[index + this.offset].isVisible = true) : null;
+        setTimeout(() => {
+          index - this.offset >= 0 ? (timeline[index - this.offset].isVisible = false) : null;
+          stepper.selectedIndex = this.offset;
+          this.cdref.detectChanges();
+        }, 90);
+        timeline[index + this.offset + this.offset] !== undefined
+          ? (timeline[index + this.offset + this.offset].isVisible = true)
+          : null;
       }
     });
   }
 
-  private setVisible(element:ITimeline[], index:number): void {
+  private setVisible(element: ITimeline[], index: number): void {
     element[index].isVisible = true;
   }
 
@@ -203,5 +204,4 @@ export class LaunchPageComponent implements OnInit {
       }
     );
   }
-
 }

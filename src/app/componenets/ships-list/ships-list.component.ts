@@ -8,10 +8,9 @@ import { MatSelectionListChange } from '@angular/material/list';
 @Component({
   selector: 'app-ships-list',
   templateUrl: './ships-list.component.html',
-  styleUrls: ['./ships-list.component.scss']
+  styleUrls: ['./ships-list.component.scss'],
 })
 export class ShipsListComponent implements OnInit {
-
   // Pagination
   public pageLength: number = 0;
   public pageSize: number = 8;
@@ -25,10 +24,7 @@ export class ShipsListComponent implements OnInit {
   public activateShips: boolean[] = [];
   public filteredShips: IShip[] = [];
 
-  constructor(
-    private httpClient: HttpClient,
-    public spinnerService: SpinnerService
-  ) {
+  constructor(private httpClient: HttpClient, public spinnerService: SpinnerService) {
     this.httpClient.get<IShip[]>('https://api.spacexdata.com/v3/ships').subscribe(
       (ships) => {
         this.ships = ships;
@@ -52,10 +48,6 @@ export class ShipsListComponent implements OnInit {
     this.paginationShips = ships.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
   }
 
-  // setFiltersCategory(ships: IShip[]): void {
-  //   this.activateShips = [...new Set(ships.map((launches) => ships.active))];
-  // }
-
   public selectionChange(e: MatSelectionListChange): void {
     this.filteredShips = this.ships.filter((x) => {
       return x.active === e.options[0].value;
@@ -63,11 +55,9 @@ export class ShipsListComponent implements OnInit {
     this.displayShips(this.filteredShips);
   }
 
-  public openMarinetraffic(url:string): void {
-    window.open(url)
+  public openMarinetraffic(url: string): void {
+    window.open(url);
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
