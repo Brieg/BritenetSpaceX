@@ -14,9 +14,10 @@ import { CustomHttpInterceptor } from './services/launches/launches.service';
 import { LaunchPageComponent } from './componenets/launch-page/launch-page.component';
 import { Ng2CarouselamosModule } from 'ng2-carouselamos';
 import { VideoModule } from './modules/video/video.module';
+import { ShipsListComponent } from './componenets/ships-list/ships-list.component';
 
 @NgModule({
-  declarations: [AppComponent, MainMenuComponent, LaunchesListComponent, LaunchPageComponent],
+  declarations: [AppComponent, MainMenuComponent, LaunchesListComponent, LaunchPageComponent, ShipsListComponent],
   imports: [
     HttpClientModule,
     BrowserModule,

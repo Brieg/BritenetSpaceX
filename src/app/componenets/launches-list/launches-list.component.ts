@@ -45,10 +45,10 @@ export class LaunchesListComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     public spinnerService: SpinnerService
   ) {
-    this.httpClient.get<any>('https://api.spacexdata.com/v3/launches').subscribe(
+    this.httpClient.get<ILaunches[]>('https://api.spacexdata.com/v3/launches').subscribe(
       (launches) => {
         this.launches = launches;
-        this.displayProducts(this.launches);
+        this.displayLaunches(this.launches);
         this.setFiltersCategory(this.launches);
       },
       (error) => {
@@ -62,7 +62,7 @@ export class LaunchesListComponent implements OnInit {
     this.paginationLaunches = this.launches.slice(offset).slice(0, event.pageSize);
   }
 
-  displayProducts(launches: ILaunches[]): void {
+  displayLaunches(launches: ILaunches[]): void {
     this.pageLength = launches.length;
     this.paginationLaunches = launches.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
   }
@@ -75,7 +75,7 @@ export class LaunchesListComponent implements OnInit {
     this.filteredLaunches = this.launches.filter((x) => {
       return x.launch_year === e.options[0].value;
     });
-    this.displayProducts(this.filteredLaunches);
+    this.displayLaunches(this.filteredLaunches);
   }
 
   ngOnInit(): void {}
