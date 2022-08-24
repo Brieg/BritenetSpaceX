@@ -48,13 +48,12 @@ export class LaunchesListComponent implements OnInit {
     private dataService: DataService
   ) {}
 
-
   public getLaunches() {
-    this.dataService.loadLaunches().subscribe(launches => {
-        this.launches = launches;
-        this.displayLaunches(this.launches);
-        this.setFiltersCategory(this.launches);
-      });
+    this.dataService.loadLaunches().subscribe((launches) => {
+      this.launches = launches;
+      this.displayLaunches(this.launches);
+      this.setFiltersCategory(this.launches);
+    });
   }
 
   public OnPaginate(event: PageEvent): void {

@@ -54,7 +54,7 @@ export class LaunchPageComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private location: Location,
     private dataService: DataService,
-    private cdref: ChangeDetectorRef,
+    private cdref: ChangeDetectorRef
   ) {}
 
   @HostListener('window:resize', ['$event'])
@@ -167,8 +167,8 @@ export class LaunchPageComponent implements OnInit {
       }));
   }
 
-  public getLaunch(flight_number:number) {
-    this.dataService.loadLaunch(flight_number).subscribe(launch => {
+  public getLaunch(flight_number: number) {
+    this.dataService.loadLaunch(flight_number).subscribe((launch) => {
       this.launch = launch;
 
       if (launch.links.flickr_images.length) {

@@ -28,7 +28,8 @@ export class ShipsListComponent implements OnInit {
   constructor(
     public spinnerService: SpinnerService,
     private httpClient: HttpClient,
-    private dataService: DataService) {  }
+    private dataService: DataService
+  ) {}
 
   public OnPaginate(event: PageEvent): void {
     const offset = (event.pageIndex + 1 - 1) * event.pageSize;
@@ -52,7 +53,7 @@ export class ShipsListComponent implements OnInit {
   }
 
   public getShips() {
-    this.dataService.loadShips().subscribe(ships => {
+    this.dataService.loadShips().subscribe((ships) => {
       this.ships = ships;
       this.displayShips(this.ships);
     });

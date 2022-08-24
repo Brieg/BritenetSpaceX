@@ -15,10 +15,15 @@ export class ShipPageComponent implements OnInit {
 
   public test: boolean = true;
 
-  constructor(public spinnerService: SpinnerService, private route: ActivatedRoute, private httpClient: HttpClient, private dataService: DataService) {}
+  constructor(
+    public spinnerService: SpinnerService,
+    private route: ActivatedRoute,
+    private httpClient: HttpClient,
+    private dataService: DataService
+  ) {}
 
-  public getShip(ship_id:string) {
-    this.dataService.loadShip(ship_id).subscribe(ship => {
+  public getShip(ship_id: string) {
+    this.dataService.loadShip(ship_id).subscribe((ship) => {
       this.ship = ship;
     });
   }
