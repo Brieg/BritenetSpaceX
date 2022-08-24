@@ -3,12 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, interval, Subscription } from 'rxjs';
+import { BehaviorSubject, interval } from 'rxjs';
 import { MatStepper } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { SpinnerService } from '../../services/spinner/spinner.service';
 import { ITimeline } from '../../interfaces/timeline';
 import { ILaunches } from 'src/app/interfaces/launches';
+import { DataService } from '../../services/data/data.service';
 
 @Component({
   selector: 'app-launch-page',
@@ -52,7 +53,8 @@ export class LaunchPageComponent implements OnInit {
     private httpClient: HttpClient,
     private sanitizer: DomSanitizer,
     private location: Location,
-    private cdref: ChangeDetectorRef
+    private dataService: DataService,
+    private cdref: ChangeDetectorRef,
   ) {}
 
   @HostListener('window:resize', ['$event'])
@@ -70,7 +72,7 @@ export class LaunchPageComponent implements OnInit {
     );
   }
 
-  public imagesToArray(images: []): void {
+  public imagesToArray(images: string[]): void {
     this.images = images.map((image) => ({
       name: image,
     }));
@@ -165,43 +167,39 @@ export class LaunchPageComponent implements OnInit {
       }));
   }
 
+  public getLaunch(flight_number:number) {
+    this.dataService.loadLaunch(flight_number).subscribe(launch => {
+      this.launch = launch;
+
+      if (launch.links.flickr_images.length) {
+        this.containImages = true;
+        this.imagesToArray(launch.links.flickr_images);
+      }
+
+      if (Object.keys(launch.timeline).length > 2) {
+        this.containTimeLine = true;
+        this.buildTimeline(launch.timeline);
+      }
+
+      const groundSeconds = Math.max.apply(
+        Math,
+        this.groundTimeline.map((a) => a.seconds)
+      );
+      const airSeconds = Math.max.apply(
+        Math,
+        this.airTimeline.map((a) => a.seconds)
+      );
+
+      this.startGroundTimer(groundSeconds, airSeconds);
+    });
+  }
+
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     const launchNumberFromRoute = Number(routeParams.get('flight_number'));
 
     this.widthPX = window.innerWidth;
 
-    this.httpClient.get<any>('https://api.spacexdata.com/v3/launches/' + launchNumberFromRoute).subscribe(
-      (launch) => {
-        this.launch = launch;
-
-        if (launch.links.flickr_images.length) {
-          this.containImages = true;
-          if (launch.links.flickr_images.length) {
-            this.imagesToArray(launch.links.flickr_images);
-          }
-          launch.links.flickr_images.length ? this.imagesToArray(launch.links.flickr_images) : null;
-        }
-
-        if (Object.keys(launch.timeline).length > 2) {
-          this.containTimeLine = true;
-          this.buildTimeline(launch.timeline);
-        }
-
-        const groundSeconds = Math.max.apply(
-          Math,
-          this.groundTimeline.map((a) => a.seconds)
-        );
-        const airSeconds = Math.max.apply(
-          Math,
-          this.airTimeline.map((a) => a.seconds)
-        );
-
-        this.startGroundTimer(groundSeconds, airSeconds);
-      },
-      (error) => {
-        console.error('Something went wrong.');
-      }
-    );
+    this.getLaunch(launchNumberFromRoute);
   }
 }

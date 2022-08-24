@@ -4,6 +4,7 @@ import { SpinnerService } from '../../services/spinner/spinner.service';
 import { IShip } from '../../interfaces/ships';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSelectionListChange } from '@angular/material/list';
+import { DataService } from '../../services/data/data.service';
 
 @Component({
   selector: 'app-ships-list',
@@ -24,19 +25,10 @@ export class ShipsListComponent implements OnInit {
   public activateShips: boolean[] = [];
   public filteredShips: IShip[] = [];
 
-  constructor(private httpClient: HttpClient, public spinnerService: SpinnerService) {
-    this.httpClient.get<IShip[]>('https://api.spacexdata.com/v3/ships').subscribe(
-      (ships) => {
-        this.ships = ships;
-
-        this.displayShips(this.ships);
-        //this.setFiltersCategory(this.launches);
-      },
-      (error) => {
-        console.error('Something went wrong.');
-      }
-    );
-  }
+  constructor(
+    public spinnerService: SpinnerService,
+    private httpClient: HttpClient,
+    private dataService: DataService) {  }
 
   public OnPaginate(event: PageEvent): void {
     const offset = (event.pageIndex + 1 - 1) * event.pageSize;
@@ -59,5 +51,14 @@ export class ShipsListComponent implements OnInit {
     window.open(url);
   }
 
-  ngOnInit(): void {}
+  public getShips() {
+    this.dataService.loadShips().subscribe(ships => {
+      this.ships = ships;
+      this.displayShips(this.ships);
+    });
+  }
+
+  ngOnInit(): void {
+    this.getShips();
+  }
 }

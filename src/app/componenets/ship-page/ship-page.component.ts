@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SpinnerService } from '../../services/spinner/spinner.service';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 import { IShip } from '../../interfaces/ships';
+import { DataService } from '../../services/data/data.service';
 
 @Component({
   selector: 'app-ship-page',
@@ -14,17 +15,18 @@ export class ShipPageComponent implements OnInit {
 
   public test: boolean = true;
 
-  constructor(public spinnerService: SpinnerService, private route: ActivatedRoute, private httpClient: HttpClient) {}
+  constructor(public spinnerService: SpinnerService, private route: ActivatedRoute, private httpClient: HttpClient, private dataService: DataService) {}
 
-  shipIsActive(status: boolean) {}
+  public getShip(ship_id:string) {
+    this.dataService.loadShip(ship_id).subscribe(ship => {
+      this.ship = ship;
+    });
+  }
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
-    const launchNumberFromRoute = routeParams.get('ship_id');
+    const shipId = routeParams.get('ship_id') as string;
 
-    this.httpClient.get<any>('https://api.spacexdata.com/v3/ships/' + launchNumberFromRoute).subscribe((ship) => {
-      this.ship = ship;
-      console.log(ship);
-    });
+    this.getShip(shipId);
   }
 }

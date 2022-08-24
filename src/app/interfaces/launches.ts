@@ -26,7 +26,7 @@ export interface ILaunches {
   upcoming: boolean;
   static_fire_date_utc: Date;
   static_fire_date_unix: Date;
-  timeline?: {
+  timeline: {
     webcast_liftoff: number;
   };
   crew?: boolean;
@@ -116,6 +116,6 @@ interface ILinks {
   article_link?: string;
   wikipedia?: string;
   video_link?: string;
-  youtube_id?: string;
-  flickr_images?: string[];
+  youtube_id: string;
+  flickr_images: string[];
 }

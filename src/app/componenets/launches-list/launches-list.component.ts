@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { SpinnerService } from '../../services/spinner/spinner.service';
 import { ILaunches } from '../../interfaces/launches';
+import { DataService } from '../../services/data/data.service';
 
 @Component({
   selector: 'app-launches-list',
@@ -41,42 +42,43 @@ export class LaunchesListComponent implements OnInit {
   );
 
   constructor(
+    public spinnerService: SpinnerService,
     private httpClient: HttpClient,
     private breakpointObserver: BreakpointObserver,
-    public spinnerService: SpinnerService
-  ) {
-    this.httpClient.get<ILaunches[]>('https://api.spacexdata.com/v3/launches').subscribe(
-      (launches) => {
+    private dataService: DataService
+  ) {}
+
+
+  public getLaunches() {
+    this.dataService.loadLaunches().subscribe(launches => {
         this.launches = launches;
         this.displayLaunches(this.launches);
         this.setFiltersCategory(this.launches);
-      },
-      (error) => {
-        console.error('Something went wrong.');
-      }
-    );
+      });
   }
 
-  OnPaginate(event: PageEvent): void {
+  public OnPaginate(event: PageEvent): void {
     const offset = (event.pageIndex + 1 - 1) * event.pageSize;
     this.paginationLaunches = this.launches.slice(offset).slice(0, event.pageSize);
   }
 
-  displayLaunches(launches: ILaunches[]): void {
+  public displayLaunches(launches: ILaunches[]): void {
     this.pageLength = launches.length;
     this.paginationLaunches = launches.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
   }
 
-  setFiltersCategory(launches: ILaunches[]): void {
+  public setFiltersCategory(launches: ILaunches[]): void {
     this.successLunched = [...new Set(launches.map((launches) => launches.launch_success))];
   }
 
-  selectionChange(e: MatSelectionListChange): void {
+  public selectionChange(e: MatSelectionListChange): void {
     this.filteredLaunches = this.launches.filter((x) => {
       return x.launch_year === e.options[0].value;
     });
     this.displayLaunches(this.filteredLaunches);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getLaunches();
+  }
 }
