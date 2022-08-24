@@ -94,6 +94,37 @@
     </ng-template>
   </div>
 
+  <div class='ships'>
+    <mat-grid-list [cols]="3" rowHeight="600px" gutterSize="10px">
+      <mat-grid-tile *ngFor="let ship of AShips">
+        <mat-card class="mission-card">
+          <mat-card-header>
+            <div
+              mat-card-avatar
+              class="header-image"
+              [ngStyle]="{
+              'background-image': 'url(' + ship.image + ')'
+            }"
+            ></div>
+            <mat-card-title>{{ ship.ship_name }}</mat-card-title>
+            <mat-card-subtitle>Type: {{ ship.ship_type }} </mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image src="{{ ship.image }}" alt="{{ ship.ship_name }}" />
+          <mat-card-content class="details">
+            <p>
+              {{ ship.home_port }}
+            </p>
+          </mat-card-content>
+          <mat-divider inset></mat-divider>
+          <mat-card-actions>
+            <button mat-button [routerLink]="['/ship', ship.ship_id]">MORE</button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+
   <button mat-icon-button id="back" (click)="goBack()">
     <mat-icon aria-label="Back" alt="Back">arrow_back_ios</mat-icon>
   </button>
