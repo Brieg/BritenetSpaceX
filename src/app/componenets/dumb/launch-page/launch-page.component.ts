@@ -40,22 +40,9 @@ export class LaunchPageComponent implements OnInit {
   constructor(
     public spinnerService: SpinnerService,
     private route: ActivatedRoute,
-    private httpClient: HttpClient,
-    private sanitizer: DomSanitizer,
-    private location: Location,
     private dataService: DataService,
 
   ) {}
-
-  public goBack(): void {
-    this.location.back();
-  }
-
-  public renderYT(YTid: any): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
-      'https://www.youtube.com/embed/' + YTid + '?autoplay=1&mute=1'
-    );
-  }
 
   public imagesToArray(images: string[]): void {
     this.images = images.map((image) => ({

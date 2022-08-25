@@ -19,7 +19,6 @@
     ></div>
   </div>
 
-
   <mat-spinner [diameter]="50" *ngIf="spinnerService.visibility | async; else launches"></mat-spinner>
     <ng-template #launches>
     <mat-grid-list [cols]="3" rowHeight="600px" gutterSize="10px">
@@ -54,5 +53,7 @@
     >
     </mat-paginator>
   </ng-template>
+
+  <app-back-button></app-back-button>
 
 </ng-template>

@@ -5,7 +5,7 @@
     <div class='timeline' *ngIf="containTimeLine | async">
       <app-timeline [timeline]='launch.timeline'></app-timeline>
     </div>
-    
+
     <h1>{{ launch.mission_name }} | {{ launch.flight_number }}</h1>
     <h3>{{ launch.launch_year }}</h3>
     <h4>Rocket: {{ launch.rocket.rocket_name }} {{ launch.rocket.rocket_type }}</h4>
@@ -26,7 +26,5 @@
     <app-grid-list [data]=AShips></app-grid-list>
   </div>
 
-  <button mat-icon-button id="back" (click)="goBack()">
-    <mat-icon aria-label="Back" alt="Back">arrow_back_ios</mat-icon>
-  </button>
+  <app-back-button></app-back-button>
 </ng-template>
