@@ -8,9 +8,8 @@ describe('GridListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GridListComponent ]
-    })
-    .compileComponents();
+      declarations: [GridListComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GridListComponent);
     component = fixture.componentInstance;

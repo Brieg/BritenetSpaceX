@@ -20,7 +20,7 @@
   </div>
 
   <mat-spinner [diameter]="50" *ngIf="spinnerService.visibility | async; else launches"></mat-spinner>
-    <ng-template #launches>
+  <ng-template #launches>
     <mat-grid-list [cols]="3" rowHeight="600px" gutterSize="10px">
       <mat-grid-tile *ngFor="let launch of ALaunches">
         <mat-card class="mission-card">
@@ -55,5 +55,4 @@
   </ng-template>
 
   <app-back-button></app-back-button>
-
 </ng-template>

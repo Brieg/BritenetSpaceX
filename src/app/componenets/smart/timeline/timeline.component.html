@@ -14,7 +14,7 @@
     <div *ngFor="let event of groundTimeline">
       <mat-step *ngIf="event.isVisible">
         <ng-template matStepLabel
-        >{{ event.header }}
+          >{{ event.header }}
           <div class="mat-step-optional ng-star-inserted">{{ event.more }}</div>
         </ng-template>
       </mat-step>
@@ -35,7 +35,7 @@
     <div *ngFor="let event of airTimeline">
       <mat-step *ngIf="event.isVisible">
         <ng-template matStepLabel
-        >{{ event.header }}
+          >{{ event.header }}
           <div class="mat-step-optional ng-star-inserted">{{ event.seconds }}</div>
         </ng-template>
       </mat-step>

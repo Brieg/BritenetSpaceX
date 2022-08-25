@@ -11,7 +11,7 @@ import { ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnInit, 
     >
     </youtube-player>
   </div>`,
-  selector: 'youtube',
+  selector: 'app-youtube',
   styleUrls: ['./video.component.scss'],
 })
 export class VideoComponent implements OnInit {

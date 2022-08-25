@@ -26,7 +26,6 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaunchPageComponent implements OnInit {
-
   public launch: ILaunches;
   public AShips: IShip[];
   public ships$: any[];
@@ -37,12 +36,7 @@ export class LaunchPageComponent implements OnInit {
 
   public images: Array<any> = [];
 
-  constructor(
-    public spinnerService: SpinnerService,
-    private route: ActivatedRoute,
-    private dataService: DataService,
-
-  ) {}
+  constructor(public spinnerService: SpinnerService, private route: ActivatedRoute, private dataService: DataService) {}
 
   public imagesToArray(images: string[]): void {
     this.images = images.map((image) => ({
@@ -55,22 +49,19 @@ export class LaunchPageComponent implements OnInit {
       this.launch = launch;
 
       if (launch.links.flickr_images.length) {
-        this.containImages.next(true)
+        this.containImages.next(true);
         this.imagesToArray(launch.links.flickr_images);
       }
 
-      if (Object.keys(launch.timeline).length > 2) {
-        this.containTimeLine.next(true)
-      //  this.buildTimeline(launch.timeline);
-      }
+      this.containTimeLine.next(Object.keys(launch.timeline).length > 2);
 
-      if(launch.ships?.length) {
+      if (launch.ships?.length) {
         this.containShips.next(true);
-        this.ships$ = launch.ships.map(element => {
-          return this.dataService.loadShip(element).pipe(map(ship => ship));
+        this.ships$ = launch.ships.map((element) => {
+          return this.dataService.loadShip(element).pipe(map((ship) => ship));
         });
 
-        forkJoin(this.ships$).subscribe(ships => {
+        forkJoin(this.ships$).subscribe((ships) => {
           this.AShips = ships; //data will be structured as [res[0], res[1], ...]
         });
       }

@@ -6,10 +6,9 @@ import { MatStepper } from '@angular/material/stepper';
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.scss']
+  styleUrls: ['./timeline.component.scss'],
 })
 export class TimelineComponent implements OnInit {
-
   @Input() timeline: {};
 
   @ViewChild('stepperGround') private stepperGround: MatStepper;
@@ -28,7 +27,7 @@ export class TimelineComponent implements OnInit {
   private offset: number = 1;
   private timeInterval: number = 100;
 
-  constructor(private cdref: ChangeDetectorRef) { }
+  constructor(private cdref: ChangeDetectorRef) {}
 
   public timelineStepperSetter(
     timeline: ITimeline[],
@@ -88,7 +87,7 @@ export class TimelineComponent implements OnInit {
   }
 
   public capitalizeHeader(event: string): string {
-    if(event.length) {
+    if (event.length) {
       let header = event.replace(/_/g, ' ');
       return header[0].toUpperCase() + header.slice(1).toLowerCase();
     } else {
@@ -133,5 +132,4 @@ export class TimelineComponent implements OnInit {
 
     this.startGroundTimer(groundSeconds, airSeconds);
   }
-
 }

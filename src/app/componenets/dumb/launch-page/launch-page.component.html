@@ -2,8 +2,8 @@
 
 <ng-template #container>
   <div class="hero wrapper">
-    <div class='timeline' *ngIf="containTimeLine | async">
-      <app-timeline [timeline]='launch.timeline'></app-timeline>
+    <div class="timeline" *ngIf="containTimeLine | async">
+      <app-timeline [timeline]="launch.timeline"></app-timeline>
     </div>
 
     <h1>{{ launch.mission_name }} | {{ launch.flight_number }}</h1>
@@ -18,12 +18,12 @@
     ></div>
   </div>
 
-  <youtube videoId="{{ launch.links.youtube_id }}"></youtube>
+  <app-youtube videoId="{{ launch.links.youtube_id }}"></app-youtube>
 
-  <app-image-slider *ngIf="containImages | async" [images]='images'></app-image-slider>
+  <app-image-slider *ngIf="containImages | async" [images]="images"></app-image-slider>
 
-  <div class='ships' *ngIf='containShips | async'>
-    <app-grid-list [data]=AShips></app-grid-list>
+  <div class="ships" *ngIf="containShips | async">
+    <app-grid-list [data]="AShips"></app-grid-list>
   </div>
 
   <app-back-button></app-back-button>

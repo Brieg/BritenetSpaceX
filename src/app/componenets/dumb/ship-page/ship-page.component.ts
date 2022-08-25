@@ -37,16 +37,16 @@ export class ShipPageComponent implements OnInit {
   public getShip(ship_id: string) {
     this.dataService.loadShip(ship_id).subscribe((ship) => {
       this.ship = ship;
-      console.log(ship)
+      console.log(ship);
 
-      this.Launches$ = ship.missions.map(element => {
-        return this.dataService.loadLaunch(element.flight).pipe(map(flightId => flightId));
+      this.Launches$ = ship.missions.map((element) => {
+        return this.dataService.loadLaunch(element.flight).pipe(map((flightId) => flightId));
       });
 
-      forkJoin(this.Launches$).subscribe( flightId => {
+      forkJoin(this.Launches$).subscribe((flightId) => {
         this.Launches$ = flightId; //data will be structured as [res[0], res[1], ...]
         this.ALaunches = this.Launches$.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
-        console.log(this.Launches$.length)
+        console.log(this.Launches$.length);
         this.pageLength = this.Launches$.length;
       });
     });

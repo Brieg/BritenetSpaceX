@@ -9,13 +9,10 @@ import { DataService } from '../../../services/data/data.service';
   styleUrls: ['./ships-list.component.scss'],
 })
 export class ShipsListComponent implements OnInit {
-
   // Ships
   public ships: IShip[] = [];
 
-  constructor(
-    private dataService: DataService
-  ) {}
+  constructor(private dataService: DataService) {}
 
   public getShips() {
     this.dataService.loadShips().subscribe((ships) => {
