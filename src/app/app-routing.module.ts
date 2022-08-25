@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LaunchesListComponent } from './componenets/launches-list/launches-list.component';
-import { LaunchPageComponent } from './componenets/launch-page/launch-page.component';
-import { ShipsListComponent } from './componenets/ships-list/ships-list.component';
-import { ShipPageComponent } from './componenets/ship-page/ship-page.component';
+import { LaunchesListComponent } from './componenets/dumb/launches-list/launches-list.component';
+import { LaunchPageComponent } from './componenets/dumb/launch-page/launch-page.component';
+import { ShipsListComponent } from './componenets/dumb/ships-list/ships-list.component';
+import { ShipPageComponent } from './componenets/dumb/ship-page/ship-page.component';
 
 const slogan: string = 'Britenet & SpaceX';
 

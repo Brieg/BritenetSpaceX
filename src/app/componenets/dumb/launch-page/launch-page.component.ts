@@ -6,11 +6,11 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, forkJoin, interval, mergeMap, Observable, Subscription } from 'rxjs';
 import { MatStepper } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { SpinnerService } from '../../services/spinner/spinner.service';
-import { ITimeline } from '../../interfaces/timeline';
+import { SpinnerService } from '../../../services/spinner/spinner.service';
+import { ITimeline } from '../../../interfaces/timeline';
 import { ILaunches } from 'src/app/interfaces/launches';
-import { DataService } from '../../services/data/data.service';
-import { IShip } from '../../interfaces/ships';
+import { DataService } from '../../../services/data/data.service';
+import { IShip } from '../../../interfaces/ships';
 import { map } from 'rxjs/operators';
 
 @Component({

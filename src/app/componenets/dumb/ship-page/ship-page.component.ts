@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { SpinnerService } from '../../services/spinner/spinner.service';
-import { IShip } from '../../interfaces/ships';
-import { DataService } from '../../services/data/data.service';
+import { SpinnerService } from '../../../services/spinner/spinner.service';
+import { IShip } from '../../../interfaces/ships';
+import { DataService } from '../../../services/data/data.service';
 import { map } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
-import { ILaunches } from '../../interfaces/launches';
+import { ILaunches } from '../../../interfaces/launches';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-ship-page',
   templateUrl: './ship-page.component.html',
-  styleUrls: ['./ship-page.component.scss'],
 })
 export class ShipPageComponent implements OnInit {
   public ship: IShip;
