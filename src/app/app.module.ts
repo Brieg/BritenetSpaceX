@@ -18,6 +18,7 @@ import { ShipsListComponent } from './componenets/dumb/ships-list/ships-list.com
 import { ShipPageComponent } from './componenets/dumb/ship-page/ship-page.component';
 import { GridListComponent } from './componenets/smart/grid-list/grid-list.component';
 import { ImageSliderComponent } from './componenets/smart/image-slider/image-slider.component';
+import { TimelineComponent } from './componenets/smart/timeline/timeline.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ImageSliderComponent } from './componenets/smart/image-slider/image-sli
     ShipPageComponent,
     GridListComponent,
     ImageSliderComponent,
+    TimelineComponent,
   ],
   imports: [
     HttpClientModule,

@@ -1,0 +1,20 @@
+.timeline {
+
+  .mat-step-header {
+    pointer-events: none !important;
+  }
+
+  .mat-horizontal-stepper-header-container {
+    display: none !important;
+  }
+
+  .progress-bar {
+    display: flex;
+
+    .earth,
+    .air {
+      transform: rotate(180deg);
+      width: 50%;
+    }
+  }
+}

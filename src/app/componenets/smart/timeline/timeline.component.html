@@ -1,0 +1,54 @@
+<div class="timeline">
+  <h3>Timeline</h3>
+  <div class="progress-bar">
+    <mat-progress-bar class="earth" mode="determinate" [value]="groundProgressbarValue | async"></mat-progress-bar>
+    <mat-progress-bar
+      class="air"
+      mode="determinate"
+      [value]="airProgressbarValue | async"
+      color="accent"
+    ></mat-progress-bar>
+  </div>
+
+  <mat-stepper labelPosition="bottom" #stepperGround [linear]="true">
+    <div *ngFor="let event of groundTimeline">
+      <mat-step *ngIf="event.isVisible">
+        <ng-template matStepLabel
+        >{{ event.header }}
+          <div class="mat-step-optional ng-star-inserted">{{ event.more }}</div>
+        </ng-template>
+      </mat-step>
+    </div>
+
+    <ng-template matStepperIcon="edit" let-index="index">
+      <mat-icon>verified</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="done" let-index="index">
+      <mat-icon>system_update_alt</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="number" let-index="index">
+      <mat-icon>history_toggle_off</mat-icon>
+    </ng-template>
+  </mat-stepper>
+
+  <mat-stepper labelPosition="bottom" #stepperAir>
+    <div *ngFor="let event of airTimeline">
+      <mat-step *ngIf="event.isVisible">
+        <ng-template matStepLabel
+        >{{ event.header }}
+          <div class="mat-step-optional ng-star-inserted">{{ event.seconds }}</div>
+        </ng-template>
+      </mat-step>
+    </div>
+
+    <ng-template matStepperIcon="edit" let-index="index">
+      <mat-icon>verified</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="done" let-index="index">
+      <mat-icon>system_update_alt</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="number" let-index="index">
+      <mat-icon>history_toggle_off</mat-icon>
+    </ng-template>
+  </mat-stepper>
+</div>

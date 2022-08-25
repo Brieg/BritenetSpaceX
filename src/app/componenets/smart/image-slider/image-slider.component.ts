@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-image-slider',
@@ -11,6 +11,11 @@ export class ImageSliderComponent implements OnInit {
   public widthPX: number = 0;
 
   constructor() { }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.widthPX = window.innerWidth;
+  }
 
   ngOnInit(): void {
     this.widthPX = window.innerWidth;
