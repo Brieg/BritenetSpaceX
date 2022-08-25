@@ -18,5 +18,41 @@
       }"
     ></div>
   </div>
-  <div class="ships">elo</div>
+
+
+  <mat-spinner [diameter]="50" *ngIf="spinnerService.visibility | async; else launches"></mat-spinner>
+    <ng-template #launches>
+    <mat-grid-list [cols]="3" rowHeight="600px" gutterSize="10px">
+      <mat-grid-tile *ngFor="let launch of ALaunches">
+        <mat-card class="mission-card">
+          <mat-card-header>
+            <div
+              mat-card-avatar
+              class="header-image"
+              [ngStyle]="{
+                'background-image': 'url(' + launch.links.mission_patch_small + ')'
+              }"
+            ></div>
+            <mat-card-title>{{ launch.mission_name }}</mat-card-title>
+            <mat-card-subtitle>{{ launch.rocket.rocket_name }} | {{ launch.launch_year }} </mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image src="{{ launch.links.mission_patch }}" alt="{{ launch.mission_name }}" />
+          <mat-divider inset></mat-divider>
+          <mat-card-actions>
+            <button mat-button [routerLink]="['/launch', launch.flight_number]">MORE</button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-paginator
+      [showFirstLastButtons]="true"
+      [length]="pageLength"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="OnPaginate($event)"
+    >
+    </mat-paginator>
+  </ng-template>
+
 </ng-template>
