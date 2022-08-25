@@ -71,28 +71,7 @@
 
   <youtube videoId="{{ launch.links.youtube_id }}"></youtube>
 
-  <div id="image-slider" *ngIf="containImages | async">
-    <div
-      ng2-carouselamos
-      class="slides-wrapper"
-      [items]="images"
-      [$prev]="prev"
-      [$next]="next"
-      [$item]="item"
-      [width]="widthPX"
-    ></div>
-    <ng-template #prev>
-      <mat-icon>chevron_left</mat-icon>
-    </ng-template>
-    <ng-template #next>
-      <mat-icon>chevron_right</mat-icon>
-    </ng-template>
-    <ng-template #item let-item let-i="index">
-      <div class="slide-items">
-        <img class="cos" src="{{ item.name }}" />
-      </div>
-    </ng-template>
-  </div>
+  <app-image-slider *ngIf="containImages | async" [images]='images'></app-image-slider>
 
   <div class='ships' *ngIf='containShips | async'>
     <app-grid-list [data]=AShips></app-grid-list>

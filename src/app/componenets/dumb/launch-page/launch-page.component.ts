@@ -222,8 +222,6 @@ export class LaunchPageComponent implements OnInit {
     const routeParams = this.route.snapshot.paramMap;
     const launchNumberFromRoute = Number(routeParams.get('flight_number'));
 
-    this.widthPX = window.innerWidth;
-
     this.getLaunch(launchNumberFromRoute);
   }
 }

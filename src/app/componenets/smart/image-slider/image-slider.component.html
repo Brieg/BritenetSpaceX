@@ -1,0 +1,22 @@
+<div class="image-slider">
+  <div
+    ng2-carouselamos
+    class="slides-wrapper"
+    [items]="images"
+    [$prev]="prev"
+    [$next]="next"
+    [$item]="item"
+    [width]="widthPX"
+  ></div>
+  <ng-template #prev>
+    <mat-icon>chevron_left</mat-icon>
+  </ng-template>
+  <ng-template #next>
+    <mat-icon>chevron_right</mat-icon>
+  </ng-template>
+  <ng-template #item let-item let-i="index">
+    <div class="slide-items">
+      <img class="cos" src="{{ item.name }}" />
+    </div>
+  </ng-template>
+</div>
