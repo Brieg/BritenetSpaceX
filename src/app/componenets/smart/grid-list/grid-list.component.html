@@ -5,13 +5,13 @@
     <mat-grid-tile *ngFor="let vessel of paginationData">
       <mat-card class="mission-card">
         <mat-card-header>
-          <di
+          <div
             mat-card-avatar
             class="header-image"
             [ngStyle]="{
               'background-image': 'url(' + vessel.image + ')'
             }"
-          ></di>
+          ></div>
           <mat-card-title>{{ vessel.ship_name }}</mat-card-title>
           <mat-card-subtitle>Type: {{ vessel.ship_type }} </mat-card-subtitle>
         </mat-card-header>

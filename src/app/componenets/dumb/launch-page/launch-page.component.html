@@ -2,7 +2,7 @@
 
 <ng-template #container>
   <div class="hero wrapper">
-    <div class="timeline" *ngIf="containTimeLine">
+    <div class="timeline" *ngIf="containTimeLine | async">
       <h3>Timeline</h3>
       <div class="progress-bar">
         <mat-progress-bar class="earth" mode="determinate" [value]="groundProgressbarValue | async"></mat-progress-bar>
@@ -71,7 +71,7 @@
 
   <youtube videoId="{{ launch.links.youtube_id }}"></youtube>
 
-  <div id="image-slider" *ngIf="containImages">
+  <div id="image-slider" *ngIf="containImages | async">
     <div
       ng2-carouselamos
       class="slides-wrapper"
@@ -94,36 +94,9 @@
     </ng-template>
   </div>
 
-  <div class='ships'>
-    <mat-grid-list [cols]="3" rowHeight="600px" gutterSize="10px">
-      <mat-grid-tile *ngFor="let ship of AShips">
-        <mat-card class="mission-card">
-          <mat-card-header>
-            <div
-              mat-card-avatar
-              class="header-image"
-              [ngStyle]="{
-              'background-image': 'url(' + ship.image + ')'
-            }"
-            ></div>
-            <mat-card-title>{{ ship.ship_name }}</mat-card-title>
-            <mat-card-subtitle>Type: {{ ship.ship_type }} </mat-card-subtitle>
-          </mat-card-header>
-          <img mat-card-image src="{{ ship.image }}" alt="{{ ship.ship_name }}" />
-          <mat-card-content class="details">
-            <p>
-              {{ ship.home_port }}
-            </p>
-          </mat-card-content>
-          <mat-divider inset></mat-divider>
-          <mat-card-actions>
-            <button mat-button [routerLink]="['/ship', ship.ship_id]">MORE</button>
-          </mat-card-actions>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
+  <div class='ships' *ngIf='containShips | async'>
+    <app-grid-list [data]=AShips></app-grid-list>
   </div>
-
 
   <button mat-icon-button id="back" (click)="goBack()">
     <mat-icon aria-label="Back" alt="Back">arrow_back_ios</mat-icon>

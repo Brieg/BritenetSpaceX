@@ -39,11 +39,14 @@ export class LaunchPageComponent implements OnInit {
   public AShips: IShip[];
   public ships$: any[];
 
-  public containImages: boolean = false;
+  public containShips: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public containImages: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public containTimeLine: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   public images: Array<any> = [];
   public widthPX: number = 0;
 
-  public containTimeLine: boolean = false;
+
   public groundTimeline: ITimeline[] = new Array();
   public airTimeline: ITimeline[] = new Array();
 
@@ -144,8 +147,12 @@ export class LaunchPageComponent implements OnInit {
   }
 
   public capitalizeHeader(event: string): string {
-    let header = event.replace(/_/g, ' ');
-    return header[0].toUpperCase() + header.slice(1).toLowerCase();
+    if(event.length) {
+      let header = event.replace(/_/g, ' ');
+      return header[0].toUpperCase() + header.slice(1).toLowerCase();
+    } else {
+      return event;
+    }
   }
 
   public buildTimeline(timeline: {}): void {
@@ -176,22 +183,26 @@ export class LaunchPageComponent implements OnInit {
       this.launch = launch;
 
       if (launch.links.flickr_images.length) {
-        this.containImages = true;
+        this.containImages.next(true)
         this.imagesToArray(launch.links.flickr_images);
       }
 
       if (Object.keys(launch.timeline).length > 2) {
-        this.containTimeLine = true;
+        this.containTimeLine.next(true)
         this.buildTimeline(launch.timeline);
       }
 
-      this.ships$ = launch.ships.map(element => {
-        return this.dataService.loadShip(element).pipe(map(ship => ship));
-      });
+      console.log(launch)
+      if(launch.ships?.length) {
+        this.containShips.next(true);
+        this.ships$ = launch.ships.map(element => {
+          return this.dataService.loadShip(element).pipe(map(ship => ship));
+        });
 
-      forkJoin(this.ships$).subscribe( ships => {
-        this.AShips = ships; //data will be structured as [res[0], res[1], ...]
-      });
+        forkJoin(this.ships$).subscribe(ships => {
+          this.AShips = ships; //data will be structured as [res[0], res[1], ...]
+        });
+      }
 
 
       const groundSeconds = Math.max.apply(
