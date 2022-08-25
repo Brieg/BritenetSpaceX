@@ -20,6 +20,7 @@ import { GridListComponent } from './componenets/smart/grid-list/grid-list.compo
 import { ImageSliderComponent } from './componenets/smart/image-slider/image-slider.component';
 import { TimelineComponent } from './componenets/smart/timeline/timeline.component';
 import { BackButtonComponent } from './componenets/smart/back-button/back-button.component';
+import { LaunchListComponent } from './componenets/smart/launch-list/launch-list.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { BackButtonComponent } from './componenets/smart/back-button/back-button
     ImageSliderComponent,
     TimelineComponent,
     BackButtonComponent,
+    LaunchListComponent,
   ],
   imports: [
     HttpClientModule,
