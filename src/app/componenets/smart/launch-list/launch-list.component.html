@@ -2,7 +2,7 @@
 
 <ng-template #container>
   <mat-grid-list [cols]="cols$ | async" rowHeight="600px" gutterSize="10px">
-    <mat-grid-tile rowspan="1" *ngIf='showFilter'>
+    <mat-grid-tile rowspan="1" *ngIf="showFilter">
       <mat-selection-list [multiple]="false" (selectionChange)="selectionChange($event)">
         <h2 class="md-display-2">Launch success</h2>
         <mat-divider></mat-divider>

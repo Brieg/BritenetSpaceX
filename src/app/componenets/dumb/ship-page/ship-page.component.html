@@ -19,7 +19,13 @@
     ></div>
   </div>
 
-  <app-launch-list [data]='ALaunches'></app-launch-list>
+  <app-launch-list [data]="ALaunches"></app-launch-list>
+
+  <app-ship-map
+    *ngIf="containShipLocation | async"
+    [latitude]="ship.position.latitude"
+    [longitude]="ship.position.longitude"
+  ></app-ship-map>
 
   <app-back-button></app-back-button>
 </ng-template>

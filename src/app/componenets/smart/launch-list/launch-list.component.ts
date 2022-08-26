@@ -44,9 +44,9 @@ export class LaunchListComponent implements OnInit {
   public cols$: Observable<number> = this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).pipe(
     map((result) => {
       if (result.breakpoints[Breakpoints.XSmall]) {
-        return 1 ;
+        return 1;
       } else if (result.breakpoints[Breakpoints.Small]) {
-        return 2
+        return 2;
       } else {
         return 4;
       }

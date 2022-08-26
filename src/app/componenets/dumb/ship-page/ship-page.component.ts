@@ -5,7 +5,7 @@ import { SpinnerService } from '../../../services/spinner/spinner.service';
 import { IShip } from '../../../interfaces/ships';
 import { DataService } from '../../../services/data/data.service';
 import { map } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+import { BehaviorSubject, forkJoin } from 'rxjs';
 import { ILaunches } from '../../../interfaces/launches';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -20,6 +20,8 @@ export class ShipPageComponent implements OnInit {
 
   public ALaunches: ILaunches[];
   public Launches$: any[];
+
+  public containShipLocation: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   // Pagination
   public pageLength: number = 0;
@@ -37,7 +39,8 @@ export class ShipPageComponent implements OnInit {
   public getShip(ship_id: string) {
     this.dataService.loadShip(ship_id).subscribe((ship) => {
       this.ship = ship;
-      console.log(ship);
+
+      this.containShipLocation.next(ship.position.longitude !== null);
 
       this.Launches$ = ship.missions.map((element) => {
         return this.dataService.loadLaunch(element.flight).pipe(map((flightId) => flightId));
@@ -46,7 +49,6 @@ export class ShipPageComponent implements OnInit {
       forkJoin(this.Launches$).subscribe((flightId) => {
         this.Launches$ = flightId; //data will be structured as [res[0], res[1], ...]
         this.ALaunches = this.Launches$.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
-        console.log(this.Launches$.length);
         this.pageLength = this.Launches$.length;
       });
     });

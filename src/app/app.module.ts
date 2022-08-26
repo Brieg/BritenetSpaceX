@@ -21,6 +21,7 @@ import { ImageSliderComponent } from './componenets/smart/image-slider/image-sli
 import { TimelineComponent } from './componenets/smart/timeline/timeline.component';
 import { BackButtonComponent } from './componenets/smart/back-button/back-button.component';
 import { LaunchListComponent } from './componenets/smart/launch-list/launch-list.component';
+import { ShipMapComponent } from './componenets/smart/ship-map/ship-map.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LaunchListComponent } from './componenets/smart/launch-list/launch-list
     TimelineComponent,
     BackButtonComponent,
     LaunchListComponent,
+    ShipMapComponent,
   ],
   imports: [
     HttpClientModule,
