@@ -4,8 +4,7 @@
   bottom: 1em;
 }
 
-.hero {
-  &.wrapper {
+.wrapper {
     width: 100%;
     height: calc(100vh - 64px);
     position: relative;
@@ -14,7 +13,6 @@
     align-content: space-around;
     align-items: center;
     flex-direction: column;
-  }
 
   .background {
     height: 100%;

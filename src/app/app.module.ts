@@ -14,6 +14,7 @@ import { CustomHttpInterceptor } from './services/launches/launches.service';
 import { LaunchPageComponent } from './componenets/launch-page/launch-page.component';
 import { Ng2CarouselamosModule } from 'ng2-carouselamos';
 import { VideoModule } from './modules/video/video.module';
+import { PipesModule } from './modules/pipes/pipes.module';
 
 @NgModule({
   declarations: [AppComponent, MainMenuComponent, LaunchesListComponent, LaunchPageComponent],
@@ -27,6 +28,7 @@ import { VideoModule } from './modules/video/video.module';
     Ng2CarouselamosModule,
     YouTubePlayerModule,
     VideoModule,
+    PipesModule,
   ],
   providers: [
     {

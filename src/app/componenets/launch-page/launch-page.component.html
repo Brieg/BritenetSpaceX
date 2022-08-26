@@ -1,7 +1,7 @@
 <mat-spinner [diameter]="50" *ngIf="spinnerService.visibility | async; else container"></mat-spinner>
 
 <ng-template #container>
-  <div class="hero wrapper">
+  <div class="wrapper">
     <div class="timeline" *ngIf="containTimeLine">
       <h3>Timeline</h3>
       <div class="progress-bar">
@@ -18,7 +18,7 @@
         <div *ngFor="let event of groundTimeline">
           <mat-step *ngIf="event.isVisible">
             <ng-template matStepLabel
-              >{{ event.header }}
+              >{{ event.header | header }}
               <div class="mat-step-optional ng-star-inserted">{{ event.more }}</div>
             </ng-template>
           </mat-step>
@@ -39,7 +39,7 @@
         <div *ngFor="let event of airTimeline">
           <mat-step *ngIf="event.isVisible">
             <ng-template matStepLabel
-              >{{ event.header }}
+              >{{ event.header | header }}
               <div class="mat-step-optional ng-star-inserted">{{ event.seconds }}</div>
             </ng-template>
           </mat-step>

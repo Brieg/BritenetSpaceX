@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnInit,
+  Pipe,
+  ViewChild
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Location } from '@angular/common';
@@ -40,8 +48,8 @@ export class LaunchPageComponent implements OnInit {
   public widthPX: number = 0;
 
   public containTimeLine: boolean = false;
-  public groundTimeline: ITimeline[] = new Array();
-  public airTimeline: ITimeline[] = new Array();
+  public groundTimeline: ITimeline[] = [];
+  public airTimeline: ITimeline[] = [];
 
   // Offset as number 1
   private offset: number = 1;
@@ -85,9 +93,9 @@ export class LaunchPageComponent implements OnInit {
     backwards?: boolean
   ): void {
     let seconds = backwards ? currentSeconds : startFrom - currentSeconds;
-    timeline.forEach((element, index) => {
-      if (seconds == element.seconds) {
-        element.isVisible = true;
+    timeline.forEach((timeEvent, index) => {
+      if (seconds == timeEvent.seconds) {
+        timeEvent.isVisible = true;
         index + this.offset > timeline.length ? timeline[index + this.offset].isVisible = true : null;
           setTimeout(() => {
             index - this.offset >= 0 ? timeline[index - this.offset].isVisible = false : null;
@@ -97,10 +105,6 @@ export class LaunchPageComponent implements OnInit {
           timeline[index + this.offset + this.offset] !== undefined ? timeline[index + this.offset + this.offset].isVisible = true : null;
       }
     });
-  }
-
-  private setVisible(element:ITimeline[], index:number): void {
-    element[index].isVisible = true;
   }
 
   private startAirTimer(end: number): void {
@@ -136,21 +140,16 @@ export class LaunchPageComponent implements OnInit {
     });
   }
 
-  public capitalizeHeader(event: string): string {
-    let header = event.replace(/_/g, ' ');
-    return header[0].toUpperCase() + header.slice(1).toLowerCase();
-  }
-
   public buildTimeline(timeline: {}): void {
-    let timelineArray = Object.entries(timeline).map(([event, time]) => ({ event, time }));
     // @ts-ignore
-    timelineArray.sort((a, b) => a.time - b.time);
+    let timelineArray = Object.entries(timeline).map(([event, time]) => ({ event, time })).sort((a, b) => a.time - b.time);
+    console.log(timelineArray)
 
     this.groundTimeline = timelineArray
       .filter((element) => (element.time as number) < 0)
       .map((item) => ({
         seconds: (item.time as number) * -1,
-        header: this.capitalizeHeader(item.event),
+        header: item.event,
         isVisible: false,
         more: '~ ' + (item.time as number) * -1 + ' s. till liftoff',
       }));
@@ -159,7 +158,7 @@ export class LaunchPageComponent implements OnInit {
       .filter((element) => (element.time as number) > 0)
       .map((item) => ({
         seconds: item.time as number,
-        header: this.capitalizeHeader(item.event),
+        header: item.event,
         isVisible: false,
       }));
   }
@@ -176,9 +175,6 @@ export class LaunchPageComponent implements OnInit {
 
         if (launch.links.flickr_images.length) {
           this.containImages = true;
-          if (launch.links.flickr_images.length) {
-            this.imagesToArray(launch.links.flickr_images);
-          }
           launch.links.flickr_images.length ? this.imagesToArray(launch.links.flickr_images) : null;
         }
 
