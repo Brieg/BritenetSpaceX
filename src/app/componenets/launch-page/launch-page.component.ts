@@ -17,6 +17,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { SpinnerService } from '../../services/spinner/spinner.service';
 import { ITimeline } from '../../interfaces/timeline';
 import { ILaunches } from 'src/app/interfaces/launches';
+import { IImages } from '../../interfaces/images';
 
 @Component({
   selector: 'app-launch-page',
@@ -44,7 +45,7 @@ export class LaunchPageComponent implements OnInit {
   public launch: ILaunches;
 
   public containImages: boolean = false;
-  public images: Array<any> = [];
+  public images: Array<IImages> = [];
   public widthPX: number = 0;
 
   public containTimeLine: boolean = false;
