@@ -49,7 +49,7 @@ import { PipesModule } from './modules/pipes/pipes.module';
     Ng2CarouselamosModule,
     YouTubePlayerModule,
     VideoModule,
-    PipesModule
+    PipesModule,
   ],
   providers: [
     {

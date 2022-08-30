@@ -56,7 +56,7 @@ export class LaunchListComponent implements OnInit {
 
   constructor(public spinnerService: SpinnerService, private breakpointObserver: BreakpointObserver) {}
 
-  public OnPaginate(event: PageEvent): void {
+  public onPaginate(event: PageEvent): void {
     const offset = (event.pageIndex + 1 - 1) * event.pageSize;
     this.paginationData = this.data.slice(offset).slice(0, event.pageSize);
   }
