@@ -86,15 +86,6 @@ export class TimelineComponent implements OnInit {
     });
   }
 
-  public capitalizeHeader(event: string): string {
-    if (event.length) {
-      let header = event.replace(/_/g, ' ');
-      return header[0].toUpperCase() + header.slice(1).toLowerCase();
-    } else {
-      return event;
-    }
-  }
-
   public buildTimeline(timeline: {}): void {
     let timelineArray = Object.entries(timeline).map(([event, time]) => ({ event, time }));
     // @ts-ignore
@@ -104,16 +95,15 @@ export class TimelineComponent implements OnInit {
       .filter((element) => (element.time as number) < 0)
       .map((item) => ({
         seconds: (item.time as number) * -1,
-        header: this.capitalizeHeader(item.event),
+        header: item.event,
         isVisible: false,
-        more: '~ ' + (item.time as number) * -1 + ' s. till liftoff',
       }));
 
     this.airTimeline = timelineArray
       .filter((element) => (element.time as number) > 0)
       .map((item) => ({
         seconds: item.time as number,
-        header: this.capitalizeHeader(item.event),
+        header: item.event,
         isVisible: false,
       }));
   }
@@ -121,14 +111,8 @@ export class TimelineComponent implements OnInit {
   ngOnInit(): void {
     this.buildTimeline(this.timeline);
 
-    const groundSeconds = Math.max.apply(
-      Math,
-      this.groundTimeline.map((a) => a.seconds)
-    );
-    const airSeconds = Math.max.apply(
-      Math,
-      this.airTimeline.map((a) => a.seconds)
-    );
+    const groundSeconds = Math.max(...this.groundTimeline.map(e => e.seconds));
+    const airSeconds = Math.max(...this.airTimeline.map(e => e.seconds));
 
     this.startGroundTimer(groundSeconds, airSeconds);
   }

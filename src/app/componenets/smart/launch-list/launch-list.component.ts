@@ -18,6 +18,7 @@ export class LaunchListComponent implements OnInit {
   public dataSource = new MatTableDataSource<IShip[]>([]);
 
   @Input() showFilter: boolean = false;
+  @Input() pageSize: number = 7;
 
   @Input()
   set data(value: ILaunches[]) {
@@ -30,7 +31,6 @@ export class LaunchListComponent implements OnInit {
 
   // Pagination
   public pageLength: number = 0;
-  public pageSize: number = 7;
   public pageSizeOptions: number[] = [this.pageSize, this.pageSize + 4];
   public pageEvent: PageEvent | undefined;
   public paginationData: ILaunches[] = [];

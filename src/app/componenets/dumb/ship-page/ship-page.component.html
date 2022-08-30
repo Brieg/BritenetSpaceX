@@ -19,7 +19,7 @@
     ></div>
   </div>
 
-  <app-launch-list [data]="ALaunches"></app-launch-list>
+  <app-launch-list *ngIf='containShipLocation | async' [pageSize]='4' [data]="ALaunches"></app-launch-list>
 
   <app-ship-map
     *ngIf="containShipLocation | async"

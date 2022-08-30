@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ILaunches } from '../../../interfaces/launches';
 import { DataService } from '../../../services/data/data.service';
@@ -6,6 +6,7 @@ import { DataService } from '../../../services/data/data.service';
 @Component({
   selector: 'app-launches-list',
   templateUrl: './launches-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaunchesListComponent implements OnInit {
   public launches: ILaunches[] = [];

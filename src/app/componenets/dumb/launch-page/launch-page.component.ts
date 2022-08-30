@@ -1,13 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy,  Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Location } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, forkJoin, interval, mergeMap, Observable, Subscription } from 'rxjs';
-import { MatStepper } from '@angular/material/stepper';
+import { BehaviorSubject, forkJoin } from 'rxjs';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { SpinnerService } from '../../../services/spinner/spinner.service';
-import { ITimeline } from '../../../interfaces/timeline';
 import { ILaunches } from 'src/app/interfaces/launches';
 import { DataService } from '../../../services/data/data.service';
 import { IShip } from '../../../interfaces/ships';
@@ -16,7 +11,6 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-launch-page',
   templateUrl: './launch-page.component.html',
-  styleUrls: ['./launch-page.component.scss'],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -33,8 +27,6 @@ export class LaunchPageComponent implements OnInit {
   public containTimeLine: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public containImages: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public containShips: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
-  public images: Array<any> = [];
 
   constructor(public spinnerService: SpinnerService, private route: ActivatedRoute, private dataService: DataService) {}
 

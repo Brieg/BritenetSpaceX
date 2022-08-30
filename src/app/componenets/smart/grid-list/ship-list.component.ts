@@ -14,6 +14,8 @@ export class ShipListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   public dataSource = new MatTableDataSource<IShip[]>([]);
 
+  @Input() pageSize: number = 8;
+
   @Input()
   set ship(value: IShip[]) {
     this._ship.next(value);
@@ -25,7 +27,6 @@ export class ShipListComponent implements OnInit {
 
   // Pagination
   public pageLength: number = 0;
-  public pageSize: number = 8;
   public pageSizeOptions: number[] = [this.pageSize, this.pageSize + 4];
   public paginationShips: IShip[] = [];
   public _ship = new BehaviorSubject<IShip[]>([]);

@@ -22,6 +22,7 @@ import { TimelineComponent } from './componenets/smart/timeline/timeline.compone
 import { BackButtonComponent } from './componenets/smart/back-button/back-button.component';
 import { LaunchListComponent } from './componenets/smart/launch-list/launch-list.component';
 import { ShipMapComponent } from './componenets/smart/ship-map/ship-map.component';
+import { PipesModule } from './modules/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ShipMapComponent } from './componenets/smart/ship-map/ship-map.componen
     Ng2CarouselamosModule,
     YouTubePlayerModule,
     VideoModule,
+    PipesModule
   ],
   providers: [
     {
