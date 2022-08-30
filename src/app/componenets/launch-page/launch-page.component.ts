@@ -18,6 +18,7 @@ import { SpinnerService } from '../../services/spinner/spinner.service';
 import { ITimeline } from '../../interfaces/timeline';
 import { ILaunches } from 'src/app/interfaces/launches';
 import { IImages } from '../../interfaces/images';
+import { toNumbers } from '@angular/compiler-cli/src/version_helpers';
 
 @Component({
   selector: 'app-launch-page',
@@ -182,14 +183,9 @@ export class LaunchPageComponent implements OnInit {
           this.buildTimeline(launch.timeline);
         }
 
-        const groundSeconds = Math.max.apply(
-          Math,
-          this.groundTimeline.map((a) => a.seconds)
-        );
-        const airSeconds = Math.max.apply(
-          Math,
-          this.airTimeline.map((a) => a.seconds)
-        );
+
+        const groundSeconds = Math.max(...this.groundTimeline.map(e => e.seconds));
+        const airSeconds = Math.max(...this.airTimeline.map(e => e.seconds));
 
         this.startGroundTimer(groundSeconds, airSeconds);
       },
