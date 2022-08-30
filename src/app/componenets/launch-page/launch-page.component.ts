@@ -151,7 +151,6 @@ export class LaunchPageComponent implements OnInit {
         seconds: (item.time as number) * -1,
         header: item.event,
         isVisible: false,
-        more: '~ ' + (item.time as number) * -1 + ' s. till liftoff',
       }));
 
     this.airTimeline = timelineArray

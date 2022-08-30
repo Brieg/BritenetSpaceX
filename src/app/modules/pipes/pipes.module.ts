@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
-import { CapitalizeHeaderPipe } from '../../pipes/pipes';
+import { beforeTakeOffPipe, capitalizeHeaderPipe, onAirPipe } from '../../pipes/pipes';
 
 @NgModule({
   declarations: [
-    CapitalizeHeaderPipe
+    capitalizeHeaderPipe,
+    beforeTakeOffPipe,
+    onAirPipe
   ],
   exports: [
-    CapitalizeHeaderPipe
+    capitalizeHeaderPipe,
+    beforeTakeOffPipe,
+    onAirPipe
   ]
 })
 export class PipesModule {}
