@@ -6,6 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { YouTubePlayerModule } from '@angular/youtube-player';
+import { environment } from 'src/environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { MaterialModule } from './modules/material/material.module';
 import { MainMenuComponent } from './componenets/dumb/main-menu/main-menu.component';
@@ -23,6 +25,12 @@ import { BackButtonComponent } from './componenets/smart/back-button/back-button
 import { LaunchListComponent } from './componenets/smart/launch-list/launch-list.component';
 import { ShipMapComponent } from './componenets/smart/ship-map/ship-map.component';
 import { PipesModule } from './modules/pipes/pipes.module';
+import { LaunchEffects } from './store/effects/launch.effects';
+import { lReducer } from './reducers/launch.reducers';
+import { StoreModule } from '@ngrx/store';
+import { LAUNCH_FEATURE_KEY } from './store/states/launch.state';
+import { EffectsModule } from '@ngrx/effects';
+import { LaunchFacade } from './store/facades/launch.facade';
 
 @NgModule({
   declarations: [
@@ -50,12 +58,16 @@ import { PipesModule } from './modules/pipes/pipes.module';
     YouTubePlayerModule,
     VideoModule,
     PipesModule,
+    StoreModule.forRoot({}),
+    StoreModule.forFeature(LAUNCH_FEATURE_KEY, lReducer),
+    EffectsModule.forRoot([LaunchEffects]),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: CustomHttpInterceptor,
-      multi: true,
+      provide: LaunchFacade,
+      // useClass: CustomHttpInterceptor,
+      // multi: true,
     },
   ],
   bootstrap: [AppComponent],

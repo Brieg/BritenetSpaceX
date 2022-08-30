@@ -1,6 +1,4 @@
-<mat-spinner [diameter]="50" *ngIf="spinnerService.visibility | async; else container"></mat-spinner>
 
-<ng-template #container>
   <mat-grid-list [cols]="cols$ | async" rowHeight="600px" gutterSize="10px">
     <mat-grid-tile rowspan="1" *ngIf="showFilter">
       <mat-selection-list [multiple]="false" (selectionChange)="selectionChange($event)">
@@ -52,4 +50,4 @@
     (page)="onPaginate($event)"
   >
   </mat-paginator>
-</ng-template>
+

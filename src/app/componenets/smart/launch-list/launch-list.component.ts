@@ -32,7 +32,6 @@ export class LaunchListComponent implements OnInit {
   // Pagination
   public pageLength: number = 0;
   public pageSizeOptions: number[] = [this.pageSize, this.pageSize + 4];
-  public pageEvent: PageEvent | undefined;
   public paginationData: ILaunches[] = [];
 
   public _data = new BehaviorSubject<ILaunches[]>([]);
@@ -83,6 +82,7 @@ export class LaunchListComponent implements OnInit {
 
   ngOnInit(): void {
     this._data.subscribe((x) => {
+      console.log(this.data);
       this.paginationData = this.data.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
       this.pageLength = this.data.length;
     });

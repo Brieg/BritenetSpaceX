@@ -24,6 +24,7 @@
     "@angular/youtube-player": "^14.1.2",
     "@ngrx/effects": "^14.3.0",
     "@ngrx/store": "^14.3.0",
+    "@ngrx/store-devtools": "^14.3.0",
     "leaflet": "^1.8.0",
     "ng2-carouselamos": "^4.1.0",
     "rxjs": "~7.5.0",
