@@ -72,8 +72,8 @@ export class LaunchesListComponent implements OnInit {
   }
 
   selectionChange(e: MatSelectionListChange): void {
-    this.filteredLaunches = this.launches.filter((x) => {
-      return x.launch_year === e.options[0].value;
+    this.filteredLaunches = this.launches.filter((launch) => {
+      return launch.launch_year === e.options[0].value;
     });
     this.displayLaunches(this.filteredLaunches);
   }
