@@ -86,7 +86,7 @@ export class LaunchPageComponent implements OnInit {
     }));
   }
 
-  public timelineStepperSetter(
+  public timelineEventDetector(
     timeline: ITimeline[],
     startFrom: number,
     currentSeconds: number,
@@ -115,7 +115,7 @@ export class LaunchPageComponent implements OnInit {
       this.airProgressbarValue.next(100 - (sec * 100) / end);
       this.secInAir.next(sec);
 
-      this.timelineStepperSetter(this.airTimeline, end, this.secInAir.getValue(), this.stepperAir, true);
+      this.timelineEventDetector(this.airTimeline, end, this.secInAir.getValue(), this.stepperAir, true);
 
       if (this.secInAir.getValue() === end) {
         sub$.unsubscribe();
@@ -128,7 +128,7 @@ export class LaunchPageComponent implements OnInit {
       this.groundProgressbarValue.next(100 - (sec * 100) / begin);
       this.secTillLiftoff.next(sec);
 
-      this.timelineStepperSetter(this.groundTimeline, begin, this.secTillLiftoff.getValue(), this.stepperGround);
+      this.timelineEventDetector(this.groundTimeline, begin, this.secTillLiftoff.getValue(), this.stepperGround);
 
       if (this.secTillLiftoff.getValue() === begin) {
         sub$.unsubscribe();
@@ -144,7 +144,6 @@ export class LaunchPageComponent implements OnInit {
   public buildTimeline(timeline: {}): void {
     // @ts-ignore
     let timelineArray = Object.entries(timeline).map(([event, time]) => ({ event, time })).sort((a, b) => a.time - b.time);
-    console.log(timelineArray)
 
     this.groundTimeline = timelineArray
       .filter((element) => (element.time as number) < 0)
