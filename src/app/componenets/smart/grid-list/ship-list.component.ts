@@ -6,36 +6,35 @@ import { BehaviorSubject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
-  selector: 'app-grid-list',
-  templateUrl: './grid-list.component.html',
-  styleUrls: ['./grid-list.component.scss'],
+  selector: 'app-ship-list',
+  templateUrl: './ship-list.component.html',
+  styleUrls: ['./ship-list.component.scss'],
 })
-export class GridListComponent implements OnInit {
+export class ShipListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   public dataSource = new MatTableDataSource<IShip[]>([]);
 
   @Input()
-  set data(value: IShip[]) {
-    this._data.next(value);
+  set ship(value: IShip[]) {
+    this._ship.next(value);
   }
 
-  get data(): IShip[] {
-    return this._data.getValue();
+  get ship(): IShip[] {
+    return this._ship.getValue();
   }
 
   // Pagination
   public pageLength: number = 0;
   public pageSize: number = 8;
   public pageSizeOptions: number[] = [this.pageSize, this.pageSize + 4];
-  public pageEvent: PageEvent | undefined;
-  public paginationData: IShip[] = [];
-  public _data = new BehaviorSubject<IShip[]>([]);
+  public paginationShips: IShip[] = [];
+  public _ship = new BehaviorSubject<IShip[]>([]);
 
   constructor(public spinnerService: SpinnerService) {}
 
-  public OnPaginate(event: PageEvent): void {
+  public onPaginate(event: PageEvent): void {
     const offset = (event.pageIndex + 1 - 1) * event.pageSize;
-    this.paginationData = this.data.slice(offset).slice(0, event.pageSize);
+    this.paginationShips = this.ship.slice(offset).slice(0, event.pageSize);
   }
 
   public openMarinetraffic(url: string): void {
@@ -43,9 +42,9 @@ export class GridListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._data.subscribe((x) => {
-      this.paginationData = this.data.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
-      this.pageLength = this.data.length;
+    this._ship.subscribe((x) => {
+      this.paginationShips = this.ship.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
+      this.pageLength = this.ship.length;
     });
   }
 

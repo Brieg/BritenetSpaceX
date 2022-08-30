@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { IImages } from '../../../interfaces/images';
 
 @Component({
   selector: 'app-image-slider',
@@ -6,8 +7,15 @@ import { Component, HostListener, Input, OnInit } from '@angular/core';
   styleUrls: ['./image-slider.component.scss'],
 })
 export class ImageSliderComponent implements OnInit {
-  @Input() images: Array<any> = [];
+  @Input() images: string[]  = []
+  public carouselImage: IImages[] = []
   public widthPX: number = 0;
+
+  public imagesToArray(images: string[]): void {
+    this.carouselImage = images.map((image) => ({
+      name: image,
+    }));
+  }
 
   constructor() {}
 
@@ -17,6 +25,7 @@ export class ImageSliderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.imagesToArray(this.images);
     this.widthPX = window.innerWidth;
   }
 }

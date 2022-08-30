@@ -27,8 +27,8 @@ import { map } from 'rxjs/operators';
 })
 export class LaunchPageComponent implements OnInit {
   public launch: ILaunches;
-  public AShips: IShip[];
-  public ships$: any[];
+  public AShips: IShip[] = []
+  public ships$: any[] = [];
 
   public containTimeLine: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public containImages: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -38,20 +38,11 @@ export class LaunchPageComponent implements OnInit {
 
   constructor(public spinnerService: SpinnerService, private route: ActivatedRoute, private dataService: DataService) {}
 
-  public imagesToArray(images: string[]): void {
-    this.images = images.map((image) => ({
-      name: image,
-    }));
-  }
-
   public getLaunch(flight_number: number) {
     this.dataService.loadLaunch(flight_number).subscribe((launch) => {
       this.launch = launch;
 
-      if (launch.links.flickr_images.length) {
-        this.containImages.next(true);
-        this.imagesToArray(launch.links.flickr_images);
-      }
+      !!launch.links.flickr_images.length;
 
       this.containTimeLine.next(Object.keys(launch.timeline).length > 2);
 

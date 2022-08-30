@@ -20,10 +20,10 @@
 
   <app-youtube videoId="{{ launch.links.youtube_id }}"></app-youtube>
 
-  <app-image-slider *ngIf="containImages | async" [images]="images"></app-image-slider>
+  <app-image-slider *ngIf="containImages | async" [images]="launch.links.flickr_images"></app-image-slider>
 
   <div class="ships" *ngIf="containShips | async">
-    <app-grid-list [data]="AShips"></app-grid-list>
+    <app-ship-list [ship]="AShips"></app-ship-list>
   </div>
 
   <app-back-button></app-back-button>

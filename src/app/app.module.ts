@@ -16,7 +16,7 @@ import { Ng2CarouselamosModule } from 'ng2-carouselamos';
 import { VideoModule } from './modules/video/video.module';
 import { ShipsListComponent } from './componenets/dumb/ships-list/ships-list.component';
 import { ShipPageComponent } from './componenets/dumb/ship-page/ship-page.component';
-import { GridListComponent } from './componenets/smart/grid-list/grid-list.component';
+import { ShipListComponent } from './componenets/smart/grid-list/ship-list.component';
 import { ImageSliderComponent } from './componenets/smart/image-slider/image-slider.component';
 import { TimelineComponent } from './componenets/smart/timeline/timeline.component';
 import { BackButtonComponent } from './componenets/smart/back-button/back-button.component';
@@ -31,7 +31,7 @@ import { ShipMapComponent } from './componenets/smart/ship-map/ship-map.componen
     LaunchPageComponent,
     ShipsListComponent,
     ShipPageComponent,
-    GridListComponent,
+    ShipListComponent,
     ImageSliderComponent,
     TimelineComponent,
     BackButtonComponent,

@@ -2,7 +2,7 @@
 
 <ng-template #container>
   <mat-grid-list cols="4" rowHeight="600px" gutterSize="10px">
-    <mat-grid-tile *ngFor="let vessel of paginationData">
+    <mat-grid-tile *ngFor="let vessel of paginationShips">
       <mat-card class="mission-card">
         <mat-card-header>
           <div
@@ -24,6 +24,7 @@
         <mat-divider inset></mat-divider>
         <mat-card-actions>
           <button mat-button [routerLink]="['/ship', vessel.ship_id]">MORE</button>
+          <button mat-button (click)='vessel.url'>MT</button>
         </mat-card-actions>
       </mat-card>
     </mat-grid-tile>
@@ -34,7 +35,7 @@
     [length]="pageLength"
     [pageSize]="pageSize"
     [pageSizeOptions]="pageSizeOptions"
-    (page)="OnPaginate($event)"
+    (page)="onPaginate($event)"
   >
   </mat-paginator>
 </ng-template>
