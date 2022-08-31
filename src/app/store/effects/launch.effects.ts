@@ -1,24 +1,25 @@
-import * as LaunchActions from '../actions/launch.actions';
-import { ILaunches } from '../../interfaces/launches';
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, map, Observable, of, switchMap } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { DataService } from '../../services/data/data.service';
+import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { catchError, delay, map, switchMap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of, pipe } from 'rxjs';
+
+import { ILaunches } from '../../interfaces/launches';
+import { LoadLaunchError, LoadLaunchSuccess, LaunchActionsTypes } from '../actions/launch.actions';
 
 @Injectable()
 export class LaunchEffects {
-  constructor(private readonly actions$: Actions, private dataService: DataService) {}
+  constructor(private actions$: Actions, private http: HttpClient) {}
 
-  public readonly loadLaunches$: Observable<any> = createEffect(() => {
+  public readonly loadLaunch: Observable<any> = createEffect(() => {
     return this.actions$.pipe(
-      ofType(LaunchActions.LoadLaunch),
-      exhaustMap(() =>
-        this.dataService.loadLaunches().pipe(
-          map((data: ILaunches[]) => LaunchActions.LoadLaunchSuccess({ data })),
-          catchError((error: string | null) => of(LaunchActions.LoadLaunchFailure({ error })))
-        )
-      )
+      ofType(LaunchActionsTypes.Load),
+      switchMap((action) => {
+        return this.http.get<ILaunches[]>('https://api.spacexdata.com/v3/launches').pipe(
+          map((response: any) => new LoadLaunchSuccess({ entities: response })),
+          catchError((error) => of(new LoadLaunchError(error)))
+        );
+      })
     );
   });
 }

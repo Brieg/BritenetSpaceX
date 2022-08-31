@@ -1,34 +1,23 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ILaunches } from '../../../interfaces/launches';
-import { DataService } from '../../../services/data/data.service';
-import { LaunchFacade } from '../../../store/facades/launch.facade';
-import { BehaviorSubject, filter, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { LoadLaunch } from '../../../store/actions/launch.actions';
+import { doubleLoadLaunches } from '../../../store/reducers/launch.reducers';
 
 @Component({
   selector: 'app-launches-list',
   templateUrl: './launches-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaunchesListComponent implements OnInit {
-  public launches: ILaunches[] = [];
-  // public launches: BehaviorSubject<ILaunches[]> = new BehaviorSubject<ILaunches[]>(null!);
+  public launches$: Observable<doubleLoadLaunches>;
 
-  constructor(private launchFacade: LaunchFacade) {}
+  constructor(private store: Store<{ launch: doubleLoadLaunches }>) {}
 
   public getLaunches() {
-    this.launchFacade.loadLaunches();
-
-    this.launchFacade.loaded$
-      .pipe(
-        filter((isLoaded: boolean) => isLoaded === true),
-        switchMap(() => this.launchFacade.allLaunches$)
-      )
-      .subscribe((launch: ILaunches[]) => {
-        //this.launches.next(launch);
-        this.launches = launch;
-        console.log(launch);
-      });
+    this.launches$ = this.store.select((state) => state.launch);
+    const action = new LoadLaunch();
+    console.log(action);
+    this.store.dispatch(action);
   }
 
   ngOnInit(): void {

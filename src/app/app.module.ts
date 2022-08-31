@@ -6,13 +6,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { YouTubePlayerModule } from '@angular/youtube-player';
-import { environment } from 'src/environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { MaterialModule } from './modules/material/material.module';
 import { MainMenuComponent } from './componenets/dumb/main-menu/main-menu.component';
 import { LaunchesListComponent } from './componenets/dumb/launches-list/launches-list.component';
-import { CustomHttpInterceptor } from './services/launches/launches.service';
 import { LaunchPageComponent } from './componenets/dumb/launch-page/launch-page.component';
 import { Ng2CarouselamosModule } from 'ng2-carouselamos';
 import { VideoModule } from './modules/video/video.module';
@@ -25,12 +23,12 @@ import { BackButtonComponent } from './componenets/smart/back-button/back-button
 import { LaunchListComponent } from './componenets/smart/launch-list/launch-list.component';
 import { ShipMapComponent } from './componenets/smart/ship-map/ship-map.component';
 import { PipesModule } from './modules/pipes/pipes.module';
-import { LaunchEffects } from './store/effects/launch.effects';
-import { lReducer } from './store/reducers/launch.reducers';
 import { StoreModule } from '@ngrx/store';
-import { LAUNCH_FEATURE_KEY } from './store/states/launch.state';
+import { LAUNCH_FEATURE_KEY } from './store/loadable/loadable';
+import { launchReducer } from './store/reducers/launch.reducers';
 import { EffectsModule } from '@ngrx/effects';
-import { LaunchFacade } from './store/facades/launch.facade';
+import { LaunchEffects } from './store/effects/launch.effects';
+import { LoadingContainerComponent } from './componenets/smart/loading-container/loading-container.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +44,7 @@ import { LaunchFacade } from './store/facades/launch.facade';
     BackButtonComponent,
     LaunchListComponent,
     ShipMapComponent,
+    LoadingContainerComponent,
   ],
   imports: [
     HttpClientModule,
@@ -58,18 +57,15 @@ import { LaunchFacade } from './store/facades/launch.facade';
     YouTubePlayerModule,
     VideoModule,
     PipesModule,
+    BrowserModule,
     StoreModule.forRoot({}),
-    StoreModule.forFeature(LAUNCH_FEATURE_KEY, lReducer),
+    // @ts-ignore
+    StoreModule.forRoot({ launch: launchReducer }),
+    HttpClientModule,
     EffectsModule.forRoot([LaunchEffects]),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreDevtoolsModule.instrument(),
   ],
-  providers: [
-    {
-      provide: LaunchFacade,
-      // useClass: CustomHttpInterceptor,
-      // multi: true,
-    },
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
