@@ -1,5 +1,5 @@
-import { initialLaunchState, LaunchState } from '../store/states/launch.state';
-import * as launchActions from '../store/actions/launch.actions';
+import { initialLaunchState, LaunchState } from '../states/launch.state';
+import * as launchActions from '../actions/launch.actions';
 import { Action, createReducer, on } from '@ngrx/store';
 
 const launchReducer = createReducer(

@@ -26,7 +26,7 @@ import { LaunchListComponent } from './componenets/smart/launch-list/launch-list
 import { ShipMapComponent } from './componenets/smart/ship-map/ship-map.component';
 import { PipesModule } from './modules/pipes/pipes.module';
 import { LaunchEffects } from './store/effects/launch.effects';
-import { lReducer } from './reducers/launch.reducers';
+import { lReducer } from './store/reducers/launch.reducers';
 import { StoreModule } from '@ngrx/store';
 import { LAUNCH_FEATURE_KEY } from './store/states/launch.state';
 import { EffectsModule } from '@ngrx/effects';
