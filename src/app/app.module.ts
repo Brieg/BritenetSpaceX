@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -28,6 +28,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { LaunchEffects } from './store/effects/launch.effects';
 import { LoadingContainerComponent } from './componenets/smart/loading-container/loading-container.component';
 import { reducers } from './store/reducers/reducers';
+import { ShipEffects } from './store/effects/ship.effects';
 
 @NgModule({
   declarations: [
@@ -58,8 +59,7 @@ import { reducers } from './store/reducers/reducers';
     PipesModule,
     BrowserModule,
     StoreModule.forRoot(reducers),
-    HttpClientModule,
-    EffectsModule.forRoot([LaunchEffects]),
+    EffectsModule.forRoot([LaunchEffects, ShipEffects]),
     StoreDevtoolsModule.instrument(),
   ],
   providers: [],

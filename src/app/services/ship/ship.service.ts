@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { doubleLoadShips } from '../../store/reducers/ship.reducers';
 import { Observable } from 'rxjs';
+import { doubleLoadShips } from '../../store/reducers/ship.reducers';
 import { LoadShip } from '../../store/actions/ship.actions';
 
 @Injectable({

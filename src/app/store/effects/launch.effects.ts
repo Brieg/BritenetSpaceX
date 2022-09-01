@@ -12,7 +12,7 @@ export class LaunchEffects {
   public readonly loadLaunch: Observable<any> = createEffect(() => {
     return this.actions$.pipe(
       ofType(LaunchActionsTypes.Load),
-      switchMap((action) => {
+      switchMap((_) => {
         return this.dataService.loadLaunches().pipe(
           map((response: any) => new LoadLaunchSuccess({ entities: response })),
           catchError((error) => of(new LoadLaunchError(error)))

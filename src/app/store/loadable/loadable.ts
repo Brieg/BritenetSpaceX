@@ -1,5 +1,3 @@
-export const LAUNCH_FEATURE_KEY = 'launch';
-
 export interface Loadable {
   loading: boolean;
   success: boolean;

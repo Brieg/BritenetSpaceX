@@ -12,7 +12,7 @@ export class ShipEffects {
   public readonly loadShip: Observable<any> = createEffect(() => {
     return this.actions$.pipe(
       ofType(ShipActionsTypes.Load),
-      switchMap((action) => {
+      switchMap((_) => {
         return this.dataService.loadShips().pipe(
           map((response: any) => new LoadShipSuccess({ entities: response })),
           catchError((error) => of(new LoadShipError(error)))
