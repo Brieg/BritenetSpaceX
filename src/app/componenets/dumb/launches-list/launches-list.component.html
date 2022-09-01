@@ -1,9 +1,5 @@
-<!--<app-launch-list [data]="launches$ | async" [showFilter]="true"></app-launch-list>-->
-
-<!--<loading-container [loadable]="launches$ | async">-->
-
-<p *ngFor="let item of (launches$ | async)?.entities">{{item | json}}</p>
-
-<!--</loading-container>`-->
+<loading-container [loadable]="(launches$ | async)!">
+  <app-launch-list [launches]="(launches$ | async)?.entities || []" [showFilter]="true"></app-launch-list>
+</loading-container>
 
 

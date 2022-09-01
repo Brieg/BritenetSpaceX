@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { ILaunches } from '../../interfaces/launches';
 
 export enum LaunchActionsTypes {
   Load = '[LAUNCH] LOAD',
@@ -12,7 +13,7 @@ export class LoadLaunch implements Action {
 
 export class LoadLaunchSuccess implements Action {
   readonly type = LaunchActionsTypes.LoadSuccess;
-  constructor(public payload: { entities: string[] }) {}
+  constructor(public payload: { entities: ILaunches[] }) {}
 }
 
 export class LoadLaunchError implements Action {

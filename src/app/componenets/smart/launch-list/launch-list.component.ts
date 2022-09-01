@@ -21,11 +21,11 @@ export class LaunchListComponent implements OnInit {
   @Input() pageSize: number = 7;
 
   @Input()
-  set data(value: ILaunches[]) {
+  set launches(value: ILaunches[]) {
     this._data.next(value);
   }
 
-  get data(): ILaunches[] {
+  get launches(): ILaunches[] {
     return this._data.getValue();
   }
 
@@ -57,11 +57,11 @@ export class LaunchListComponent implements OnInit {
 
   public onPaginate(event: PageEvent): void {
     const offset = (event.pageIndex + 1 - 1) * event.pageSize;
-    this.paginationData = this.data.slice(offset).slice(0, event.pageSize);
+    this.paginationData = this.launches.slice(offset).slice(0, event.pageSize);
   }
 
   public selectionChange(e: MatSelectionListChange): void {
-    this.filteredLaunches = this.data.filter((x) => {
+    this.filteredLaunches = this.launches.filter((x) => {
       return x.launch_year === e.options[0].value;
     });
     this.displayLaunches(this.filteredLaunches);
@@ -82,9 +82,9 @@ export class LaunchListComponent implements OnInit {
 
   ngOnInit(): void {
     this._data.subscribe((x) => {
-      console.log(this.data);
-      this.paginationData = this.data.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
-      this.pageLength = this.data.length;
+      console.log(this.launches);
+      this.paginationData = this.launches.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
+      this.pageLength = this.launches.length;
     });
   }
 
