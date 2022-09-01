@@ -82,7 +82,6 @@ export class LaunchListComponent implements OnInit {
 
   ngOnInit(): void {
     this._data.subscribe((x) => {
-      console.log(this.launches);
       this.paginationData = this.launches.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
       this.pageLength = this.launches.length;
     });

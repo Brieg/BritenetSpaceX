@@ -111,8 +111,8 @@ export class TimelineComponent implements OnInit {
   ngOnInit(): void {
     this.buildTimeline(this.timeline);
 
-    const groundSeconds = Math.max(...this.groundTimeline.map(e => e.seconds));
-    const airSeconds = Math.max(...this.airTimeline.map(e => e.seconds));
+    const groundSeconds = Math.max(...this.groundTimeline.map((e) => e.seconds));
+    const airSeconds = Math.max(...this.airTimeline.map((e) => e.seconds));
 
     this.startGroundTimer(groundSeconds, airSeconds);
   }

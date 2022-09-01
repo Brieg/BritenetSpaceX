@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy,  Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, forkJoin } from 'rxjs';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { SpinnerService } from '../../../services/spinner/spinner.service';
 import { ILaunches } from 'src/app/interfaces/launches';
-import { DataService } from '../../../services/data/data.service';
+import { HttpDataService } from '../../../services/data/http-data.service';
 import { IShip } from '../../../interfaces/ships';
 import { map } from 'rxjs/operators';
 
@@ -21,14 +21,18 @@ import { map } from 'rxjs/operators';
 })
 export class LaunchPageComponent implements OnInit {
   public launch: ILaunches;
-  public AShips: IShip[] = []
+  public AShips: IShip[] = [];
   public ships$: any[] = [];
 
   public containTimeLine: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public containImages: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public containShips: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(public spinnerService: SpinnerService, private route: ActivatedRoute, private dataService: DataService) {}
+  constructor(
+    public spinnerService: SpinnerService,
+    private route: ActivatedRoute,
+    private dataService: HttpDataService
+  ) {}
 
   public getLaunch(flight_number: number) {
     this.dataService.loadLaunch(flight_number).subscribe((launch) => {

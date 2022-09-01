@@ -1,4 +1,3 @@
-
 <mat-spinner [diameter]="50" *ngIf="spinnerService.visibility | async; else container"></mat-spinner>
 
 <ng-template #container>
@@ -26,7 +25,7 @@
           <mat-divider inset></mat-divider>
           <mat-card-actions>
             <button mat-button [routerLink]="['/ship', vessel.ship_id]">MORE</button>
-            <button mat-button (click)='vessel.url'>MT</button>
+            <button mat-button (click)="(vessel.url)">MT</button>
           </mat-card-actions>
         </mat-card>
       </mat-grid-tile>

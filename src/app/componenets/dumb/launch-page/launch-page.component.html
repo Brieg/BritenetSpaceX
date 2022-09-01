@@ -18,11 +18,11 @@
     ></div>
   </div>
 
-  <app-youtube [videoId]=launch.links.youtube_id></app-youtube>
+  <app-youtube [videoId]="launch.links.youtube_id"></app-youtube>
 
   <app-image-slider *ngIf="containImages | async" [images]="launch.links.flickr_images"></app-image-slider>
 
-  <app-ship-list *ngIf="containShips | async" [ship]="AShips" [pageSize]='4'></app-ship-list>
+  <app-ship-list *ngIf="containShips | async" [ship]="AShips" [pageSize]="4"></app-ship-list>
 
   <app-back-button></app-back-button>
 </ng-template>

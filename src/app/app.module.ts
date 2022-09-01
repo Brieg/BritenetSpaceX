@@ -24,11 +24,10 @@ import { LaunchListComponent } from './componenets/smart/launch-list/launch-list
 import { ShipMapComponent } from './componenets/smart/ship-map/ship-map.component';
 import { PipesModule } from './modules/pipes/pipes.module';
 import { StoreModule } from '@ngrx/store';
-import { LAUNCH_FEATURE_KEY } from './store/loadable/loadable';
-import { launchReducer } from './store/reducers/launch.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { LaunchEffects } from './store/effects/launch.effects';
 import { LoadingContainerComponent } from './componenets/smart/loading-container/loading-container.component';
+import { reducers } from './store/reducers/reducers';
 
 @NgModule({
   declarations: [
@@ -58,9 +57,7 @@ import { LoadingContainerComponent } from './componenets/smart/loading-container
     VideoModule,
     PipesModule,
     BrowserModule,
-    StoreModule.forRoot({}),
-    // @ts-ignore
-    StoreModule.forRoot({ launch: launchReducer }),
+    StoreModule.forRoot(reducers),
     HttpClientModule,
     EffectsModule.forRoot([LaunchEffects]),
     StoreDevtoolsModule.instrument(),

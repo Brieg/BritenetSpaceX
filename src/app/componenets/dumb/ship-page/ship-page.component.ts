@@ -3,11 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SpinnerService } from '../../../services/spinner/spinner.service';
 import { IShip } from '../../../interfaces/ships';
-import { DataService } from '../../../services/data/data.service';
+import { HttpDataService } from '../../../services/data/http-data.service';
 import { map } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin } from 'rxjs';
 import { ILaunches } from '../../../interfaces/launches';
-import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-ship-page',
@@ -26,7 +25,7 @@ export class ShipPageComponent implements OnInit {
     public spinnerService: SpinnerService,
     private route: ActivatedRoute,
     private httpClient: HttpClient,
-    private dataService: DataService
+    private dataService: HttpDataService
   ) {}
 
   public getShip(ship_id: string) {
@@ -35,7 +34,7 @@ export class ShipPageComponent implements OnInit {
 
       this.containShipLocation.next(ship.position.longitude !== null);
 
-      if(ship.missions?.length) {
+      if (ship.missions?.length) {
         this.containLaunches.next(true);
         this.Launches$ = ship.missions.map((element) => {
           return this.dataService.loadLaunch(element.flight).pipe(map((flightId) => flightId));

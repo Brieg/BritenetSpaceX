@@ -8,7 +8,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class DataService {
+export class HttpDataService {
   constructor(private http: HttpClient) {}
 
   private log(message: string) {

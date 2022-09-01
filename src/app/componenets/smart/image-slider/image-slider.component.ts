@@ -7,8 +7,8 @@ import { IImages } from '../../../interfaces/images';
   styleUrls: ['./image-slider.component.scss'],
 })
 export class ImageSliderComponent implements OnInit {
-  @Input() images: string[]  = []
-  public carouselImage: IImages[] = []
+  @Input() images: string[] = [];
+  public carouselImage: IImages[] = [];
   public widthPX: number = 0;
 
   public imagesToArray(images: string[]): void {

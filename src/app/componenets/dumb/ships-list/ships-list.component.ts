@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
-import { IShip } from '../../../interfaces/ships';
-import { DataService } from '../../../services/data/data.service';
+import { Observable } from 'rxjs';
+import { ShipService } from '../../../services/ship/ship.service';
+import { doubleLoadShips } from '../../../store/reducers/ship.reducers';
 
 @Component({
   selector: 'app-ships-list',
@@ -9,17 +9,11 @@ import { DataService } from '../../../services/data/data.service';
   styleUrls: ['./ships-list.component.scss'],
 })
 export class ShipsListComponent implements OnInit {
-  public ships: IShip[] = [];
+  constructor(public shipService: ShipService) {}
 
-  constructor(private dataService: DataService) {}
-
-  public getShips() {
-    this.dataService.loadShips().subscribe((ships) => {
-      this.ships = ships;
-    });
-  }
+  public ships$: Observable<doubleLoadShips>;
 
   ngOnInit(): void {
-    this.getShips();
+    this.ships$ = this.shipService.getShips();
   }
 }
