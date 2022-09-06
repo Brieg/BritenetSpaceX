@@ -1,19 +1,23 @@
 import { ActionReducerMap } from '@ngrx/store';
-import { LoadableLaunches, launchReducer } from './launches.reducers';
-import { loadableShips, shipReducer } from './ships.reducers';
-import { launchOneReducer } from './launch.reducers';
+import { loadableLaunches, launchesReducer } from './launches.reducers';
+import { loadableShips, shipsReducer } from './ships.reducers';
+import { loadableLaunch, launchReducer } from './launch.reducers';
+import { loadableShip, shipReducer } from './ship.reducers';
 
 interface AppState {
-  launch: LoadableLaunches;
-  launches: LoadableLaunches;
-  ship: loadableShips;
+  launch: loadableLaunch;
+  launches: loadableLaunches;
+  ship: loadableShip;
+  ships: loadableShips;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   // @ts-ignore
-  launch: launchOneReducer,
+  launch: launchReducer,
   // @ts-ignore
-  launches: launchReducer,
+  launches: launchesReducer,
   // @ts-ignore
   ship: shipReducer,
+  // @ts-ignore
+  ships: shipsReducer,
 };

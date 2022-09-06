@@ -6,7 +6,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 import { IShip } from '../../../interfaces/ships';
 import { LoadLaunch } from '../../../store/actions/launch.actions';
-import { LoadableLaunch } from '../../../store/reducers/launch.reducers';
+import { loadableLaunch } from '../../../store/reducers/launch.reducers';
 
 @Component({
   selector: 'app-launch-page',
@@ -20,24 +20,18 @@ import { LoadableLaunch } from '../../../store/reducers/launch.reducers';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaunchPageComponent implements OnInit {
-  public launch$: Observable<LoadableLaunch>;
+  public launch$: Observable<loadableLaunch>;
   public AShips: IShip[] = [];
   public ships$: any[] = [];
 
   public containImages: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public containShips: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(
-    private route: ActivatedRoute,
-
-    private store: Store<{ launch: LoadableLaunch }>
-  ) {}
+  constructor(private route: ActivatedRoute, private store: Store<{ launch: loadableLaunch }>) {}
 
   public getLaunch(flight_number: number) {
     this.launch$ = this.store.select((state) => state.launch).pipe();
     this.store.dispatch(new LoadLaunch({ parameters: flight_number }));
-
-    //!!launch.links.flickr_images.length;
 
     //this.containTimeLine.next(Object.keys(launch.timeline).length > 2);
     //

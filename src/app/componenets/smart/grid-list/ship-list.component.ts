@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { SpinnerService } from '../../../services/spinner/spinner.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { IShip } from '../../../interfaces/ships';
 import { BehaviorSubject } from 'rxjs';
@@ -31,7 +30,7 @@ export class ShipListComponent implements OnInit {
   public paginationShips: IShip[] = [];
   public _ship = new BehaviorSubject<IShip[]>([]);
 
-  constructor(public spinnerService: SpinnerService) {}
+  constructor() {}
 
   public onPaginate(event: PageEvent): void {
     const offset = (event.pageIndex + 1 - 1) * event.pageSize;

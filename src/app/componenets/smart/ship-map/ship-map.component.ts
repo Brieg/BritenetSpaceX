@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import * as Leaflet from 'leaflet';
 import { Map } from 'leaflet';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-ship-map',
@@ -8,8 +9,26 @@ import { Map } from 'leaflet';
   styleUrls: ['./ship-map.component.scss'],
 })
 export class ShipMapComponent implements AfterViewInit {
-  @Input() latitude: number;
-  @Input() longitude: number;
+  @Input()
+  set latitude(value: any) {
+    this.latitude$.next(value);
+  }
+
+  get latitude(): any {
+    return this.latitude$.getValue();
+  }
+
+  @Input()
+  set longitude(value: any) {
+    this.longitude$.next(value);
+  }
+
+  get longitude(): any {
+    return this.longitude$.getValue();
+  }
+
+  public latitude$: BehaviorSubject<any> = new BehaviorSubject<any>('');
+  public longitude$: BehaviorSubject<any> = new BehaviorSubject<any>('');
 
   private map: Map;
 
@@ -36,7 +55,15 @@ export class ShipMapComponent implements AfterViewInit {
   constructor() {}
 
   ngAfterViewInit(): void {
-    this.initMap();
-    this.addShipToMap(this.latitude, this.longitude);
+    this.latitude$.subscribe((latitude) => {
+      if (latitude !== undefined) {
+        this.longitude$.subscribe((longitude) => {
+          if (longitude !== undefined) {
+            this.initMap();
+            this.addShipToMap(latitude, longitude);
+          }
+        });
+      }
+    });
   }
 }

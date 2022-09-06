@@ -3,21 +3,21 @@ import { withLoadable } from '../loadable/with-loadable';
 import { LaunchesActionsTypes, LaunchesActionsUnion } from '../actions/launches.actions';
 import { ILaunches } from '../../interfaces/launches';
 
-export interface LoadableLaunches extends Loadable {
+export interface loadableLaunches extends Loadable {
   entities: ILaunches[];
 }
 
-export function createDefaultLaunch(): LoadableLaunches {
+export function createDefaultLaunch(): loadableLaunches {
   return {
     ...createDefaultLoadable(),
     entities: [],
   };
 }
 
-function baseLaunchReducer(
-  state: LoadableLaunches = createDefaultLaunch(),
+function baseLaunchesReducer(
+  state: loadableLaunches = createDefaultLaunch(),
   action: LaunchesActionsUnion
-): LoadableLaunches {
+): loadableLaunches {
   switch (action.type) {
     case LaunchesActionsTypes.LoadSuccess:
       return {
@@ -29,8 +29,8 @@ function baseLaunchReducer(
   }
 }
 
-export function launchReducer(state: LoadableLaunches, action: LaunchesActionsUnion): LoadableLaunches {
-  return withLoadable(baseLaunchReducer, {
+export function launchesReducer(state: loadableLaunches, action: LaunchesActionsUnion): loadableLaunches {
+  return withLoadable(baseLaunchesReducer, {
     loadingActionType: LaunchesActionsTypes.Load,
     successActionType: LaunchesActionsTypes.LoadSuccess,
     errorActionType: LaunchesActionsTypes.LoadError,

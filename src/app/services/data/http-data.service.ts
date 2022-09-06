@@ -30,7 +30,7 @@ export class HttpDataService {
         const outcome = h ? 'fetched' : 'did not find';
         this.log(`${outcome} Ship ID=${ship_id}`);
       }),
-      catchError(this.handleError<IShip>(`Get Ship id=${ship_id}`))
+      catchError(this.handleError<IShip>(`loadShip id=${ship_id}`))
     );
   }
 

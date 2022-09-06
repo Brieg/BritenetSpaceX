@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LoadableLaunches } from '../../../store/reducers/launches.reducers';
+import { loadableLaunches } from '../../../store/reducers/launches.reducers';
 import { LoadLaunches } from '../../../store/actions/launches.actions';
 import { Store } from '@ngrx/store';
 
@@ -9,9 +9,9 @@ import { Store } from '@ngrx/store';
   templateUrl: './launches-list.component.html',
 })
 export class LaunchesListComponent implements OnInit {
-  constructor(private store: Store<{ launches: LoadableLaunches }>) {}
+  constructor(private store: Store<{ launches: loadableLaunches }>) {}
 
-  public launches$: Observable<LoadableLaunches>;
+  public launches$: Observable<loadableLaunches>;
 
   ngOnInit(): void {
     this.launches$ = this.store.select((state) => state.launches);

@@ -1,27 +1,33 @@
-<div class="hero wrapper">
-  <h1>{{ ship.ship_name }}</h1>
-  <div *ngIf="ship.active; else noActive">
-    <mat-icon aria-hidden="false" aria-label="Ship is active" color="primary" fontIcon="directions_boat"></mat-icon>
+<loading-container [loadable]="(ship$ | async)!">
+  <div class="hero wrapper">
+    <h1>{{ (ship$ | async)?.entities?.ship_name }}</h1>
+    <div *ngIf="(ship$ | async)?.entities?.active; else noActive">
+      <mat-icon aria-hidden="false" aria-label="Ship is active" color="primary" fontIcon="directions_boat"></mat-icon>
+    </div>
+    <ng-template #noActive>
+      <mat-icon aria-hidden="false" aria-label="Ship is not active" fontIcon="mode_fan_off"></mat-icon>
+    </ng-template>
+    <h2>{{  (ship$ | async)?.entities?.home_port }} | {{  (ship$ | async)?.entities?.ship_type }}</h2>
+    <h3>Year build: {{ (ship$ | async)?.entities?.year_built }}</h3>
+    <div
+      class="background"
+      [ngStyle]="{
+        'background-image': 'url(' +  (ship$ | async)?.entities?.image + ')'
+      }"
+    ></div>
   </div>
-  <ng-template #noActive>
-    <mat-icon aria-hidden="false" aria-label="Ship is not active" fontIcon="mode_fan_off"></mat-icon>
-  </ng-template>
-  <h2>{{ ship.home_port }} | {{ ship.ship_type }}</h2>
-  <h3>Year build: {{ ship.year_built }}</h3>
-  <div
-    class="background"
-    [ngStyle]="{
-      'background-image': 'url(' + ship.image + ')'
-    }"
-  ></div>
-</div>
 
-<app-launch-list *ngIf="containShipLocation | async" [pageSize]="4" [launches]="ALaunches"></app-launch-list>
+<!--  <app-launch-list *ngIf="containShipLocation | async" [pageSize]="4" [launches]="ALaunches"></app-launch-list>-->
 
-<app-ship-map
-  *ngIf="containShipLocation | async"
-  [latitude]="ship.position.latitude"
-  [longitude]="ship.position.longitude"
-></app-ship-map>
+  <app-ship-map
+    *ngIf="containShipLocation | async"
+    [latitude]="(ship$ | async)?.entities?.position?.latitude"
+    [longitude]="(ship$ | async)?.entities?.position?.longitude"
+  ></app-ship-map>
 
-<app-back-button></app-back-button>
+  <app-back-button></app-back-button>
+
+</loading-container>
+
+
+

@@ -1,23 +1,23 @@
 import { Action } from '@ngrx/store';
 import { IShip } from '../../interfaces/ships';
 
-export enum ShipActionsTypes {
+export enum ShipsActionsTypes {
   Load = '[SHIPS] LOAD',
   LoadSuccess = '[SHIPS] LOAD SUCCESS',
   LoadError = '[SHIPS] LOAD ERROR',
 }
 
 export class LoadShips implements Action {
-  readonly type = ShipActionsTypes.Load;
+  readonly type = ShipsActionsTypes.Load;
 }
 
 export class LoadShipsSuccess implements Action {
-  readonly type = ShipActionsTypes.LoadSuccess;
+  readonly type = ShipsActionsTypes.LoadSuccess;
   constructor(public payload: { entities: IShip[] }) {}
 }
 
 export class LoadShipsError implements Action {
-  readonly type = ShipActionsTypes.LoadError;
+  readonly type = ShipsActionsTypes.LoadError;
   constructor(public error: any) {}
 }
 

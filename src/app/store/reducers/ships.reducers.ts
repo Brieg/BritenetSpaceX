@@ -1,22 +1,22 @@
 import { createDefaultLoadable, Loadable } from '../loadable/loadable';
 import { withLoadable } from '../loadable/with-loadable';
 import { IShip } from '../../interfaces/ships';
-import { ShipActionsTypes, ShipsActionsUnion } from '../actions/ships.actions';
+import { ShipsActionsTypes, ShipsActionsUnion } from '../actions/ships.actions';
 
 export interface loadableShips extends Loadable {
   entities: IShip[];
 }
 
-export function createDefaultShip(): loadableShips {
+export function createDefaultShips(): loadableShips {
   return {
     ...createDefaultLoadable(),
     entities: [],
   };
 }
 
-function baseShipReducer(state: loadableShips = createDefaultShip(), action: ShipsActionsUnion): loadableShips {
+function baseShipsReducer(state: loadableShips = createDefaultShips(), action: ShipsActionsUnion): loadableShips {
   switch (action.type) {
-    case ShipActionsTypes.LoadSuccess:
+    case ShipsActionsTypes.LoadSuccess:
       return {
         ...state,
         entities: action.payload.entities,
@@ -26,10 +26,10 @@ function baseShipReducer(state: loadableShips = createDefaultShip(), action: Shi
   }
 }
 
-export function shipReducer(state: loadableShips, action: ShipsActionsUnion): loadableShips {
-  return withLoadable(baseShipReducer, {
-    loadingActionType: ShipActionsTypes.Load,
-    successActionType: ShipActionsTypes.LoadSuccess,
-    errorActionType: ShipActionsTypes.LoadError,
+export function shipsReducer(state: loadableShips, action: ShipsActionsUnion): loadableShips {
+  return withLoadable(baseShipsReducer, {
+    loadingActionType: ShipsActionsTypes.Load,
+    successActionType: ShipsActionsTypes.LoadSuccess,
+    errorActionType: ShipsActionsTypes.LoadError,
   })(state, action);
 }

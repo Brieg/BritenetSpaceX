@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+
 import { LaunchesActionsTypes, LoadLaunchesError, LoadLaunchesSuccess } from '../actions/launches.actions';
-import { HttpDataService } from '../../services/data/http-data.service';
+import { LoadLaunchSuccess, LaunchActionsTypes, LoadLaunchError } from '../actions/launch.actions';
 import { ILaunches } from '../../interfaces/launches';
-import { LoadLaunchSuccess, LaunchOneActionsTypes } from '../actions/launch.actions';
+import { HttpDataService } from '../../services/data/http-data.service';
 
 @Injectable()
 export class LaunchEffects {
@@ -25,12 +26,12 @@ export class LaunchEffects {
 
   public readonly loadOneLaunch: Observable<any> = createEffect(() => {
     return this.actions$.pipe(
-      ofType(LaunchOneActionsTypes.Load),
+      ofType(LaunchActionsTypes.Load),
       switchMap((action) =>
         // @ts-ignore
         this.dataService.loadLaunch(action.payload.parameters).pipe(
           map((response: ILaunches) => new LoadLaunchSuccess({ entities: response })),
-          catchError((error) => of(new LoadLaunchesError(error)))
+          catchError((error) => of(new LoadLaunchError(error)))
         )
       )
     );

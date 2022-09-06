@@ -3,7 +3,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { IShip } from '../../../interfaces/ships';
 import { BehaviorSubject, map, Observable, shareReplay } from 'rxjs';
-import { SpinnerService } from '../../../services/spinner/spinner.service';
 import { ILaunches } from '../../../interfaces/launches';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatSelectionListChange } from '@angular/material/list';
@@ -51,7 +50,7 @@ export class LaunchListComponent implements OnInit {
     shareReplay()
   );
 
-  constructor(public spinnerService: SpinnerService, private breakpointObserver: BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver) {}
 
   public onPaginate(event: PageEvent): void {
     const offset = (event.pageIndex + 1 - 1) * event.pageSize;

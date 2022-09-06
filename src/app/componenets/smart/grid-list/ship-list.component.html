@@ -1,6 +1,3 @@
-<mat-spinner [diameter]="50" *ngIf="spinnerService.visibility | async; else container"></mat-spinner>
-
-<ng-template #container>
   <div class="ships">
     <mat-grid-list cols="4" rowHeight="600px" gutterSize="10px">
       <mat-grid-tile *ngFor="let vessel of paginationShips">
@@ -40,4 +37,3 @@
     >
     </mat-paginator>
   </div>
-</ng-template>
