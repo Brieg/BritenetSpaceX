@@ -1,5 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { IImages } from '../../../interfaces/images';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-image-slider',
@@ -7,7 +8,17 @@ import { IImages } from '../../../interfaces/images';
   styleUrls: ['./image-slider.component.scss'],
 })
 export class ImageSliderComponent implements OnInit {
-  @Input() images: string[] = [];
+  @Input()
+  set images(value: any) {
+    this.image$.next(value);
+  }
+
+  get images(): any {
+    return this.image$.getValue();
+  }
+
+  public image$: BehaviorSubject<any> = new BehaviorSubject<any>('');
+
   public carouselImage: IImages[] = [];
   public widthPX: number = 0;
 
@@ -25,7 +36,11 @@ export class ImageSliderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.imagesToArray(this.images);
-    this.widthPX = window.innerWidth;
+    this.image$.subscribe((images) => {
+      if (images !== undefined) {
+        this.imagesToArray(images);
+        this.widthPX = window.innerWidth;
+      }
+    });
   }
 }

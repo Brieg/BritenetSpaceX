@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   template: ` <div #youTubePlayer class="youtube">
@@ -16,7 +17,17 @@ import { ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnInit, 
 })
 export class VideoComponent implements OnInit {
   @ViewChild('youTubePlayer') youTubePlayer: ElementRef<HTMLDivElement>;
-  @Input() videoId: string;
+
+  @Input()
+  set videoId(value: any) {
+    this.youtube$.next(value);
+  }
+
+  get videoId(): any {
+    return this.youtube$.getValue();
+  }
+
+  public youtube$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   protected videoHeight: number;
   protected videoWidth: number;
@@ -32,12 +43,15 @@ export class VideoComponent implements OnInit {
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.body.appendChild(tag);
-
-    this.videoWidth = window.innerWidth - this.YToffset;
-    this.videoHeight = window.innerHeight;
+    this.youtube$.subscribe((youtubeID) => {
+      if (youtubeID !== undefined) {
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.body.appendChild(tag);
+        this.videoWidth = window.innerWidth - this.YToffset;
+        this.videoHeight = window.innerHeight;
+      }
+    });
   }
 
   @HostListener('window:resize', ['$event'])

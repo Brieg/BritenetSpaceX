@@ -26,9 +26,7 @@ export interface ILaunches {
   upcoming: boolean;
   static_fire_date_utc: Date;
   static_fire_date_unix: Date;
-  timeline: {
-    webcast_liftoff: number;
-  };
+  timeline: ITimeline;
   crew?: boolean;
   last_date_update: Date;
   last_ll_launch_date?: Date;
@@ -118,4 +116,29 @@ interface ILinks {
   video_link?: string;
   youtube_id: string;
   flickr_images: string[];
+}
+
+export interface ITimeline {
+  engine_chill?: number;
+  fairing_deploy?: number;
+  first_stage_entry_burn?: number;
+  first_stage_landing?: number;
+  go_for_launch?: number;
+  go_for_prop_loading?: number;
+  ignition?: number;
+  liftoff?: number;
+  maxq?: number;
+  meco?: number;
+  payload_deploy?: number;
+  prelaunch_checks?: number;
+  propellant_pressurization?: number;
+  rp1_loading?: number;
+  'seco-1'?: number;
+  'seco-2'?: number;
+  second_stage_ignition?: number;
+  second_stage_restart?: number;
+  stage1_lox_loading?: number;
+  stage2_lox_loading?: number;
+  stage_sep?: number;
+  webcast_liftoff?: number;
 }

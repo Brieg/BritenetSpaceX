@@ -58,7 +58,7 @@ import { ShipEffects } from './store/effects/ship.effects';
     VideoModule,
     PipesModule,
     BrowserModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, {}),
     EffectsModule.forRoot([LaunchEffects, ShipEffects]),
     StoreDevtoolsModule.instrument(),
   ],

@@ -38,8 +38,6 @@ export class LaunchListComponent implements OnInit {
   public successLunched: boolean[] = [];
   public filteredLaunches: ILaunches[] = [];
 
-  private offset: number = 0;
-
   public cols$: Observable<number> = this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).pipe(
     map((result) => {
       if (result.breakpoints[Breakpoints.XSmall]) {
@@ -81,7 +79,7 @@ export class LaunchListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._data.subscribe((x) => {
+    this._data.subscribe((_) => {
       this.paginationData = this.launches.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
       this.pageLength = this.launches.length;
     });

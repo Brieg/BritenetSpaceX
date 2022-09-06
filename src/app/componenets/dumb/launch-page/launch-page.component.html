@@ -1,28 +1,29 @@
-<mat-spinner [diameter]="50" *ngIf="spinnerService.visibility | async; else container"></mat-spinner>
+<loading-container [loadable]="(launch$ | async)!">
 
-<ng-template #container>
-  <div class="hero wrapper">
-    <div class="timeline" *ngIf="containTimeLine | async">
-      <app-timeline [timeline]="launch.timeline"></app-timeline>
+    <div class="hero wrapper">
+      <div class="timeline" >
+        <app-timeline [timeline]="(launch$ | async)?.entities?.timeline"></app-timeline>
+      </div>
+
+      <h1>{{(launch$ | async)?.entities?.mission_name }} | {{(launch$ | async)?.entities?.flight_number }}</h1>
+      <h3>{{(launch$ | async)?.entities?.launch_year }}</h3>
+      <h4>Rocket: {{(launch$ | async)?.entities?.rocket?.rocket_name }} {{(launch$ | async)?.entities?.rocket?.rocket_type }}</h4>
+      <p class="details">{{(launch$ | async)?.entities?.details }}</p>
+      <div
+        class="background"
+        [ngStyle]="{
+          'background-image': 'url(' + (launch$ | async)?.entities?.links?.mission_patch + ')'
+        }"
+      ></div>
     </div>
 
-    <h1>{{ launch.mission_name }} | {{ launch.flight_number }}</h1>
-    <h3>{{ launch.launch_year }}</h3>
-    <h4>Rocket: {{ launch.rocket.rocket_name }} {{ launch.rocket.rocket_type }}</h4>
-    <p class="details">{{ launch.details }}</p>
-    <div
-      class="background"
-      [ngStyle]="{
-        'background-image': 'url(' + launch.links.mission_patch + ')'
-      }"
-    ></div>
-  </div>
+    <app-youtube [videoId]="(launch$ | async)?.entities?.links?.youtube_id"></app-youtube>
 
-  <app-youtube [videoId]="launch.links.youtube_id"></app-youtube>
+    <app-image-slider [images]="(launch$ | async)?.entities?.links?.flickr_images"></app-image-slider>
 
-  <app-image-slider *ngIf="containImages | async" [images]="launch.links.flickr_images"></app-image-slider>
+  <!--  <app-ship-list *ngIf="containShips | async" [ship]="AShips" [pageSize]="4"></app-ship-list>-->
 
-  <app-ship-list *ngIf="containShips | async" [ship]="AShips" [pageSize]="4"></app-ship-list>
+    <app-back-button></app-back-button>
+</loading-container>
 
-  <app-back-button></app-back-button>
-</ng-template>
+

@@ -9,14 +9,24 @@ import { MatStepper } from '@angular/material/stepper';
   styleUrls: ['./timeline.component.scss'],
 })
 export class TimelineComponent implements OnInit {
-  @Input() timeline: {};
+  @Input()
+  set timeline(value: any) {
+    this.timeLines.next(value);
+  }
+
+  get timeline(): any {
+    return this.timeLines.getValue();
+  }
 
   @ViewChild('stepperGround') private stepperGround: MatStepper;
   @ViewChild('stepperAir') private stepperAir: MatStepper;
 
+  public timeLines = new BehaviorSubject<any>({});
+
   public groundTimeline: ITimeline[] = new Array();
   public airTimeline: ITimeline[] = new Array();
 
+  public containTimeLine: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public groundProgressbarValue: BehaviorSubject<number> = new BehaviorSubject(100);
   public airProgressbarValue: BehaviorSubject<number> = new BehaviorSubject(100);
 
@@ -109,11 +119,13 @@ export class TimelineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.buildTimeline(this.timeline);
-
-    const groundSeconds = Math.max(...this.groundTimeline.map((e) => e.seconds));
-    const airSeconds = Math.max(...this.airTimeline.map((e) => e.seconds));
-
-    this.startGroundTimer(groundSeconds, airSeconds);
+    this.timeLines.subscribe((timeLineEvents) => {
+      if (timeLineEvents !== undefined) {
+        this.buildTimeline(timeLineEvents);
+        const groundSeconds = Math.max(...this.groundTimeline.map((e) => e.seconds));
+        const airSeconds = Math.max(...this.airTimeline.map((e) => e.seconds));
+        this.startGroundTimer(groundSeconds, airSeconds);
+      }
+    });
   }
 }

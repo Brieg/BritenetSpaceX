@@ -1,6 +1,6 @@
 import { createDefaultLoadable, Loadable } from '../loadable/loadable';
 import { withLoadable } from '../loadable/with-loadable';
-import { LaunchActionsUnion, LaunchActionsTypes } from '../actions/launch.actions';
+import { LaunchActionsTypes, LaunchActionsUnion } from '../actions/launch.actions';
 import { ILaunches } from '../../interfaces/launches';
 
 export interface doubleLoadLaunches extends Loadable {

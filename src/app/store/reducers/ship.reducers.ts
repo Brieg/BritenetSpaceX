@@ -2,6 +2,7 @@ import { createDefaultLoadable, Loadable } from '../loadable/loadable';
 import { withLoadable } from '../loadable/with-loadable';
 import { IShip } from '../../interfaces/ships';
 import { ShipActionsTypes, ShipActionsUnion } from '../actions/ship.actions';
+import { LaunchActionsTypes } from '../actions/launch.actions';
 
 export interface doubleLoadShips extends Loadable {
   entities: IShip[];

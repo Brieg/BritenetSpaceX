@@ -36,7 +36,7 @@ export class HttpDataService {
 
   public loadShips(): Observable<IShip[]> {
     return this.http.get<IShip[]>('https://api.spacexdata.com/v3/ships').pipe(
-      tap((_) => this.log('Fetched all Ships')),
+      tap((_) => this.log('Fetched all Ships from API')),
       catchError(this.handleError<IShip[]>('loadShips', []))
     );
   }
@@ -55,7 +55,7 @@ export class HttpDataService {
 
   public loadLaunches(): Observable<ILaunches[]> {
     return this.http.get<ILaunches[]>('https://api.spacexdata.com/v3/launches').pipe(
-      tap((_) => this.log('Fetched all Launches')),
+      tap((_) => this.log('Fetched all Launches from API')),
       catchError(this.handleError<ILaunches[]>('loadLaunches', []))
     );
   }

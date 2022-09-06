@@ -19,9 +19,4 @@ describe('LaunchPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('Should render Embeded, muted and autoplay YT path', () => {
-    const YTid = 'faHomJimjLc';
-    expect(component.renderYT(YTid)).toEqual('https://www.youtube.com/embed/' + YTid + '?autoplay=1&mute=1');
-  });
 });
