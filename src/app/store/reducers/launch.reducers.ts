@@ -1,27 +1,25 @@
 import { createDefaultLoadable, Loadable } from '../loadable/loadable';
 import { withLoadable } from '../loadable/with-loadable';
-import { LaunchActionsTypes, LaunchActionsUnion } from '../actions/launch.actions';
 import { ILaunches } from '../../interfaces/launches';
+import { LaunchOneActionsTypes, LaunchActionsUnion } from '../actions/launch.actions';
 
-export interface doubleLoadLaunches extends Loadable {
-  entities: ILaunches[];
+export interface LoadableLaunch extends Loadable {
+  entities: ILaunches;
 }
 
-export function createDefaultLaunch(): doubleLoadLaunches {
-  return {
+export function createDefaultLaunch(): LoadableLaunch {
+  return <LoadableLaunch>{
     ...createDefaultLoadable(),
-    entities: [],
+    entities: {},
   };
 }
 
-function baseLaunchReducer(
-  state: doubleLoadLaunches = createDefaultLaunch(),
-  action: LaunchActionsUnion
-): doubleLoadLaunches {
+function baseLaunchReducer(state: LoadableLaunch = createDefaultLaunch(), action: LaunchActionsUnion): LoadableLaunch {
   switch (action.type) {
-    case LaunchActionsTypes.LoadSuccess:
+    case LaunchOneActionsTypes.LoadSuccess:
       return {
         ...state,
+        // @ts-ignore
         entities: action.payload.entities,
       };
     default:
@@ -29,10 +27,10 @@ function baseLaunchReducer(
   }
 }
 
-export function launchReducer(state: doubleLoadLaunches, action: LaunchActionsUnion): doubleLoadLaunches {
+export function launchOneReducer(state: LoadableLaunch, action: LaunchActionsUnion): LoadableLaunch {
   return withLoadable(baseLaunchReducer, {
-    loadingActionType: LaunchActionsTypes.Load,
-    successActionType: LaunchActionsTypes.LoadSuccess,
-    errorActionType: LaunchActionsTypes.LoadError,
+    loadingActionType: LaunchOneActionsTypes.Load,
+    successActionType: LaunchOneActionsTypes.LoadSuccess,
+    errorActionType: LaunchOneActionsTypes.LoadError,
   })(state, action);
 }

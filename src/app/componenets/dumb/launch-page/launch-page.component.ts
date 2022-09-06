@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 import { IShip } from '../../../interfaces/ships';
-import { LoadOneLaunch } from '../../../store/actions/oneLaunch.actions';
-import { doubleOneLoadLaunches } from '../../../store/reducers/onelaunch.reducers';
+import { LoadLaunch } from '../../../store/actions/launch.actions';
+import { LoadableLaunch } from '../../../store/reducers/launch.reducers';
 
 @Component({
   selector: 'app-launch-page',
@@ -20,7 +20,7 @@ import { doubleOneLoadLaunches } from '../../../store/reducers/onelaunch.reducer
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaunchPageComponent implements OnInit {
-  public launch$: Observable<doubleOneLoadLaunches>;
+  public launch$: Observable<LoadableLaunch>;
   public AShips: IShip[] = [];
   public ships$: any[] = [];
 
@@ -30,12 +30,12 @@ export class LaunchPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
 
-    private store: Store<{ launch: doubleOneLoadLaunches }>
+    private store: Store<{ launch: LoadableLaunch }>
   ) {}
 
   public getLaunch(flight_number: number) {
     this.launch$ = this.store.select((state) => state.launch).pipe();
-    this.store.dispatch(new LoadOneLaunch({ parameters: flight_number }));
+    this.store.dispatch(new LoadLaunch({ parameters: flight_number }));
 
     //!!launch.links.flickr_images.length;
 

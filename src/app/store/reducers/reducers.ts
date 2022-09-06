@@ -1,11 +1,11 @@
 import { ActionReducerMap } from '@ngrx/store';
-import { doubleLoadLaunches, launchReducer } from './launch.reducers';
+import { LoadableLaunches, launchReducer } from './launches.reducers';
 import { doubleLoadShips, shipReducer } from './ship.reducers';
-import { launchOneReducer } from './onelaunch.reducers';
+import { launchOneReducer } from './launch.reducers';
 
 interface AppState {
-  launch: doubleLoadLaunches;
-  launches: doubleLoadLaunches;
+  launch: LoadableLaunches;
+  launches: LoadableLaunches;
   ship: doubleLoadShips;
 }
 
