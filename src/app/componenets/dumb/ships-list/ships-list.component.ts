@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ShipService } from '../../../services/ship/ship.service';
-import { doubleLoadShips } from '../../../store/reducers/ship.reducers';
+import { loadableShips } from '../../../store/reducers/ships.reducers';
 
 @Component({
   selector: 'app-ships-list',
@@ -10,7 +10,7 @@ import { doubleLoadShips } from '../../../store/reducers/ship.reducers';
 export class ShipsListComponent implements OnInit {
   constructor(public shipService: ShipService) {}
 
-  public ships$: Observable<doubleLoadShips>;
+  public ships$: Observable<loadableShips>;
 
   ngOnInit(): void {
     this.ships$ = this.shipService.getShips();
