@@ -1,29 +1,28 @@
 <loading-container [loadable]="(launch$ | async)!">
-
-    <div class="hero wrapper">
-      <div class="timeline" >
-        <app-timeline [timeline]="(launch$ | async)?.entities?.timeline"></app-timeline>
-      </div>
-
-      <h1>{{(launch$ | async)?.entities?.mission_name }} | {{(launch$ | async)?.entities?.flight_number }}</h1>
-      <h3>{{(launch$ | async)?.entities?.launch_year }}</h3>
-      <h4>Rocket: {{(launch$ | async)?.entities?.rocket?.rocket_name }} {{(launch$ | async)?.entities?.rocket?.rocket_type }}</h4>
-      <p class="details">{{(launch$ | async)?.entities?.details }}</p>
-      <div
-        class="background"
-        [ngStyle]="{
-          'background-image': 'url(' + (launch$ | async)?.entities?.links?.mission_patch + ')'
-        }"
-      ></div>
+  <div class="hero wrapper">
+    <div class="timeline" >
+      <app-timeline [timeline]="(launch$ | async)?.entities?.timeline"></app-timeline>
     </div>
 
-    <app-youtube [videoId]="(launch$ | async)?.entities?.links?.youtube_id"></app-youtube>
+    <h1>{{(launch$ | async)?.entities?.mission_name }} | {{(launch$ | async)?.entities?.flight_number }}</h1>
+    <h3>{{(launch$ | async)?.entities?.launch_year }}</h3>
+    <h4>Rocket: {{(launch$ | async)?.entities?.rocket?.rocket_name }} {{(launch$ | async)?.entities?.rocket?.rocket_type }}</h4>
+    <p class="details">{{(launch$ | async)?.entities?.details }}</p>
+    <div
+      class="background"
+      [ngStyle]="{
+        'background-image': 'url(' + (launch$ | async)?.entities?.links?.mission_patch + ')'
+      }"
+    ></div>
+  </div>
 
-    <app-image-slider [images]="(launch$ | async)?.entities?.links?.flickr_images"></app-image-slider>
+  <app-youtube [videoId]="(launch$ | async)?.entities?.links?.youtube_id"></app-youtube>
 
-  <!--  <app-ship-list *ngIf="containShips | async" [ship]="AShips" [pageSize]="4"></app-ship-list>-->
+  <app-image-slider [images]="(launch$ | async)?.entities?.links?.flickr_images"></app-image-slider>
 
-    <app-back-button></app-back-button>
+  <app-ship-list [ship]="shipsInLaunch" [pageSize]="4"></app-ship-list>
+
+  <app-back-button></app-back-button>
 </loading-container>
 
 

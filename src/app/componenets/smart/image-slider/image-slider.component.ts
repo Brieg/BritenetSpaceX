@@ -37,7 +37,7 @@ export class ImageSliderComponent implements OnInit {
 
   ngOnInit(): void {
     this.image$.subscribe((images) => {
-      if (images !== undefined) {
+      if (images) {
         this.imagesToArray(images);
         this.widthPX = window.innerWidth;
       }

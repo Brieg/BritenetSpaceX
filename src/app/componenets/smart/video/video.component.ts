@@ -43,11 +43,12 @@ export class VideoComponent implements OnInit {
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit() {
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.body.appendChild(tag);
+
     this.youtube$.subscribe((youtubeID) => {
       if (youtubeID !== undefined) {
-        const tag = document.createElement('script');
-        tag.src = 'https://www.youtube.com/iframe_api';
-        document.body.appendChild(tag);
         this.videoWidth = window.innerWidth - this.YToffset;
         this.videoHeight = window.innerHeight;
       }

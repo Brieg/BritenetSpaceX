@@ -1,3 +1,5 @@
+import { IShip } from './ships';
+
 export interface ILaunches {
   flight_number: number;
   mission_name: string;
