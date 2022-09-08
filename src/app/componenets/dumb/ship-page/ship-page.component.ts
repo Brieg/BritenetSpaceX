@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { ILaunches } from '../../../interfaces/launches';
 import { LoadShip } from '../../../store/actions/ship.actions';
 import { loadableShip } from '../../../store/reducers/ship.reducers';
+import { HttpDataService } from '../../../services/data/http-data.service';
+import { IShip } from '../../../interfaces/ships';
 
 @Component({
   selector: 'app-ship-page',
@@ -13,36 +15,36 @@ import { loadableShip } from '../../../store/reducers/ship.reducers';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShipPageComponent implements OnInit {
-  public ship$: Observable<loadableShip>;
+  constructor(
+    private route: ActivatedRoute,
+    private store: Store<{ ship: loadableShip }>,
+    private dataService: HttpDataService
+  ) {}
 
-  public ALaunches: ILaunches[];
-  public Launches$: any[];
+  public ship$: Observable<loadableShip>;
+  public launches$: Observable<ILaunches>[] = [];
+  public launchesInShips: ILaunches[] = [];
+  public containLaunches: BehaviorSubject<ILaunches[]> = new BehaviorSubject<ILaunches[]>([]);
 
   public containShipLocation: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  public containLaunches: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
-  constructor(private route: ActivatedRoute, private store: Store<{ ship: loadableShip }>) {}
+  //public containLaunches: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   public getShip(ship_id: string) {
     this.ship$ = this.store.select((state) => state.ship).pipe();
     this.store.dispatch(new LoadShip({ parameters: ship_id }));
 
-    // this.dataService.loadShip(ship_id).subscribe((ship) => {
-    //   this.ship = ship;
-    //
-    //   this.containShipLocation.next(ship.position.longitude !== null);
-    //
-    //   if (ship.missions?.length) {
-    //     this.containLaunches.next(true);
-    //     this.Launches$ = ship.missions.map((element) => {
-    //       return this.dataService.loadLaunch(element.flight).pipe(map((flightId) => flightId));
-    //     });
-    //
-    //     forkJoin(this.Launches$).subscribe((flightId) => {
-    //       this.ALaunches = flightId;
-    //     });
-    //   }
-    // });
+    this.store.subscribe((data) => {
+      if (data.ship.success === true) {
+        this.launches$ = data.ship.entities.missions.map((element) => {
+          return this.dataService.loadLaunch(element.flight).pipe(map((flightId) => flightId));
+        });
+
+        forkJoin(this.launches$).subscribe((launches) => {
+          this.launchesInShips = launches; //data will be structured as [res[0], res[1], ...]
+          this.containLaunches.next(Object.assign([], launches));
+        });
+      }
+    });
   }
 
   ngOnInit(): void {
