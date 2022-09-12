@@ -20,4 +20,15 @@
       Ships
     </button>
   </div>
+  <div>
+    <button
+
+      (click)="openDialog()"
+      mat-icon-button
+      aria-label="Your shopping cart">
+      <mat-icon
+        matBadge="{{(favoritesCount$ | async)}}"
+        matBadgeColor="warn">favorite</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>

@@ -27,6 +27,7 @@
     "@ngrx/store-devtools": "^14.3.0",
     "leaflet": "^1.8.0",
     "ng2-carouselamos": "^4.1.0",
+    "ngx-indexed-db": "^11.0.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

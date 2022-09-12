@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Favorite list</h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+  <mat-list>
+    <mat-list-item *ngFor="let favorites of dialogData">
+      <img mat-list-avatar src="{{favorites.img}}" alt="{{favorites.name}}" />
+      <div mat-line>{{favorites.name}}</div>
+      <button
+          mat-icon-button
+          aria-label="Remove it"
+          matTooltip="Remove it">
+        <mat-icon>heart_broken</mat-icon>
+      </button>
+      <mat-divider></mat-divider>
+    </mat-list-item>
+  </mat-list>
+</div>
+<div mat-dialog-actions>
+  <button (click)="closeDialog()"
+          mat-mini-fab color="accent"
+          aria-label="Close your list"
+          matTooltip="Close your list">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <button *ngIf="dialogData.length"
+          (click)="clearAllData()"
+          mat-mini-fab color="warn"
+          aria-label="Clear your list"
+          matTooltip="Clear your list">
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>

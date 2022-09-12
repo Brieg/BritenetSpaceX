@@ -6,6 +6,7 @@ import { BehaviorSubject, map, Observable, shareReplay } from 'rxjs';
 import { ILaunches } from '../../../interfaces/launches';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatSelectionListChange } from '@angular/material/list';
+import { FavoritesService } from '../../../services/favorites/favorites.service';
 
 @Component({
   selector: 'app-launch-list',
@@ -50,7 +51,7 @@ export class LaunchListComponent implements OnInit {
     shareReplay()
   );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver, private favoriteList: FavoritesService) {}
 
   public onPaginate(event: PageEvent): void {
     const offset = (event.pageIndex + 1 - 1) * event.pageSize;
@@ -75,6 +76,10 @@ export class LaunchListComponent implements OnInit {
 
   public openMarinetraffic(url: string): void {
     window.open(url);
+  }
+
+  public addToFavoriteList(launch: ILaunches) {
+    this.favoriteList.addLaunchesToList(launch);
   }
 
   ngOnInit(): void {

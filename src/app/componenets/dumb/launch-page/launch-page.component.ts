@@ -1,28 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  BehaviorSubject,
-  filter,
-  forkJoin,
-  map,
-  Observable,
-  pipe,
-  Subject,
-  switchMap,
-  take,
-  takeUntil,
-  takeWhile,
-  tap,
-} from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import { BehaviorSubject, forkJoin, map, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 import { IShip } from '../../../interfaces/ships';
 import { LoadLaunch } from '../../../store/actions/launch.actions';
 import { loadableLaunch } from '../../../store/reducers/launch.reducers';
 import { HttpDataService } from '../../../services/data/http-data.service';
-import { loadableShip } from '../../../store/reducers/ship.reducers';
-import { LoadShip } from '../../../store/actions/ship.actions';
 
 @Component({
   selector: 'app-launch-page',

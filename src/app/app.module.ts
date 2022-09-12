@@ -29,6 +29,9 @@ import { LaunchEffects } from './store/effects/launch.effects';
 import { LoadingContainerComponent } from './componenets/smart/loading-container/loading-container.component';
 import { reducers } from './store/reducers/reducers';
 import { ShipEffects } from './store/effects/ship.effects';
+import { IndexedDBModule } from './modules/indexed-db/indexed-db.module';
+import { FavoritesDialogComponent } from './componenets/smart/favorites-dialog/favorites-dialog.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import { ShipEffects } from './store/effects/ship.effects';
     LaunchListComponent,
     ShipMapComponent,
     LoadingContainerComponent,
+    FavoritesDialogComponent,
   ],
   imports: [
     HttpClientModule,
@@ -61,8 +65,12 @@ import { ShipEffects } from './store/effects/ship.effects';
     StoreModule.forRoot(reducers, {}),
     EffectsModule.forRoot([LaunchEffects, ShipEffects]),
     StoreDevtoolsModule.instrument(),
+    IndexedDBModule,
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
