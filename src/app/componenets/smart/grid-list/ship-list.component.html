@@ -1,0 +1,39 @@
+  <div class="ships">
+    <mat-grid-list cols="4" rowHeight="600px" gutterSize="10px">
+      <mat-grid-tile *ngFor="let vessel of paginationShips">
+        <mat-card class="mission-card">
+          <mat-card-header>
+            <div
+              mat-card-avatar
+              class="header-image"
+              [ngStyle]="{
+                'background-image': 'url(' + vessel.image + ')'
+              }"
+            ></div>
+            <mat-card-title>{{ vessel.ship_name }}</mat-card-title>
+            <mat-card-subtitle>Type: {{ vessel.ship_type }} </mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image src="{{ vessel.image }}" alt="{{ vessel.ship_name }}" />
+          <mat-card-content class="details">
+            <p>
+              {{ vessel.home_port }}
+            </p>
+          </mat-card-content>
+          <mat-divider inset></mat-divider>
+          <mat-card-actions>
+            <button mat-button [routerLink]="['/ship', vessel.ship_id]">MORE</button>
+            <button mat-button (click)="(vessel.url)">MT</button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-paginator
+      [showFirstLastButtons]="true"
+      [length]="pageLength"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPaginate($event)"
+    >
+    </mat-paginator>
+  </div>

@@ -1,0 +1,3 @@
+<loading-container [loadable]="(launches$ | async)!">
+  <app-launch-list [launches]="(launches$ | async)?.entities || []" [showFilter]="true"></app-launch-list>
+</loading-container>

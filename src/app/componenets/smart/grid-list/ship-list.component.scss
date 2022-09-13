@@ -1,0 +1,15 @@
+.mission-card {
+  max-width: 350px;
+
+  .header-image {
+    background-size: cover;
+    max-height: 230px;
+  }
+
+  .details p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+}

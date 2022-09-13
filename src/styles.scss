@@ -6,3 +6,34 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
+.mat-progress-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.hero {
+  &.wrapper {
+    width: 100%;
+    height: calc(100vh - 64px);
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    align-content: space-around;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .background {
+    height: 100%;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .details {
+    margin: 10px;
+  }
+}

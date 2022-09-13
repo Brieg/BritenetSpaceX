@@ -11,7 +11,7 @@ export class capitalizeHeaderPipe implements PipeTransform {
 @Pipe({ name: 'secTillLiftOf' })
 export class beforeTakeOffPipe implements PipeTransform {
   transform(time: number) {
-    return '~ ' + (time) * -1 + ' s. till liftoff';
+    return '~ ' + time * -1 + ' s. till liftoff';
   }
 }
 

@@ -1,0 +1,3 @@
+<loading-container [loadable]="(ships$ | async)!">
+  <app-ship-list [ship]="(ships$ | async)?.entities || []"></app-ship-list>
+</loading-container>
