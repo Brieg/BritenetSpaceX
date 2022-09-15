@@ -9,7 +9,7 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { MaterialModule } from './modules/material/material.module';
-import { MainMenuComponent } from './componenets/dumb/main-menu/main-menu.component';
+import { DialogFromMenuExampleDialog, MainMenuComponent } from './componenets/dumb/main-menu/main-menu.component';
 import { LaunchesListComponent } from './componenets/dumb/launches-list/launches-list.component';
 import { LaunchPageComponent } from './componenets/dumb/launch-page/launch-page.component';
 import { Ng2CarouselamosModule } from 'ng2-carouselamos';
@@ -30,7 +30,6 @@ import { LoadingContainerComponent } from './componenets/smart/loading-container
 import { reducers } from './store/reducers/reducers';
 import { ShipEffects } from './store/effects/ship.effects';
 import { IndexedDBModule } from './modules/indexed-db/indexed-db.module';
-import { FavoritesDialogComponent } from './componenets/smart/favorites-dialog/favorites-dialog.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @NgModule({
@@ -48,7 +47,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     LaunchListComponent,
     ShipMapComponent,
     LoadingContainerComponent,
-    FavoritesDialogComponent,
+    DialogFromMenuExampleDialog,
   ],
   imports: [
     HttpClientModule,

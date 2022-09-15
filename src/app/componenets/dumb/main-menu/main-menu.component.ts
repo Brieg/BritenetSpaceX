@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FavoritesService } from '../../../services/favorites/favorites.service';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { FavoritesDialogComponent } from '../../smart/favorites-dialog/favorites-dialog.component';
+import { BehaviorSubject } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DialogData } from '../../../interfaces/favorites-dialog';
 
 @Component({
   selector: 'main-menu',
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.scss'],
-  providers: [FavoritesDialogComponent],
 })
 export class MainMenuComponent implements OnInit {
   public britenet = {
@@ -27,15 +27,43 @@ export class MainMenuComponent implements OnInit {
     },
   ];
 
-  favoritesCount$: BehaviorSubject<number>;
+  public favoritesCount$: BehaviorSubject<number>;
+  public launches: BehaviorSubject<DialogData[]>;
 
-  constructor(private favoriteList: FavoritesService, private favoritesDialogComponent: FavoritesDialogComponent) {
+  constructor(private favoriteList: FavoritesService, public dialog: MatDialog) {
     this.favoritesCount$ = this.favoriteList.getCount();
+    this.launches = this.favoriteList.getItems();
   }
 
-  openDialog(): void {
-    this.favoritesDialogComponent.openDialog(this.mockData);
+  public openDialog(): void {
+    this.dialog.open(DialogFromMenuExampleDialog, {
+      width: '350px',
+      data: this.launches,
+    });
   }
 
   ngOnInit(): void {}
+}
+
+@Component({
+  templateUrl: './favorites-dialog.component.html',
+})
+export class DialogFromMenuExampleDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DialogFromMenuExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: BehaviorSubject<DialogData[]>,
+    private favoriteList: FavoritesService
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  public closeDialog(): void {
+    this.dialogRef.close();
+  }
+
+  public clearAllData(): void {
+    this.favoriteList.removeAllFromList();
+  }
 }

@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 // import { IShip } from '../../interfaces/ships';
 import { ILaunches } from '../../interfaces/launches';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { catchError, map, tap } from 'rxjs/operators';
+import { DialogData } from '../../interfaces/favorites-dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,9 @@ export class FavoritesService {
   readonly shipsDBname = 'Ships';
 
   private itemsSubject = new BehaviorSubject<number>(0);
+  public launches = new BehaviorSubject<DialogData[]>([]);
   public items$ = this.itemsSubject.asObservable();
+  //  public launches: DialogData[] = [];
 
   constructor(private _snackBar: MatSnackBar, private dbService: NgxIndexedDBService) {}
 
@@ -40,12 +42,17 @@ export class FavoritesService {
         name: type.mission_name,
         img: type.links.mission_patch_small,
       })
-      .subscribe((key) => {
-        this.displaySnackBar(type.mission_name + ' has been added to your favorite list.');
+      .subscribe(
+        (key) => {
+          this.displaySnackBar(type.mission_name + ' has been added to your favorite list.');
 
-        //TODO: Can't be like this! SHAME! SHAME! SHAME!
-        this.getCount();
-      });
+          //TODO: Can't be like this! SHAME! SHAME! SHAME!
+          this.getCount();
+        },
+        (error) => {
+          this.displaySnackBar(type.mission_name + ' is allready in your list.');
+        }
+      );
   }
 
   public removeFromList(id: number) {
@@ -60,6 +67,14 @@ export class FavoritesService {
   }
 
   public getItems() {
-    this.dbService.getAll(this.launchesDBName).subscribe((launches) => {});
+    this.dbService.getAll<DialogData>(this.launchesDBName).subscribe(
+      (launch) => {
+        this.launches.next(launch);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    return this.launches;
   }
 }
