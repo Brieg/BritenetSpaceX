@@ -29,10 +29,12 @@ export class MainMenuComponent implements OnInit {
 
   public favoritesCount$: BehaviorSubject<number>;
   public launches: BehaviorSubject<DialogData[]>;
+  public ships: BehaviorSubject<DialogData[]>;
 
   constructor(private favoriteList: FavoritesService, public dialog: MatDialog) {
     this.favoritesCount$ = this.favoriteList.getCount();
-    this.launches = this.favoriteList.getItems();
+    this.launches = this.favoriteList.getLaunches();
+    this.ships = this.favoriteList.getShips();
   }
 
   public openDialog(): void {

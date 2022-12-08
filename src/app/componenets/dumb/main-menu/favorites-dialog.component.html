@@ -2,7 +2,7 @@
 <mat-divider></mat-divider>
 <div mat-dialog-content>
   <mat-list>
-    <mat-list-item *ngFor="let favorites of (data | async)">
+    <mat-list-item *ngFor="let favorites of (data.launches | async)">
       <img mat-list-avatar src="{{favorites.img}}" alt="{{favorites.name}}" />
       <div mat-line>{{favorites.name}}</div>
       <button

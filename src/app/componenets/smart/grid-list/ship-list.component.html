@@ -23,6 +23,13 @@
           <mat-card-actions>
             <button mat-button [routerLink]="['/ship', vessel.ship_id]">MORE</button>
             <button mat-button (click)="(vessel.url)">MT</button>
+            <button
+              (click)="addShipToFavoriteList(vessel)"
+              mat-icon-button
+              aria-label="Add to favorite list"
+              matTooltip="Add to favorite list">
+              <mat-icon>favorite</mat-icon>+
+            </button>
           </mat-card-actions>
         </mat-card>
       </mat-grid-tile>

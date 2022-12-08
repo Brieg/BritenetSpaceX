@@ -67,7 +67,7 @@ export class LaunchListComponent implements OnInit {
 
   public displayLaunches(launches: ILaunches[]): void {
     this.pageLength = launches.length;
-    this.paginationData = launches.slice((0 + 1 - 1) * this.pageSize).slice(0, this.pageSize);
+    this.paginationData = launches.slice(this.pageSize).slice(0, this.pageSize);
   }
 
   public setFiltersCategory(launches: ILaunches[]): void {
@@ -78,7 +78,7 @@ export class LaunchListComponent implements OnInit {
     window.open(url);
   }
 
-  public addToFavoriteList(launch: ILaunches) {
+  public addLaunchToFavoriteList(launch: ILaunches) {
     this.favoriteList.addLaunchesToList(launch);
   }
 

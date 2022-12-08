@@ -23,6 +23,7 @@ const dbConfig: DBConfig = {
       storeSchema: [
         { name: 'name', keypath: 'name', options: { unique: true } },
         { name: 'id', keypath: 'id', options: { unique: true } },
+        { name: 'img', keypath: 'img', options: { unique: false } },
       ],
     },
   ],

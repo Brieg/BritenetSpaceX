@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-// import { IShip } from '../../interfaces/ships';
-import { ILaunches } from '../../interfaces/launches';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
+
+import { ILaunches } from '../../interfaces/launches';
 import { DialogData } from '../../interfaces/favorites-dialog';
+import { IShip } from '../../interfaces/ships';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,8 @@ export class FavoritesService {
 
   private itemsSubject = new BehaviorSubject<number>(0);
   public launches = new BehaviorSubject<DialogData[]>([]);
+  public ships = new BehaviorSubject<DialogData[]>([]);
+
   public items$ = this.itemsSubject.asObservable();
   //  public launches: DialogData[] = [];
 
@@ -50,7 +53,27 @@ export class FavoritesService {
           this.getCount();
         },
         (error) => {
-          this.displaySnackBar(type.mission_name + ' is allready in your list.');
+          this.displaySnackBar(type.mission_name + ' is already in your list.');
+        }
+      );
+  }
+
+  public addShipsToList(type: IShip) {
+    this.dbService
+      .add(this.shipsDBname, {
+        id: type.ship_id,
+        name: type.ship_name,
+        img: type.image,
+      })
+      .subscribe(
+        (key) => {
+          this.displaySnackBar(type.ship_name + ' has been added to your favorite list.');
+
+          //TODO: Can't be like this! SHAME! SHAME! SHAME!
+          this.getCount();
+        },
+        (error) => {
+          this.displaySnackBar(type.ship_name + ' is already in your list.');
         }
       );
   }
@@ -66,7 +89,7 @@ export class FavoritesService {
     });
   }
 
-  public getItems() {
+  public getLaunches() {
     this.dbService.getAll<DialogData>(this.launchesDBName).subscribe(
       (launch) => {
         this.launches.next(launch);
@@ -76,5 +99,17 @@ export class FavoritesService {
       }
     );
     return this.launches;
+  }
+
+  public getShips() {
+    this.dbService.getAll<DialogData>(this.shipsDBname).subscribe(
+      (ship) => {
+        this.ships.next(ship);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    return this.ships;
   }
 }
